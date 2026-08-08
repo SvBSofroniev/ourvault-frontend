@@ -1,18 +1,67 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { useState } from "react";
+import {
+  NavLink,
+  Outlet,
+  useNavigate,
+} from "react-router-dom";
+
+import { useAuth } from "../context/AuthContext";
 
 const navItems = [
-  { label: "Dashboard", path: "/dashboard", icon: "⌂" },
-  { label: "Workspaces", path: "/workspaces", icon: "▣" },
-  { label: "Documents", path: "/documents", icon: "□" },
-  { label: "Chats", path: "/chats", icon: "◯" },
+  {
+    label: "Dashboard",
+    path: "/dashboard",
+    icon: "⌂",
+  },
+  {
+    label: "Workspaces",
+    path: "/workspaces",
+    icon: "▣",
+  },
+  {
+    label: "Documents",
+    path: "/documents",
+    icon: "□",
+  },
+  {
+    label: "Chats",
+    path: "/chats",
+    icon: "◯",
+  },
 ];
 
 export function AppLayout() {
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+
+  const [isLoggingOut, setIsLoggingOut] =
+    useState(false);
+
+  async function handleLogout() {
+    if (isLoggingOut) {
+      return;
+    }
+
+    setIsLoggingOut(true);
+
+    try {
+      await logout();
+
+      navigate("/login", {
+        replace: true,
+      });
+    } finally {
+      setIsLoggingOut(false);
+    }
+  }
+
   return (
     <div className="app-shell">
       <aside className="sidebar">
         <div className="sidebar-brand">
-          <div className="brand-logo">V</div>
+          <div className="brand-logo">
+            V
+          </div>
 
           <div>
             <strong>OurVault</strong>
@@ -40,13 +89,32 @@ export function AppLayout() {
           ))}
         </nav>
 
-        <div className="sidebar-user">
-          <div className="user-avatar">SS</div>
+        <div className="sidebar-bottom">
+          <div className="sidebar-user">
+            <div className="user-avatar">
+              SS
+            </div>
 
-          <div className="user-details">
-            <strong>Svetlin</strong>
-            <span>USER</span>
+            <div className="user-details">
+              <strong>Svetlin</strong>
+              <span>USER</span>
+            </div>
           </div>
+
+          <button
+            type="button"
+            className="sidebar-logout"
+            onClick={handleLogout}
+            disabled={isLoggingOut}
+          >
+            <span className="sidebar-icon">
+              ↪
+            </span>
+
+            {isLoggingOut
+              ? "Logging out..."
+              : "Log out"}
+          </button>
         </div>
       </aside>
 
