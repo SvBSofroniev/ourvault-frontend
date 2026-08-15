@@ -28,3 +28,10 @@ export interface LoginRequest {
     path: string;
     validationErrors: Record<string, string>;
   }
+
+  export interface CurrentUser {
+  id: string;
+  username: string;
+  email: string;
+  role: string;
+}

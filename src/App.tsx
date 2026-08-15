@@ -4,7 +4,9 @@ import {
   Routes,
 } from "react-router-dom";
 
+import { ProtectedRoute } from "./components/ProtectedRoute";
 import { AppLayout } from "./layouts/AppLayout";
+
 import { ChatsPage } from "./pages/ChatsPage";
 import { DashboardPage } from "./pages/DashboardPage";
 import { DocumentsPage } from "./pages/DocumentsPage";
@@ -26,36 +28,38 @@ function App() {
         element={<RegisterPage />}
       />
 
-      <Route element={<AppLayout />}>
-        <Route
-          path="/"
-          element={
-            <Navigate
-              to="/dashboard"
-              replace
-            />
-          }
-        />
+      <Route element={<ProtectedRoute />}>
+        <Route element={<AppLayout />}>
+          <Route
+            path="/"
+            element={
+              <Navigate
+                to="/dashboard"
+                replace
+              />
+            }
+          />
 
-        <Route
-          path="/dashboard"
-          element={<DashboardPage />}
-        />
+          <Route
+            path="/dashboard"
+            element={<DashboardPage />}
+          />
 
-        <Route
-          path="/workspaces"
-          element={<WorkspacesPage />}
-        />
+          <Route
+            path="/workspaces"
+            element={<WorkspacesPage />}
+          />
 
-        <Route
-          path="/documents"
-          element={<DocumentsPage />}
-        />
+          <Route
+            path="/documents"
+            element={<DocumentsPage />}
+          />
 
-        <Route
-          path="/chats"
-          element={<ChatsPage />}
-        />
+          <Route
+            path="/chats"
+            element={<ChatsPage />}
+          />
+        </Route>
       </Route>
 
       <Route

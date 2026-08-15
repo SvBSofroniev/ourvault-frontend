@@ -32,7 +32,20 @@ const navItems = [
 
 export function AppLayout() {
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const {
+    user,
+    logout,
+  } = useAuth();
+  const userInitials = user?.username
+    ? user.username
+      .split(/[\s._-]+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) =>
+        part.charAt(0).toUpperCase(),
+      )
+      .join("")
+    : "?";
 
   const [isLoggingOut, setIsLoggingOut] =
     useState(false);
@@ -92,12 +105,17 @@ export function AppLayout() {
         <div className="sidebar-bottom">
           <div className="sidebar-user">
             <div className="user-avatar">
-              SS
+              {userInitials}
             </div>
 
             <div className="user-details">
-              <strong>Svetlin</strong>
-              <span>USER</span>
+              <strong>
+                {user?.username ?? "User"}
+              </strong>
+
+              <span>
+                {user?.role ?? ""}
+              </span>
             </div>
           </div>
 
@@ -130,8 +148,11 @@ export function AppLayout() {
               placeholder="Search..."
             />
 
-            <div className="topbar-avatar">
-              SS
+            <div
+              className="topbar-avatar"
+              title={user?.email}
+            >
+              {userInitials}
             </div>
           </div>
         </header>
