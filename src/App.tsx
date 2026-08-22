@@ -14,6 +14,7 @@ import { LoginPage } from "./pages/LoginPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import { WorkspacesPage } from "./pages/WorkspacesPage";
+import { WorkspaceDetailsPage } from "./pages/WorkspaceDetailsPage";
 
 function App() {
   return (
@@ -48,6 +49,11 @@ function App() {
           <Route
             path="/workspaces"
             element={<WorkspacesPage />}
+          />
+
+          <Route
+            path="/workspaces/:workspaceId"
+            element={<WorkspaceDetailsPage />}
           />
 
           <Route

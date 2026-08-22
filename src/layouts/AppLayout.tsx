@@ -4,51 +4,57 @@ import {
   Outlet,
   useNavigate,
 } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { useAuth } from "../context/AuthContext";
-
-const navItems = [
-  {
-    label: "Dashboard",
-    path: "/dashboard",
-    icon: "⌂",
-  },
-  {
-    label: "Workspaces",
-    path: "/workspaces",
-    icon: "▣",
-  },
-  {
-    label: "Documents",
-    path: "/documents",
-    icon: "□",
-  },
-  {
-    label: "Chats",
-    path: "/chats",
-    icon: "◯",
-  },
-];
+import { LanguageSwitcher } from "../components/LanguageSwitcher";
 
 export function AppLayout() {
   const navigate = useNavigate();
+
+  const { t } = useTranslation();
+
   const {
     user,
     logout,
   } = useAuth();
-  const userInitials = user?.username
-    ? user.username
-      .split(/[\s._-]+/)
-      .filter(Boolean)
-      .slice(0, 2)
-      .map((part) =>
-        part.charAt(0).toUpperCase(),
-      )
-      .join("")
-    : "?";
 
   const [isLoggingOut, setIsLoggingOut] =
     useState(false);
+
+  const navItems = [
+    {
+      label: t("navigation.dashboard"),
+      path: "/dashboard",
+      icon: "⌂",
+    },
+    {
+      label: t("navigation.workspaces"),
+      path: "/workspaces",
+      icon: "▣",
+    },
+    {
+      label: t("navigation.documents"),
+      path: "/documents",
+      icon: "□",
+    },
+    {
+      label: t("navigation.chats"),
+      path: "/chats",
+      icon: "◯",
+    },
+  ];
+
+  const userInitials = user?.username
+    ? user.username
+        .split(/[\s._-]+/)
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((part) =>
+          part.charAt(0).toUpperCase(),
+        )
+        .join("")
+    : "?";
 
   async function handleLogout() {
     if (isLoggingOut) {
@@ -77,8 +83,13 @@ export function AppLayout() {
           </div>
 
           <div>
-            <strong>OurVault</strong>
-            <span>Knowledge Base</span>
+            <strong>
+              {t("common.appName")}
+            </strong>
+
+            <span>
+              {t("common.knowledgeBase")}
+            </span>
           </div>
         </div>
 
@@ -130,22 +141,26 @@ export function AppLayout() {
             </span>
 
             {isLoggingOut
-              ? "Logging out..."
-              : "Log out"}
+              ? t("navigation.loggingOut")
+              : t("navigation.logout")}
           </button>
         </div>
       </aside>
 
       <div className="app-content">
         <header className="topbar">
-          <div>
-            <h1>OurVault</h1>
-          </div>
+          <h1>
+            {t("common.appName")}
+          </h1>
 
           <div className="topbar-actions">
+            <LanguageSwitcher />
+
             <input
               className="topbar-search"
-              placeholder="Search..."
+              placeholder={t(
+                "navigation.search",
+              )}
             />
 
             <div

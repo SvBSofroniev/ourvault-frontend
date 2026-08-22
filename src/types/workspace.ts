@@ -2,9 +2,7 @@ export interface Workspace {
   id: string;
   name: string;
   description: string | null;
-  role: "OWNER" | "ADMIN" | "MEMBER";
-  createdAt: string;
-  updatedAt: string;
+  myRole: "OWNER" | "ADMIN" | "MEMBER";
 }
 
 export interface CreateWorkspaceRequest {

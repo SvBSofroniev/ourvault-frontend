@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./index.css";
 import { AuthProvider } from "./context/AuthContext";
+import "./i18n/i18n";
 
 const rootElement = document.getElementById("root");
 
