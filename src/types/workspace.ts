@@ -1,8 +1,13 @@
+export type WorkspaceRole =
+  | "OWNER"
+  | "ADMIN"
+  | "MEMBER";
+
 export interface Workspace {
   id: string;
   name: string;
   description: string | null;
-  myRole: "OWNER" | "ADMIN" | "MEMBER";
+  myRole: WorkspaceRole;
 }
 
 export interface CreateWorkspaceRequest {

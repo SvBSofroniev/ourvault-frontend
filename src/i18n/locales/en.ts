@@ -153,8 +153,17 @@ export const en = {
         createdAt: "Uploaded",
         actions: "Actions",
 
-        confirmDelete:
-            'Are you sure you want to delete "{{filename}}"?',
+        viewError: "View error",
+        hideError: "Hide error",
+
+        processingHint:
+            "This document is currently being processed.",
+
+        failedHint:
+            "Document processing failed.",
+
+        noProcessingError:
+            "No additional error information is available.",
 
         statuses: {
             uploaded: "Uploaded",
@@ -163,6 +172,11 @@ export const en = {
             ready: "Ready",
             failed: "Failed",
         },
+
+        deleteTitle: "Delete document?",
+
+        deleteDescription:
+            'This will permanently delete "{{filename}}" and its processed knowledge data. This action cannot be undone.',
     },
 
     workspaces: {
@@ -299,6 +313,50 @@ export const en = {
             settingsPlaceholder:
                 "Workspace settings will appear here.",
         },
+    },
+
+    members: {
+        loading: "Loading members...",
+        empty: "No workspace members found.",
+
+        member: "Member",
+        role: "Role",
+        joined: "Joined",
+        actions: "Actions",
+
+        addMember: "Add member",
+        adding: "Adding...",
+
+        addMemberTitle: "Add workspace member",
+
+        addMemberDescription:
+            "Search for a user by username or email and add them to this workspace.",
+
+        searchLabel: "Find user",
+
+        searchPlaceholder:
+            "Username or email...",
+
+        search: "Search",
+        searching: "Searching...",
+
+        searchMinimum:
+            "Enter at least 2 characters to search.",
+
+        alreadyMember:
+            "Already a member",
+
+        remove: "Remove",
+        removing: "Removing...",
+
+        removeTitle:
+            "Remove member?",
+
+        removeDescription:
+            'Remove "{{username}}" from this workspace? They will lose access to its documents and chats.',
+
+        ownerProtected:
+            "Workspace owner",
     },
 
     language: {

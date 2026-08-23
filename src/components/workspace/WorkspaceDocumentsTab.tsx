@@ -1,4 +1,6 @@
 import {
+    Fragment,
+    useCallback,
     useEffect,
     useRef,
     useState,
@@ -17,6 +19,8 @@ import { getApiErrorMessage } from "../../utils/apiError";
 interface WorkspaceDocumentsTabProps {
     workspaceId: string;
 }
+
+const POLLING_INTERVAL_MS = 2500;
 
 export function WorkspaceDocumentsTab({
     workspaceId,
@@ -40,33 +44,86 @@ export function WorkspaceDocumentsTab({
         setDeletingDocumentId,
     ] = useState<string | null>(null);
 
+    const [
+        documentToDelete,
+        setDocumentToDelete,
+    ] = useState<Document | null>(null);
+
     const [error, setError] =
         useState<string | null>(null);
 
+    const [
+        expandedErrorDocumentId,
+        setExpandedErrorDocumentId,
+    ] = useState<string | null>(null);
+
+    const loadDocuments = useCallback(
+        async (showLoading = true) => {
+            if (showLoading) {
+                setIsLoading(true);
+            }
+
+            try {
+                setError(null);
+
+                const data =
+                    await documentService.getWorkspaceDocuments(
+                        workspaceId,
+                    );
+
+                setDocuments(data);
+            } catch (error) {
+                setError(
+                    getApiErrorMessage(error),
+                );
+            } finally {
+                if (showLoading) {
+                    setIsLoading(false);
+                }
+            }
+        },
+        [workspaceId],
+    );
+
+    /*
+     * Initial document loading
+     */
     useEffect(() => {
         void loadDocuments();
-    }, [workspaceId]);
+    }, [loadDocuments]);
 
-    async function loadDocuments() {
-        setIsLoading(true);
+    /*
+     * Check whether at least one document
+     * still needs processing.
+     */
+    const hasProcessingDocuments =
+        documents.some((document) =>
+            isProcessingStatus(
+                document.status,
+            ),
+        );
 
-        try {
-            setError(null);
-
-            const data =
-                await documentService.getWorkspaceDocuments(
-                    workspaceId,
-                );
-
-            setDocuments(data);
-        } catch (error) {
-            setError(
-                getApiErrorMessage(error),
-            );
-        } finally {
-            setIsLoading(false);
+    /*
+     * Poll backend only while a document
+     * is still PENDING / PROCESSING / UPLOADED.
+     */
+    useEffect(() => {
+        if (!hasProcessingDocuments) {
+            return;
         }
-    }
+
+        const intervalId =
+            window.setInterval(() => {
+                void loadDocuments(false);
+            }, POLLING_INTERVAL_MS);
+
+        return () => {
+            window.clearInterval(intervalId);
+        };
+    }, [
+        hasProcessingDocuments,
+        loadDocuments,
+    ]);
 
     function handleUploadClick() {
         fileInputRef.current?.click();
@@ -96,9 +153,19 @@ export function WorkspaceDocumentsTab({
                 uploadedDocument,
                 ...current.filter(
                     (document) =>
-                        document.id !== uploadedDocument.id,
+                        document.id !==
+                        uploadedDocument.id,
                 ),
             ]);
+
+            /*
+             * Refresh immediately after upload.
+             *
+             * If the backend returned PENDING or
+             * PROCESSING, polling will then start
+             * automatically.
+             */
+            await loadDocuments(false);
         } catch (error) {
             setError(
                 getApiErrorMessage(error),
@@ -110,35 +177,56 @@ export function WorkspaceDocumentsTab({
         }
     }
 
-    async function handleDelete(
+    function requestDelete(
         document: Document,
     ) {
-        const confirmed =
-            window.confirm(
-                t("documents.confirmDelete", {
-                    filename:
-                        document.originalFilename,
-                }),
-            );
+        setDocumentToDelete(document);
+    }
 
-        if (!confirmed) {
+    function closeDeleteDialog() {
+        if (deletingDocumentId) {
             return;
         }
 
-        setDeletingDocumentId(document.id);
+        setDocumentToDelete(null);
+    }
+
+    async function confirmDelete() {
+        if (!documentToDelete) {
+            return;
+        }
+
+        const documentId =
+            documentToDelete.id;
+
+        setDeletingDocumentId(
+            documentId,
+        );
+
         setError(null);
 
         try {
             await documentService.deleteDocument(
-                document.id,
+                documentId,
             );
 
             setDocuments((current) =>
                 current.filter(
-                    (item) =>
-                        item.id !== document.id,
+                    (document) =>
+                        document.id !== documentId,
                 ),
             );
+
+            if (
+                expandedErrorDocumentId ===
+                documentId
+            ) {
+                setExpandedErrorDocumentId(
+                    null,
+                );
+            }
+
+            setDocumentToDelete(null);
         } catch (error) {
             setError(
                 getApiErrorMessage(error),
@@ -189,7 +277,9 @@ export function WorkspaceDocumentsTab({
                         disabled={isUploading}
                     >
                         {isUploading
-                            ? t("documents.uploading")
+                            ? t(
+                                "documents.uploading",
+                            )
                             : `+ ${t(
                                 "workspaceDetails.uploadDocument",
                             )}`}
@@ -220,7 +310,9 @@ export function WorkspaceDocumentsTab({
 
             {isLoading ? (
                 <div className="content-state">
-                    {t("documents.loading")}
+                    {t(
+                        "documents.loading",
+                    )}
                 </div>
             ) : documents.length === 0 ? (
                 <div className="document-empty-state">
@@ -229,7 +321,9 @@ export function WorkspaceDocumentsTab({
                     </div>
 
                     <h4>
-                        {t("documents.emptyTitle")}
+                        {t(
+                            "documents.emptyTitle",
+                        )}
                     </h4>
 
                     <p>
@@ -244,6 +338,7 @@ export function WorkspaceDocumentsTab({
                         onClick={
                             handleUploadClick
                         }
+                        disabled={isUploading}
                     >
                         +{" "}
                         {t(
@@ -257,15 +352,21 @@ export function WorkspaceDocumentsTab({
                         <thead>
                             <tr>
                                 <th>
-                                    {t("documents.name")}
+                                    {t(
+                                        "documents.name",
+                                    )}
                                 </th>
 
                                 <th>
-                                    {t("documents.status")}
+                                    {t(
+                                        "documents.status",
+                                    )}
                                 </th>
 
                                 <th>
-                                    {t("documents.size")}
+                                    {t(
+                                        "documents.size",
+                                    )}
                                 </th>
 
                                 <th>
@@ -290,100 +391,267 @@ export function WorkspaceDocumentsTab({
 
                         <tbody>
                             {documents.map(
-                                (document) => (
-                                    <tr key={document.id}>
-                                        <td>
-                                            <div className="document-name-cell">
-                                                <div className="document-file-icon">
-                                                    {getFileLabel(
-                                                        document,
-                                                    )}
-                                                </div>
+                                (document) => {
+                                    const isFailed =
+                                        document.status ===
+                                        "FAILED";
 
-                                                <div>
-                                                    <strong>
-                                                        {
-                                                            document.title
-                                                        }
-                                                    </strong>
+                                    const isProcessing =
+                                        isProcessingStatus(
+                                            document.status,
+                                        );
 
-                                                    <span>
-                                                        {
-                                                            document.originalFilename
-                                                        }
+                                    const isErrorExpanded =
+                                        expandedErrorDocumentId ===
+                                        document.id;
+
+                                    return (
+                                        <Fragment
+                                            key={document.id}
+                                        >
+                                            <tr>
+                                                <td>
+                                                    <div className="document-name-cell">
+                                                        <div className="document-file-icon">
+                                                            {getFileLabel(
+                                                                document,
+                                                            )}
+                                                        </div>
+
+                                                        <div>
+                                                            <strong>
+                                                                {
+                                                                    document.title
+                                                                }
+                                                            </strong>
+
+                                                            <span>
+                                                                {
+                                                                    document.originalFilename
+                                                                }
+                                                            </span>
+
+                                                            {isProcessing && (
+                                                                <span className="document-processing-text">
+                                                                    {t(
+                                                                        "documents.processingHint",
+                                                                    )}
+                                                                </span>
+                                                            )}
+
+                                                            {isFailed && (
+                                                                <span className="document-failed-text">
+                                                                    {t(
+                                                                        "documents.failedHint",
+                                                                    )}
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    <span
+                                                        className={`badge ${getStatusBadgeClass(
+                                                            document.status,
+                                                        )}`}
+                                                    >
+                                                        {getStatusLabel(
+                                                            document.status,
+                                                            t,
+                                                        )}
                                                     </span>
-                                                </div>
-                                            </div>
-                                        </td>
+                                                </td>
 
-                                        <td>
-                                            <span
-                                                className={`badge ${getStatusBadgeClass(
-                                                    document.status,
-                                                )}`}
-                                                title={
-                                                    document.processingError ??
-                                                    undefined
-                                                }
-                                            >
-                                                {getStatusLabel(
-                                                    document.status,
-                                                    t,
-                                                )}
-                                            </span>
-                                        </td>
-
-                                        <td>
-                                            {formatFileSize(
-                                                document.fileSize,
-                                            )}
-                                        </td>
-
-                                        <td>
-                                            {
-                                                document.uploadedByUsername
-                                            }
-                                        </td>
-
-                                        <td>
-                                            {formatDate(
-  document.createdAt,
-  i18n.resolvedLanguage,
-)}
-                                        </td>
-
-                                        <td>
-                                            <button
-                                                type="button"
-                                                className="document-delete-button"
-                                                disabled={
-                                                    deletingDocumentId ===
-                                                    document.id
-                                                }
-                                                onClick={() =>
-                                                    void handleDelete(
-                                                        document,
-                                                    )
-                                                }
-                                            >
-                                                {deletingDocumentId ===
-                                                    document.id
-                                                    ? t(
-                                                        "documents.deleting",
-                                                    )
-                                                    : t(
-                                                        "common.delete",
+                                                <td>
+                                                    {formatFileSize(
+                                                        document.fileSize,
                                                     )}
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ),
+                                                </td>
+
+                                                <td>
+                                                    {
+                                                        document.uploadedByUsername
+                                                    }
+                                                </td>
+
+                                                <td>
+                                                    {formatDate(
+                                                        document.createdAt,
+                                                        i18n.resolvedLanguage,
+                                                    )}
+                                                </td>
+
+                                                <td>
+                                                    <div className="document-row-actions">
+                                                        {isFailed && (
+                                                            <button
+                                                                type="button"
+                                                                className="document-error-button"
+                                                                onClick={() =>
+                                                                    setExpandedErrorDocumentId(
+                                                                        isErrorExpanded
+                                                                            ? null
+                                                                            : document.id,
+                                                                    )
+                                                                }
+                                                            >
+                                                                {isErrorExpanded
+                                                                    ? t(
+                                                                        "documents.hideError",
+                                                                    )
+                                                                    : t(
+                                                                        "documents.viewError",
+                                                                    )}
+                                                            </button>
+                                                        )}
+
+                                                        <button
+                                                            type="button"
+                                                            className="document-delete-button"
+                                                            disabled={
+                                                                deletingDocumentId ===
+                                                                document.id
+                                                            }
+                                                            onClick={() =>
+                                                                requestDelete(
+                                                                    document,
+                                                                )
+                                                            }
+                                                        >
+                                                            {deletingDocumentId ===
+                                                                document.id
+                                                                ? t(
+                                                                    "documents.deleting",
+                                                                )
+                                                                : t(
+                                                                    "common.delete",
+                                                                )}
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            {isFailed &&
+                                                isErrorExpanded && (
+                                                    <tr className="document-error-row">
+                                                        <td colSpan={6}>
+                                                            <div className="document-processing-error">
+                                                                <strong>
+                                                                    {t(
+                                                                        "documents.failedHint",
+                                                                    )}
+                                                                </strong>
+
+                                                                <p>
+                                                                    {document.processingError ||
+                                                                        t(
+                                                                            "documents.noProcessingError",
+                                                                        )}
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                        </Fragment>
+                                    );
+                                },
                             )}
                         </tbody>
                     </table>
                 </div>
             )}
+
+            {/* DELETE CONFIRMATION DIALOG */}
+            {documentToDelete && (
+                <div
+                    className="modal-backdrop"
+                    onMouseDown={
+                        closeDeleteDialog
+                    }
+                >
+                    <div
+                        className="modal document-delete-modal"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="delete-document-title"
+                        onMouseDown={(event) =>
+                            event.stopPropagation()
+                        }
+                    >
+                        <div className="document-delete-dialog-header">
+                            <div className="document-delete-dialog-icon">
+                                !
+                            </div>
+
+                            <div>
+                                <h3 id="delete-document-title">
+                                    {t(
+                                        "documents.deleteTitle",
+                                    )}
+                                </h3>
+
+                                <p>
+                                    {t(
+                                        "documents.deleteDescription",
+                                        {
+                                            filename:
+                                                documentToDelete.originalFilename,
+                                        },
+                                    )}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="modal-actions">
+                            <button
+                                type="button"
+                                className="secondary-button"
+                                onClick={
+                                    closeDeleteDialog
+                                }
+                                disabled={
+                                    deletingDocumentId !==
+                                    null
+                                }
+                            >
+                                {t("common.cancel")}
+                            </button>
+
+                            <button
+                                type="button"
+                                className="danger-button"
+                                onClick={() =>
+                                    void confirmDelete()
+                                }
+                                disabled={
+                                    deletingDocumentId !==
+                                    null
+                                }
+                            >
+                                {deletingDocumentId
+                                    ? t(
+                                        "documents.deleting",
+                                    )
+                                    : t(
+                                        "common.delete",
+                                    )}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
+    );
+}
+
+function isProcessingStatus(
+    status: DocumentStatus,
+): boolean {
+    return (
+        status === "UPLOADED" ||
+        status === "PENDING" ||
+        status === "PROCESSING"
     );
 }
 
@@ -417,34 +685,38 @@ function formatFileSize(
         bytes / 1024;
 
     if (kilobytes < 1024) {
-        return `${kilobytes.toFixed(1)} KB`;
+        return `${kilobytes.toFixed(
+            1,
+        )} KB`;
     }
 
     const megabytes =
         kilobytes / 1024;
 
-    return `${megabytes.toFixed(1)} MB`;
+    return `${megabytes.toFixed(
+        1,
+    )} MB`;
 }
 
 function formatDate(
-  value: string,
-  language?: string,
+    value: string,
+    language?: string,
 ): string {
-  const locale =
-    language === "bg"
-      ? "bg-BG"
-      : "en-US";
+    const locale =
+        language === "bg"
+            ? "bg-BG"
+            : "en-US";
 
-  return new Intl.DateTimeFormat(
-    locale,
-    {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    },
-  ).format(new Date(value));
+    return new Intl.DateTimeFormat(
+        locale,
+        {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+        },
+    ).format(new Date(value));
 }
 
 function getStatusBadgeClass(

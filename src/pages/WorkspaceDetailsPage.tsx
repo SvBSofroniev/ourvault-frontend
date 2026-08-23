@@ -12,6 +12,7 @@ import { workspaceService } from "../services/workspaceService";
 import type { Workspace } from "../types/workspace";
 import { getApiErrorMessage } from "../utils/apiError";
 import { WorkspaceDocumentsTab } from "../components/workspace/WorkspaceDocumentsTab";
+import { WorkspaceMembersTab } from "../components/workspace/WorkspaceMembersTab";
 
 type WorkspaceTab =
   | "documents"
@@ -177,22 +178,10 @@ export function WorkspaceDetailsPage() {
         )}
 
         {activeTab === "members" && (
-          <div>
-            <div className="workspace-section-heading">
-              <div>
-                <h3>Members</h3>
-
-                <p>
-                  Manage who has access to this
-                  workspace.
-                </p>
-              </div>
-            </div>
-
-            <div className="workspace-placeholder">
-              Workspace members will appear here.
-            </div>
-          </div>
+          <WorkspaceMembersTab
+            workspaceId={workspace.id}
+            myRole={workspace.myRole}
+          />
         )}
 
         {activeTab === "chats" && (
