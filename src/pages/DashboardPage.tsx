@@ -1,40 +1,49 @@
-const statistics = [
-  {
-    label: "Workspaces",
-    value: 3,
-    icon: "▣",
-  },
-  {
-    label: "Documents",
-    value: 12,
-    icon: "□",
-  },
-  {
-    label: "Chats",
-    value: 8,
-    icon: "◯",
-  },
-  {
-    label: "AI Queries",
-    value: 27,
-    icon: "✦",
-  },
-];
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 export function DashboardPage() {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  const stats = [
+    {
+      label: t("dashboard.stats.workspaces"),
+      value: 3,
+      icon: "▣",
+    },
+    {
+      label: t("dashboard.stats.documents"),
+      value: 12,
+      icon: "□",
+    },
+    {
+      label: t("dashboard.stats.chats"),
+      value: 8,
+      icon: "◯",
+    },
+    {
+      label: t("dashboard.stats.aiQueries"),
+      value: 27,
+      icon: "✦",
+    },
+  ];
+
   return (
-    <div className="dashboard">
+    <div className="dashboard-page">
       <div className="page-heading">
         <div>
-          <h2>Dashboard</h2>
+          <h2>
+            {t("dashboard.title")}
+          </h2>
+
           <p>
-            Overview of your workspaces and recent activity.
+            {t("dashboard.description")}
           </p>
         </div>
       </div>
 
       <section className="stats-grid">
-        {statistics.map((stat) => (
+        {stats.map((stat) => (
           <article
             key={stat.label}
             className="stat-card"
@@ -59,10 +68,22 @@ export function DashboardPage() {
       <section className="dashboard-grid">
         <article className="dashboard-card">
           <div className="card-header">
-            <h3>Recent Workspaces</h3>
+            <div>
+              <h3>
+                {t(
+                  "dashboard.recentWorkspaces.title",
+                )}
+              </h3>
+            </div>
 
-            <button className="link-button">
-              View all
+            <button
+              type="button"
+              className="link-button"
+              onClick={() =>
+                navigate("/workspaces")
+              }
+            >
+              {t("dashboard.viewAll")} →
             </button>
           </div>
 
@@ -72,12 +93,22 @@ export function DashboardPage() {
             </div>
 
             <div className="workspace-info">
-              <strong>Master Thesis</strong>
-              <span>Updated recently</span>
+              <strong>
+                Master Thesis
+              </strong>
+
+              <span>
+                {t(
+                  "dashboard.recentWorkspaces.documentsCount",
+                  {
+                    count: 8,
+                  },
+                )}
+              </span>
             </div>
 
             <span className="badge badge-owner">
-              OWNER
+              {t("common.roles.owner")}
             </span>
           </div>
 
@@ -87,54 +118,88 @@ export function DashboardPage() {
             </div>
 
             <div className="workspace-info">
-              <strong>Research Papers</strong>
-              <span>Updated yesterday</span>
+              <strong>
+                Research Papers
+              </strong>
+
+              <span>
+                {t(
+                  "dashboard.recentWorkspaces.documentsCount",
+                  {
+                    count: 4,
+                  },
+                )}
+              </span>
             </div>
 
             <span className="badge badge-member">
-              MEMBER
+              {t("common.roles.member")}
             </span>
           </div>
         </article>
 
         <article className="dashboard-card">
           <div className="card-header">
-            <h3>Recent Documents</h3>
+            <div>
+              <h3>
+                {t(
+                  "dashboard.recentDocuments.title",
+                )}
+              </h3>
+            </div>
 
-            <button className="link-button">
-              View all
+            <button
+              type="button"
+              className="link-button"
+              onClick={() =>
+                navigate("/documents")
+              }
+            >
+              {t("dashboard.viewAll")} →
             </button>
           </div>
 
           <div className="document-row">
-            <span className="document-icon">
+            <div className="document-icon">
               PDF
-            </span>
+            </div>
 
             <div className="document-info">
               <strong>
                 attention-is-all-you-need.pdf
               </strong>
-              <span>Uploaded recently</span>
+
+              <span>
+                Master Thesis
+              </span>
             </div>
 
             <span className="badge badge-ready">
-              READY
+              {t(
+                "dashboard.documentStatus.ready",
+              )}
             </span>
           </div>
 
           <div className="document-row">
-            <span className="document-icon">
+            <div className="document-icon">
               TXT
-            </span>
-
-            <div className="document-info">
-              <strong>thesis-notes.txt</strong>
-              <span>Uploaded yesterday</span>
             </div>
 
-            <span className="badge badge-pending">
-              PENDING
+            <div className="document-info">
+              <strong>
+                thesis-notes.txt
+              </strong>
+
+              <span>
+                Master Thesis
+              </span>
+            </div>
+
+            <span className="badge badge-ready">
+              {t(
+                "dashboard.documentStatus.ready",
+              )}
             </span>
           </div>
         </article>

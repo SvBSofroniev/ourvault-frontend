@@ -11,6 +11,7 @@ import {
 import { workspaceService } from "../services/workspaceService";
 import type { Workspace } from "../types/workspace";
 import { getApiErrorMessage } from "../utils/apiError";
+import { WorkspaceDocumentsTab } from "../components/workspace/WorkspaceDocumentsTab";
 
 type WorkspaceTab =
   | "documents"
@@ -159,40 +160,20 @@ export function WorkspaceDetailsPage() {
 
         {(workspace.myRole === "OWNER" ||
           workspace.myRole === "ADMIN") && (
-          <WorkspaceTabButton
-            label="Settings"
-            value="settings"
-            activeTab={activeTab}
-            onSelect={setActiveTab}
-          />
-        )}
+            <WorkspaceTabButton
+              label="Settings"
+              value="settings"
+              activeTab={activeTab}
+              onSelect={setActiveTab}
+            />
+          )}
       </nav>
 
       <section className="workspace-tab-content">
         {activeTab === "documents" && (
-          <div>
-            <div className="workspace-section-heading">
-              <div>
-                <h3>Documents</h3>
-
-                <p>
-                  Documents available to this
-                  workspace.
-                </p>
-              </div>
-
-              <button
-                type="button"
-                className="primary-button"
-              >
-                + Upload document
-              </button>
-            </div>
-
-            <div className="workspace-placeholder">
-              Document management will appear here.
-            </div>
-          </div>
+          <WorkspaceDocumentsTab
+            workspaceId={workspace.id}
+          />
         )}
 
         {activeTab === "members" && (

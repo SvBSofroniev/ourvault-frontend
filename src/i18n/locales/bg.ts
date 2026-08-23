@@ -28,38 +28,158 @@ export const bg = {
 
     auth: {
         welcomeBack: "ДОБРЕ ДОШЛИ",
+
         signInTitle: "Вход в OurVault",
+
         signInDescription:
             "Въведете данните си, за да продължите към вашето работно пространство.",
 
         email: "Имейл адрес",
-        emailPlaceholder: "you@example.com",
+
+        emailPlaceholder:
+            "you@example.com",
 
         password: "Парола",
-        passwordPlaceholder: "Въведете вашата парола",
+
+        passwordPlaceholder:
+            "Въведете вашата парола",
 
         signIn: "Вход",
+
         signingIn: "Влизане...",
 
-        newToOurVault: "Нямате акаунт в OurVault?",
-        createAccount: "Създайте акаунт",
+        newToOurVault:
+            "Нямате акаунт в OurVault?",
+
+        createAccount:
+            "Създайте акаунт",
+
+        heroEyebrow:
+            "AI БАЗИРАНО УПРАВЛЕНИЕ НА ЗНАНИЯ",
+
+        heroTitleLine1:
+            "Вашите знания.",
+
+        heroTitleLine2:
+            "В едно интелигентно хранилище.",
+
+        heroDescription:
+            "Съхранявайте документи, организирайте знанията си в работни пространства и задавайте въпроси чрез AI-базирано търсене.",
 
         getStarted: "ЗАПОЧНЕТЕ",
-        createAccountTitle: "Създайте своя акаунт",
+
+        createAccountTitle:
+            "Създайте своя акаунт",
+
         createAccountDescription:
             "Създайте OurVault акаунт и започнете да изграждате своята база знания.",
 
-        username: "Потребителско име",
-        usernamePlaceholder: "Изберете потребителско име",
+        username:
+            "Потребителско име",
 
-        createPassword: "Създайте парола",
-        confirmPassword: "Потвърдете паролата",
-        confirmPasswordPlaceholder: "Повторете паролата",
+        usernamePlaceholder:
+            "Изберете потребителско име",
 
-        creatingAccount: "Създаване на акаунт...",
-        alreadyHaveAccount: "Вече имате акаунт?",
+        createPassword:
+            "Създайте парола",
 
-        passwordsDoNotMatch: "Паролите не съвпадат",
+        confirmPassword:
+            "Потвърдете паролата",
+
+        confirmPasswordPlaceholder:
+            "Повторете паролата",
+
+        creatingAccount:
+            "Създаване на акаунт...",
+
+        alreadyHaveAccount:
+            "Вече имате акаунт?",
+
+        passwordsDoNotMatch:
+            "Паролите не съвпадат.",
+
+        passwordTooShort:
+            "Паролата трябва да бъде поне 6 символа.",
+    },
+
+    dashboard: {
+        title: "Табло",
+
+        description:
+            "Преглед на вашата база знания и последната активност.",
+
+        viewAll: "Виж всички",
+
+        stats: {
+            workspaces: "Работни пространства",
+            documents: "Документи",
+            chats: "Чатове",
+            aiQueries: "AI заявки",
+        },
+
+        recentWorkspaces: {
+            title: "Последни работни пространства",
+            documentsCount: "{{count}} документа",
+        },
+
+        recentDocuments: {
+            title: "Последни документи",
+        },
+
+        documentStatus: {
+            ready: "Готов",
+            pending: "Изчаква",
+            processing: "Обработва се",
+            failed: "Неуспешен",
+        },
+    },
+    documents: {
+        loading:
+            "Зареждане на документите...",
+
+        uploading:
+            "Качване...",
+
+        deleting:
+            "Изтриване...",
+
+        refresh:
+            "Обнови",
+
+        emptyTitle:
+            "Все още няма документи",
+
+        emptyDescription:
+            "Качете първия документ, за да започнете да изграждате базата знания на това работно пространство.",
+
+        name:
+            "Документ",
+
+        status:
+            "Статус",
+
+        size:
+            "Размер",
+
+        uploadedBy:
+            "Качен от",
+
+        createdAt:
+            "Качен",
+
+        actions:
+            "Действия",
+
+        confirmDelete:
+            'Сигурни ли сте, че искате да изтриете "{{filename}}"?',
+
+        statuses: {
+            uploaded: "Качен",
+            pending: "Изчаква",
+            processing: "Обработва се",
+            ready: "Готов",
+            failed: "Неуспешен",
+        },
     },
 
     workspaces: {

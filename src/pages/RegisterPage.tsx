@@ -2,16 +2,22 @@ import {
   useState,
   type FormEvent,
 } from "react";
+
 import {
   Link,
   useNavigate,
 } from "react-router-dom";
 
+import { useTranslation } from "react-i18next";
+
+import { LanguageSwitcher } from "../components/LanguageSwitcher";
 import { useAuth } from "../context/AuthContext";
 import { getApiErrorMessage } from "../utils/apiError";
 
 export function RegisterPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
   const { register } = useAuth();
 
   const [username, setUsername] =
@@ -37,17 +43,25 @@ export function RegisterPage() {
   ) {
     event.preventDefault();
 
+    if (isSubmitting) {
+      return;
+    }
+
     setError(null);
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      setError(
+        t("auth.passwordsDoNotMatch"),
+      );
+
       return;
     }
 
     if (password.length < 6) {
       setError(
-        "Password must contain at least 6 characters",
+        t("auth.passwordTooShort"),
       );
+
       return;
     }
 
@@ -74,257 +88,197 @@ export function RegisterPage() {
 
   return (
     <div className="auth-page">
-      <div className="auth-background auth-background-one" />
-      <div className="auth-background auth-background-two" />
-
-      <main className="auth-container">
-        <section className="auth-brand-panel">
-          <div className="auth-brand">
-            <div className="auth-logo">
-              V
-            </div>
-
-            <div>
-              <h1>OurVault</h1>
-              <p>
-                AI-Powered Knowledge Base
-              </p>
-            </div>
+      {/* LEFT SIDE */}
+      <section className="auth-hero">
+        <div className="auth-brand">
+          <div className="auth-brand-logo">
+            V
           </div>
 
-          <div className="auth-hero">
-            <span className="auth-eyebrow">
-              BUILD YOUR KNOWLEDGE BASE
+          <div>
+            <strong>
+              {t("common.appName")}
+            </strong>
+
+            <span>
+              {t("common.knowledgeBase")}
+            </span>
+          </div>
+        </div>
+
+        <div className="auth-hero-content">
+          <span className="auth-eyebrow">
+            {t("auth.heroEyebrow")}
+          </span>
+
+          <h1>
+            {t("auth.heroTitleLine1")}
+            <br />
+            {t("auth.heroTitleLine2")}
+          </h1>
+
+          <p>
+            {t("auth.heroDescription")}
+          </p>
+        </div>
+
+        <div className="auth-hero-footer">
+          © 2026 OurVault
+        </div>
+      </section>
+
+      {/* RIGHT SIDE */}
+      <section className="auth-panel">
+        <div className="auth-language">
+          <LanguageSwitcher />
+        </div>
+
+        <div className="auth-form-container">
+          <span className="auth-form-eyebrow">
+            {t("auth.getStarted")}
+          </span>
+
+          <h2>
+            {t("auth.createAccountTitle")}
+          </h2>
+
+          <p className="auth-form-description">
+            {t(
+              "auth.createAccountDescription",
+            )}
+          </p>
+
+          {error && (
+            <div
+              className="auth-error"
+              role="alert"
+            >
+              <span>!</span>
+
+              {error}
+            </div>
+          )}
+
+          <form
+            className="auth-form"
+            onSubmit={handleSubmit}
+          >
+            <div className="form-group">
+              <label htmlFor="username">
+                {t("auth.username")}
+              </label>
+
+              <input
+                id="username"
+                type="text"
+                value={username}
+                onChange={(event) =>
+                  setUsername(
+                    event.target.value,
+                  )
+                }
+                placeholder={t(
+                  "auth.usernamePlaceholder",
+                )}
+                autoComplete="username"
+                required
+                disabled={isSubmitting}
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="email">
+                {t("auth.email")}
+              </label>
+
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(event) =>
+                  setEmail(
+                    event.target.value,
+                  )
+                }
+                placeholder={t(
+                  "auth.emailPlaceholder",
+                )}
+                autoComplete="email"
+                required
+                disabled={isSubmitting}
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="password">
+                {t("auth.createPassword")}
+              </label>
+
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(event) =>
+                  setPassword(
+                    event.target.value,
+                  )
+                }
+                placeholder={t(
+                  "auth.passwordPlaceholder",
+                )}
+                autoComplete="new-password"
+                minLength={6}
+                required
+                disabled={isSubmitting}
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="confirmPassword">
+                {t("auth.confirmPassword")}
+              </label>
+
+              <input
+                id="confirmPassword"
+                type="password"
+                value={confirmPassword}
+                onChange={(event) =>
+                  setConfirmPassword(
+                    event.target.value,
+                  )
+                }
+                placeholder={t(
+                  "auth.confirmPasswordPlaceholder",
+                )}
+                autoComplete="new-password"
+                minLength={6}
+                required
+                disabled={isSubmitting}
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="auth-submit-button"
+              disabled={isSubmitting}
+            >
+              {isSubmitting
+                ? t("auth.creatingAccount")
+                : t("auth.createAccount")}
+            </button>
+          </form>
+
+          <div className="auth-form-footer">
+            <span>
+              {t("auth.alreadyHaveAccount")}
             </span>
 
-            <h2>
-              Organize.
-              <br />
-              Collaborate.
-              <br />
-              <span>Discover.</span>
-            </h2>
-
-            <p>
-              Create shared workspaces, upload
-              documents and ask questions using
-              AI-powered semantic search.
-            </p>
-
-            <div className="auth-feature-list">
-              <div className="auth-feature">
-                <div className="auth-feature-icon">
-                  01
-                </div>
-
-                <div>
-                  <strong>
-                    Shared workspaces
-                  </strong>
-
-                  <span>
-                    Collaborate with other members
-                    while keeping access controlled.
-                  </span>
-                </div>
-              </div>
-
-              <div className="auth-feature">
-                <div className="auth-feature-icon">
-                  02
-                </div>
-
-                <div>
-                  <strong>
-                    Smart document retrieval
-                  </strong>
-
-                  <span>
-                    Find relevant knowledge using
-                    semantic vector search.
-                  </span>
-                </div>
-              </div>
-
-              <div className="auth-feature">
-                <div className="auth-feature-icon">
-                  03
-                </div>
-
-                <div>
-                  <strong>
-                    Context-aware AI
-                  </strong>
-
-                  <span>
-                    Ask follow-up questions while
-                    keeping document sources visible.
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="auth-brand-footer">
-            OurVault · Master&apos;s Project
-          </div>
-        </section>
-
-        <section className="auth-form-panel">
-          <div className="auth-form-wrapper">
-            <div className="auth-mobile-brand">
-              <div className="auth-logo auth-logo-small">
-                V
-              </div>
-
-              <strong>OurVault</strong>
-            </div>
-
-            <div className="auth-form-heading">
-              <span className="auth-form-label">
-                GET STARTED
-              </span>
-
-              <h2>Create your account</h2>
-
-              <p>
-                Create an OurVault account and start
-                building your knowledge workspace.
-              </p>
-            </div>
-
-            {error && (
-              <div
-                className="auth-error"
-                role="alert"
-              >
-                <div className="auth-error-icon">
-                  !
-                </div>
-
-                <span>{error}</span>
-              </div>
-            )}
-
-            <form
-              className="auth-form"
-              onSubmit={handleSubmit}
-            >
-              <div className="form-group">
-                <label htmlFor="username">
-                  Username
-                </label>
-
-                <input
-                  id="username"
-                  type="text"
-                  value={username}
-                  onChange={(event) =>
-                    setUsername(
-                      event.target.value,
-                    )
-                  }
-                  placeholder="Choose a username"
-                  autoComplete="username"
-                  required
-                  disabled={isSubmitting}
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="email">
-                  Email address
-                </label>
-
-                <input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(event) =>
-                    setEmail(
-                      event.target.value,
-                    )
-                  }
-                  placeholder="you@example.com"
-                  autoComplete="email"
-                  required
-                  disabled={isSubmitting}
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="password">
-                  Password
-                </label>
-
-                <input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(event) =>
-                    setPassword(
-                      event.target.value,
-                    )
-                  }
-                  placeholder="Create a password"
-                  autoComplete="new-password"
-                  required
-                  disabled={isSubmitting}
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="confirmPassword">
-                  Confirm password
-                </label>
-
-                <input
-                  id="confirmPassword"
-                  type="password"
-                  value={confirmPassword}
-                  onChange={(event) =>
-                    setConfirmPassword(
-                      event.target.value,
-                    )
-                  }
-                  placeholder="Repeat your password"
-                  autoComplete="new-password"
-                  required
-                  disabled={isSubmitting}
-                />
-              </div>
-
-              <button
-                className="auth-submit"
-                type="submit"
-                disabled={isSubmitting}
-              >
-                {isSubmitting
-                  ? "Creating account..."
-                  : "Create account"}
-              </button>
-            </form>
-
-            <div className="auth-divider">
-              <span />
-              <p>Already have an account?</p>
-              <span />
-            </div>
-
-            <Link
-              to="/login"
-              className="auth-secondary-button"
-            >
-              Sign in
+            <Link to="/login">
+              {t("auth.signIn")}
             </Link>
-
-            <p className="auth-security-note">
-              Your account gives you access only to
-              workspaces you own or have been invited to.
-            </p>
           </div>
-        </section>
-      </main>
+        </div>
+      </section>
     </div>
   );
 }

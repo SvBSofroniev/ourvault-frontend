@@ -1,26 +1,34 @@
 import axios from "axios";
 import { tokenStorage } from "../utils/tokenStorage";
 
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+const apiBaseUrl =
+  import.meta.env.VITE_API_BASE_URL;
 
 if (!apiBaseUrl) {
-  throw new Error("VITE_API_BASE_URL is not configured");
+  throw new Error(
+    "VITE_API_BASE_URL is not configured",
+  );
 }
 
 export const apiClient = axios.create({
   baseURL: apiBaseUrl,
   timeout: 30_000,
+
   headers: {
-    "Content-Type": "application/json",
+    Accept: "application/json",
   },
 });
 
-apiClient.interceptors.request.use((config) => {
-  const accessToken = tokenStorage.getAccessToken();
+apiClient.interceptors.request.use(
+  (config) => {
+    const accessToken =
+      tokenStorage.getAccessToken();
 
-  if (accessToken) {
-    config.headers.Authorization = `Bearer ${accessToken}`;
-  }
+    if (accessToken) {
+      config.headers.Authorization =
+        `Bearer ${accessToken}`;
+    }
 
-  return config;
-});
+    return config;
+  },
+);

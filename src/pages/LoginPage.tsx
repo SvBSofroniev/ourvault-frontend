@@ -2,20 +2,27 @@ import {
   useState,
   type FormEvent,
 } from "react";
+
 import {
   Link,
   useNavigate,
 } from "react-router-dom";
 
+import { useTranslation } from "react-i18next";
+
+import { LanguageSwitcher } from "../components/LanguageSwitcher";
 import { useAuth } from "../context/AuthContext";
 import { getApiErrorMessage } from "../utils/apiError";
 
 export function LoginPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
   const { login } = useAuth();
 
   const [email, setEmail] =
     useState("");
+
   const [password, setPassword] =
     useState("");
 
@@ -29,6 +36,10 @@ export function LoginPage() {
     event: FormEvent<HTMLFormElement>,
   ) {
     event.preventDefault();
+
+    if (isSubmitting) {
+      return;
+    }
 
     setError(null);
     setIsSubmitting(true);
@@ -53,209 +64,147 @@ export function LoginPage() {
 
   return (
     <div className="auth-page">
-      <div className="auth-background auth-background-one" />
-      <div className="auth-background auth-background-two" />
-
-      <main className="auth-container">
-        <section className="auth-brand-panel">
-          <div className="auth-brand">
-            <div className="auth-logo">
-              <span>V</span>
-            </div>
-
-            <div>
-              <h1>OurVault</h1>
-              <p>
-                AI-Powered Knowledge Base
-              </p>
-            </div>
+      {/* LEFT SIDE */}
+      <section className="auth-hero">
+        <div className="auth-brand">
+          <div className="auth-brand-logo">
+            V
           </div>
 
-          <div className="auth-hero">
-            <span className="auth-eyebrow">
-              YOUR KNOWLEDGE. CONNECTED.
+          <div>
+            <strong>
+              {t("common.appName")}
+            </strong>
+
+            <span>
+              {t("common.knowledgeBase")}
+            </span>
+          </div>
+        </div>
+
+        <div className="auth-hero-content">
+          <span className="auth-eyebrow">
+            {t("auth.heroEyebrow")}
+          </span>
+
+          <h1>
+            {t("auth.heroTitleLine1")}
+            <br />
+            {t("auth.heroTitleLine2")}
+          </h1>
+
+          <p>
+            {t("auth.heroDescription")}
+          </p>
+        </div>
+
+        <div className="auth-hero-footer">
+          © 2026 OurVault
+        </div>
+      </section>
+
+      {/* RIGHT SIDE */}
+      <section className="auth-panel">
+        <div className="auth-language">
+          <LanguageSwitcher />
+        </div>
+
+        <div className="auth-form-container">
+          <span className="auth-form-eyebrow">
+            {t("auth.welcomeBack")}
+          </span>
+
+          <h2>
+            {t("auth.signInTitle")}
+          </h2>
+
+          <p className="auth-form-description">
+            {t("auth.signInDescription")}
+          </p>
+
+          {error && (
+            <div
+              className="auth-error"
+              role="alert"
+            >
+              <span>!</span>
+
+              {error}
+            </div>
+          )}
+
+          <form
+            className="auth-form"
+            onSubmit={handleSubmit}
+          >
+            <div className="form-group">
+              <label htmlFor="email">
+                {t("auth.email")}
+              </label>
+
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(event) =>
+                  setEmail(
+                    event.target.value,
+                  )
+                }
+                placeholder={t(
+                  "auth.emailPlaceholder",
+                )}
+                autoComplete="email"
+                required
+                disabled={isSubmitting}
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="password">
+                {t("auth.password")}
+              </label>
+
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(event) =>
+                  setPassword(
+                    event.target.value,
+                  )
+                }
+                placeholder={t(
+                  "auth.passwordPlaceholder",
+                )}
+                autoComplete="current-password"
+                required
+                disabled={isSubmitting}
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="auth-submit-button"
+              disabled={isSubmitting}
+            >
+              {isSubmitting
+                ? t("auth.signingIn")
+                : t("auth.signIn")}
+            </button>
+          </form>
+
+          <div className="auth-form-footer">
+            <span>
+              {t("auth.newToOurVault")}
             </span>
 
-            <h2>
-              Ask questions.
-              <br />
-              Find answers.
-              <br />
-              <span>Know more.</span>
-            </h2>
-
-            <p>
-              Bring your team&apos;s documents together
-              and use AI to find grounded answers from
-              the knowledge that matters.
-            </p>
-
-            <div className="auth-feature-list">
-              <div className="auth-feature">
-                <div className="auth-feature-icon">
-                  01
-                </div>
-
-                <div>
-                  <strong>
-                    Centralized knowledge
-                  </strong>
-                  <span>
-                    Organize documents inside collaborative workspaces.
-                  </span>
-                </div>
-              </div>
-
-              <div className="auth-feature">
-                <div className="auth-feature-icon">
-                  02
-                </div>
-
-                <div>
-                  <strong>
-                    AI-powered search
-                  </strong>
-                  <span>
-                    Retrieve relevant information using semantic search.
-                  </span>
-                </div>
-              </div>
-
-              <div className="auth-feature">
-                <div className="auth-feature-icon">
-                  03
-                </div>
-
-                <div>
-                  <strong>
-                    Grounded conversations
-                  </strong>
-                  <span>
-                    Chat with your documents and keep the sources visible.
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="auth-brand-footer">
-            OurVault · Master&apos;s Project
-          </div>
-        </section>
-
-        <section className="auth-form-panel">
-          <div className="auth-form-wrapper">
-            <div className="auth-mobile-brand">
-              <div className="auth-logo auth-logo-small">
-                V
-              </div>
-
-              <strong>OurVault</strong>
-            </div>
-
-            <div className="auth-form-heading">
-              <span className="auth-form-label">
-                WELCOME BACK
-              </span>
-
-              <h2>Sign in to OurVault</h2>
-
-              <p>
-                Enter your credentials to continue to your
-                knowledge workspace.
-              </p>
-            </div>
-
-            {error && (
-              <div
-                className="auth-error"
-                role="alert"
-              >
-                <div className="auth-error-icon">
-                  !
-                </div>
-
-                <span>{error}</span>
-              </div>
-            )}
-
-            <form
-              className="auth-form"
-              onSubmit={handleSubmit}
-            >
-              <div className="form-group">
-                <label htmlFor="email">
-                  Email address
-                </label>
-
-                <input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(event) =>
-                    setEmail(event.target.value)
-                  }
-                  placeholder="you@example.com"
-                  autoComplete="email"
-                  required
-                  disabled={isSubmitting}
-                />
-              </div>
-
-              <div className="form-group">
-                <div className="form-label-row">
-                  <label htmlFor="password">
-                    Password
-                  </label>
-                </div>
-
-                <input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(event) =>
-                    setPassword(
-                      event.target.value,
-                    )
-                  }
-                  placeholder="Enter your password"
-                  autoComplete="current-password"
-                  required
-                  disabled={isSubmitting}
-                />
-              </div>
-
-              <button
-                className="auth-submit"
-                type="submit"
-                disabled={isSubmitting}
-              >
-                {isSubmitting
-                  ? "Signing in..."
-                  : "Sign in"}
-              </button>
-            </form>
-
-            <div className="auth-divider">
-              <span />
-              <p>New to OurVault?</p>
-              <span />
-            </div>
-
-            <Link
-              to="/register"
-              className="auth-secondary-button"
-            >
-              Create an account
+            <Link to="/register">
+              {t("auth.createAccount")}
             </Link>
-
-            <p className="auth-security-note">
-              Your documents remain private to the
-              workspaces you have access to.
-            </p>
           </div>
-        </section>
-      </main>
+        </div>
+      </section>
     </div>
   );
 }
