@@ -180,86 +180,91 @@ export const en = {
     },
 
     workspaces: {
-        title: "Workspaces",
+        title:
+            "Workspaces",
+
         description:
             "Organize documents and collaborate with your team.",
 
-        newWorkspace: "New workspace",
-        createWorkspace: "Create workspace",
+        newWorkspace:
+            "New workspace",
 
-        noWorkspaces: "No workspaces yet",
+        createWorkspace:
+            "Create workspace",
+
+        noWorkspaces:
+            "No workspaces yet",
 
         noWorkspacesDescription:
             "Create your first workspace to start uploading documents and using AI chat.",
 
-        noDescription: "No description provided.",
+        noDescription:
+            "No description provided.",
 
-        access: "{{role}} access",
+        access:
+            "{{role}} access",
 
-        createTitle: "Create workspace",
+        createTitle:
+            "Create workspace",
 
         createDescription:
             "Create a shared space for documents and AI conversations.",
 
-        name: "Workspace name",
-        namePlaceholder: "e.g. Master Thesis",
+        name:
+            "Workspace name",
 
-        descriptionLabel: "Description",
+        namePlaceholder:
+            "e.g. Master Thesis",
+
+        descriptionLabel:
+            "Description",
 
         descriptionPlaceholder:
             "What will this workspace contain?",
 
-        creating: "Creating...",
+        creating:
+            "Creating...",
 
-        loading: "Loading workspaces...",
-        workspaces: {
-            title: "Workspaces",
-            description:
-                "Organize documents and collaborate with your team.",
+        loading:
+            "Loading workspaces...",
 
-            newWorkspace: "New workspace",
-            createWorkspace: "Create workspace",
+        emptyNameError:
+            "Workspace name cannot be empty",
 
-            noWorkspaces: "No workspaces yet",
-
-            noWorkspacesDescription:
-                "Create your first workspace to start uploading documents and using AI chat.",
-
-            noDescription: "No description provided.",
-
-            access: "{{role}} access",
-
-            createTitle: "Create workspace",
-
-            createDescription:
-                "Create a shared space for documents and AI conversations.",
-
-            name: "Workspace name",
-            namePlaceholder: "e.g. Master Thesis",
-
-            descriptionLabel: "Description",
-
-            descriptionPlaceholder:
-                "What will this workspace contain?",
-
-            creating: "Creating...",
-            loading: "Loading workspaces...",
-
-            emptyNameError:
-                "Workspace name cannot be empty",
-
-            open: "Open",
-        },
+        open:
+            "Open",
     },
 
     workspaceDetails: {
-        documents: "Documents",
-        members: "Members",
-        chats: "Chats",
-        settings: "Settings",
+        documents:
+            "Documents",
 
-        uploadDocument: "Upload document",
-        newChat: "New chat",
+        members:
+            "Members",
+
+        chats:
+            "Chats",
+
+        settings:
+            "Settings",
+
+        backToWorkspaces:
+            "Workspaces",
+
+        loading:
+            "Loading workspace...",
+
+        missingId:
+            "Workspace ID is missing",
+
+        notFound:
+            "Workspace not found",
+
+        uploadDocument:
+            "Upload document",
+
+        newChat:
+            "New chat",
 
         documentsDescription:
             "Documents available to this workspace.",
@@ -270,49 +275,23 @@ export const en = {
         chatsDescription:
             "Ask questions using the documents in this workspace.",
 
+        settingsTitle:
+            "Workspace settings",
+
         settingsDescription:
             "Manage workspace configuration.",
-        workspaceDetails: {
-            documents: "Documents",
-            members: "Members",
-            chats: "Chats",
-            settings: "Settings",
 
-            backToWorkspaces: "Workspaces",
+        documentsPlaceholder:
+            "Document management will appear here.",
 
-            loading: "Loading workspace...",
-            missingId: "Workspace ID is missing",
-            notFound: "Workspace not found",
+        membersPlaceholder:
+            "Workspace members will appear here.",
 
-            uploadDocument: "Upload document",
-            newChat: "New chat",
+        chatsPlaceholder:
+            "Chat sessions will appear here.",
 
-            documentsDescription:
-                "Documents available to this workspace.",
-
-            membersDescription:
-                "Manage who has access to this workspace.",
-
-            chatsDescription:
-                "Ask questions using the documents in this workspace.",
-
-            settingsTitle: "Workspace settings",
-
-            settingsDescription:
-                "Manage workspace configuration.",
-
-            documentsPlaceholder:
-                "Document management will appear here.",
-
-            membersPlaceholder:
-                "Workspace members will appear here.",
-
-            chatsPlaceholder:
-                "Chat sessions will appear here.",
-
-            settingsPlaceholder:
-                "Workspace settings will appear here.",
-        },
+        settingsPlaceholder:
+            "Workspace settings will appear here.",
     },
 
     members: {
@@ -362,5 +341,89 @@ export const en = {
     language: {
         english: "English",
         bulgarian: "Bulgarian",
+    },
+
+    chats: {
+        loading: "Loading chats...",
+        loadingChat: "Loading conversation...",
+
+        newChat: "New chat",
+        create: "Create chat",
+        creating: "Creating...",
+
+        untitled: "Untitled chat",
+
+        emptyTitle: "No conversations yet",
+
+        emptyDescription:
+            "Create a conversation and ask questions about the knowledge stored in this workspace.",
+
+        createTitle: "Start a new chat",
+
+        createDescription:
+            "Create a conversation for asking questions about your workspace documents.",
+
+        titleLabel: "Chat title",
+
+        titlePlaceholder:
+            "e.g. Thesis research questions",
+
+        rename: "Rename",
+        renameTitle: "Rename chat",
+        saving: "Saving...",
+
+        deleteTitle: "Delete chat?",
+
+        deleteDescription:
+            'This will permanently delete "{{title}}" and its conversation history.',
+
+        deleting: "Deleting...",
+
+        notFound: "Chat session not found.",
+
+        messagePlaceholder:
+            "Ask a question about your documents...",
+
+        sendHint:
+            "Enter to send · Shift + Enter for a new line",
+
+        startConversation:
+            "Ask OurVault anything",
+
+        startConversationDescription:
+            "Ask a question and OurVault will search the attached documents for relevant context before answering.",
+
+        manageDocuments:
+            "Manage documents",
+
+        manageDocumentsDescription:
+            "Choose which READY documents should provide context for this conversation.",
+
+        contextDocuments:
+            "Context documents",
+
+        contextDescription:
+            "These documents are available to the RAG retrieval process for this chat.",
+
+        noAttachedDocuments:
+            "No documents attached yet.",
+
+        attached:
+            "Attached",
+
+        attach:
+            "Attach",
+
+        attachedCount:
+            "{{count}} context documents",
+
+        showSources:
+            "Sources ({{count}})",
+
+        hideSources:
+            "Hide sources",
+
+        chunk:
+            "Chunk {{index}}",
     },
 } as const;

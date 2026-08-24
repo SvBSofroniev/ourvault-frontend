@@ -13,6 +13,9 @@ import type { Workspace } from "../types/workspace";
 import { getApiErrorMessage } from "../utils/apiError";
 import { WorkspaceDocumentsTab } from "../components/workspace/WorkspaceDocumentsTab";
 import { WorkspaceMembersTab } from "../components/workspace/WorkspaceMembersTab";
+import { WorkspaceChatsTab } from "../components/workspace/WorkspaceChatsTab";
+import type { TFunction } from "i18next";
+import { useTranslation } from "react-i18next";
 
 type WorkspaceTab =
   | "documents"
@@ -23,6 +26,7 @@ type WorkspaceTab =
 export function WorkspaceDetailsPage() {
   const { workspaceId } = useParams();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [workspace, setWorkspace] =
     useState<Workspace | null>(null);
@@ -103,7 +107,7 @@ export function WorkspaceDetailsPage() {
           navigate("/workspaces")
         }
       >
-        ← Workspaces
+        ← {t("workspaceDetails.backToWorkspaces")}
       </button>
 
       <div className="workspace-details-header">
@@ -125,7 +129,10 @@ export function WorkspaceDetailsPage() {
                   workspace.myRole,
                 )}`}
               >
-                {workspace.myRole}
+                {getTranslatedRole(
+                  workspace.myRole,
+                  t,
+                )}
               </span>
             </div>
 
@@ -139,21 +146,21 @@ export function WorkspaceDetailsPage() {
 
       <nav className="workspace-tabs">
         <WorkspaceTabButton
-          label="Documents"
+          label={t("workspaceDetails.documents")}
           value="documents"
           activeTab={activeTab}
           onSelect={setActiveTab}
         />
 
         <WorkspaceTabButton
-          label="Members"
+          label={t("workspaceDetails.members")}
           value="members"
           activeTab={activeTab}
           onSelect={setActiveTab}
         />
 
         <WorkspaceTabButton
-          label="Chats"
+          label={t("workspaceDetails.chats")}
           value="chats"
           activeTab={activeTab}
           onSelect={setActiveTab}
@@ -162,7 +169,7 @@ export function WorkspaceDetailsPage() {
         {(workspace.myRole === "OWNER" ||
           workspace.myRole === "ADMIN") && (
             <WorkspaceTabButton
-              label="Settings"
+              label={t("workspaceDetails.settings")}
               value="settings"
               activeTab={activeTab}
               onSelect={setActiveTab}
@@ -185,29 +192,9 @@ export function WorkspaceDetailsPage() {
         )}
 
         {activeTab === "chats" && (
-          <div>
-            <div className="workspace-section-heading">
-              <div>
-                <h3>Chats</h3>
-
-                <p>
-                  Ask questions using the documents
-                  in this workspace.
-                </p>
-              </div>
-
-              <button
-                type="button"
-                className="primary-button"
-              >
-                + New chat
-              </button>
-            </div>
-
-            <div className="workspace-placeholder">
-              Chat sessions will appear here.
-            </div>
-          </div>
+          <WorkspaceChatsTab
+            workspaceId={workspace.id}
+          />
         )}
 
         {activeTab === "settings" && (
@@ -289,5 +276,21 @@ function getRoleBadgeClass(
 
     case "MEMBER":
       return "badge-member";
+  }
+}
+
+function getTranslatedRole(
+  role: Workspace["myRole"],
+  t: TFunction,
+): string {
+  switch (role) {
+    case "OWNER":
+      return t("common.roles.owner");
+
+    case "ADMIN":
+      return t("common.roles.admin");
+
+    case "MEMBER":
+      return t("common.roles.member");
   }
 }

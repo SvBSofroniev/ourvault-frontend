@@ -180,88 +180,68 @@ export const bg = {
 
     workspaces: {
         title: "Работни пространства",
+
         description:
             "Организирайте документи и работете съвместно с вашия екип.",
 
         newWorkspace: "Ново пространство",
         createWorkspace: "Създай пространство",
 
-        noWorkspaces: "Все още няма работни пространства",
+        noWorkspaces:
+            "Все още няма работни пространства",
 
         noWorkspacesDescription:
             "Създайте първото си работно пространство, за да качвате документи и използвате AI чат.",
 
-        noDescription: "Няма добавено описание.",
+        noDescription:
+            "Няма добавено описание.",
 
-        access: "{{role}} достъп",
+        access:
+            "{{role}} достъп",
 
-        createTitle: "Създаване на пространство",
+        createTitle:
+            "Създаване на пространство",
 
         createDescription:
             "Създайте споделено място за документи и AI разговори.",
 
-        name: "Име на пространството",
-        namePlaceholder: "напр. Магистърска теза",
+        name:
+            "Име на пространството",
 
-        descriptionLabel: "Описание",
+        namePlaceholder:
+            "напр. Магистърска теза",
+
+        descriptionLabel:
+            "Описание",
 
         descriptionPlaceholder:
             "Какво ще съдържа това пространство?",
 
-        creating: "Създаване...",
+        creating:
+            "Създаване...",
 
-        loading: "Зареждане на работните пространства...",
-        workspaces: {
-            title: "Работни пространства",
+        loading:
+            "Зареждане на работните пространства...",
 
-            description:
-                "Организирайте документи и работете съвместно с вашия екип.",
+        emptyNameError:
+            "Името на работното пространство не може да бъде празно",
 
-            newWorkspace: "Ново пространство",
-            createWorkspace: "Създай пространство",
-
-            noWorkspaces:
-                "Все още няма работни пространства",
-
-            noWorkspacesDescription:
-                "Създайте първото си работно пространство, за да качвате документи и използвате AI чат.",
-
-            noDescription: "Няма добавено описание.",
-
-            access: "{{role}} достъп",
-
-            createTitle:
-                "Създаване на пространство",
-
-            createDescription:
-                "Създайте споделено място за документи и AI разговори.",
-
-            name: "Име на пространството",
-
-            namePlaceholder:
-                "напр. Магистърска теза",
-
-            descriptionLabel: "Описание",
-
-            descriptionPlaceholder:
-                "Какво ще съдържа това пространство?",
-
-            creating: "Създаване...",
-            loading:
-                "Зареждане на работните пространства...",
-
-            emptyNameError:
-                "Името на работното пространство не може да бъде празно",
-
-            open: "Отвори",
-        },
+        open:
+            "Отвори",
     },
 
     workspaceDetails: {
-        documents: "Документи",
-        members: "Членове",
-        chats: "Чатове",
-        settings: "Настройки",
+        documents:
+            "Документи",
+
+        members:
+            "Членове",
+
+        chats:
+            "Чатове",
+
+        settings:
+            "Настройки",
 
         backToWorkspaces:
             "Работни пространства",
@@ -275,8 +255,11 @@ export const bg = {
         notFound:
             "Работното пространство не е намерено",
 
-        uploadDocument: "Качи документ",
-        newChat: "Нов чат",
+        uploadDocument:
+            "Качи документ",
+
+        newChat:
+            "Нов чат",
 
         documentsDescription:
             "Документите, достъпни в това работно пространство.",
@@ -374,5 +357,89 @@ export const bg = {
     language: {
         english: "Английски",
         bulgarian: "Български",
+    },
+
+    chats: {
+        loading: "Зареждане на чатовете...",
+        loadingChat: "Зареждане на разговора...",
+
+        newChat: "Нов чат",
+        create: "Създай чат",
+        creating: "Създаване...",
+
+        untitled: "Чат без заглавие",
+
+        emptyTitle: "Все още няма разговори",
+
+        emptyDescription:
+            "Създайте разговор и задавайте въпроси върху знанията в това работно пространство.",
+
+        createTitle: "Нов разговор",
+
+        createDescription:
+            "Създайте разговор за задаване на въпроси върху документите в работното пространство.",
+
+        titleLabel: "Заглавие на чата",
+
+        titlePlaceholder:
+            "напр. Въпроси за магистърската теза",
+
+        rename: "Преименувай",
+        renameTitle: "Преименуване на чата",
+        saving: "Запазване...",
+
+        deleteTitle: "Изтриване на чата?",
+
+        deleteDescription:
+            'Това ще изтрие завинаги "{{title}}" и историята на разговора.',
+
+        deleting: "Изтриване...",
+
+        notFound: "Чатът не е намерен.",
+
+        messagePlaceholder:
+            "Задайте въпрос относно документите...",
+
+        sendHint:
+            "Enter за изпращане · Shift + Enter за нов ред",
+
+        startConversation:
+            "Попитайте OurVault",
+
+        startConversationDescription:
+            "Задайте въпрос и OurVault ще потърси подходящ контекст в прикачените документи, преди да отговори.",
+
+        manageDocuments:
+            "Управление на документи",
+
+        manageDocumentsDescription:
+            "Изберете кои готови документи да се използват като контекст за този разговор.",
+
+        contextDocuments:
+            "Контекстни документи",
+
+        contextDescription:
+            "Тези документи са достъпни за RAG търсенето в този чат.",
+
+        noAttachedDocuments:
+            "Все още няма прикачени документи.",
+
+        attached:
+            "Прикачен",
+
+        attach:
+            "Прикачи",
+
+        attachedCount:
+            "{{count}} контекстни документа",
+
+        showSources:
+            "Източници ({{count}})",
+
+        hideSources:
+            "Скрий източниците",
+
+        chunk:
+            "Част {{index}}",
     },
 } as const;

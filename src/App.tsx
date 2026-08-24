@@ -15,6 +15,7 @@ import { NotFoundPage } from "./pages/NotFoundPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import { WorkspacesPage } from "./pages/WorkspacesPage";
 import { WorkspaceDetailsPage } from "./pages/WorkspaceDetailsPage";
+import { ChatPage } from "./pages/ChatPage";
 
 function App() {
   return (
@@ -57,6 +58,11 @@ function App() {
           />
 
           <Route
+            path="/workspaces/:workspaceId/chats/:sessionId"
+            element={<ChatPage />}
+          />
+
+          <Route
             path="/documents"
             element={<DocumentsPage />}
           />
@@ -66,6 +72,7 @@ function App() {
             element={<ChatsPage />}
           />
         </Route>
+
       </Route>
 
       <Route
