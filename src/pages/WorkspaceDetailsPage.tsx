@@ -16,6 +16,7 @@ import { WorkspaceMembersTab } from "../components/workspace/WorkspaceMembersTab
 import { WorkspaceChatsTab } from "../components/workspace/WorkspaceChatsTab";
 import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
+import { WorkspaceSettingsTab } from "../components/workspace/WorkspaceSettingsTab";
 
 type WorkspaceTab =
   | "documents"
@@ -138,7 +139,7 @@ export function WorkspaceDetailsPage() {
 
             <p>
               {workspace.description ||
-                "No description provided."}
+                t("workspaces.noDescription")}
             </p>
           </div>
         </div>
@@ -197,23 +198,16 @@ export function WorkspaceDetailsPage() {
           />
         )}
 
-        {activeTab === "settings" && (
-          <div>
-            <div className="workspace-section-heading">
-              <div>
-                <h3>Workspace settings</h3>
-
-                <p>
-                  Manage workspace configuration.
-                </p>
-              </div>
-            </div>
-
-            <div className="workspace-placeholder">
-              Workspace settings will appear here.
-            </div>
-          </div>
-        )}
+        {activeTab === "settings" &&
+          (workspace.myRole === "OWNER" ||
+            workspace.myRole === "ADMIN") && (
+            <WorkspaceSettingsTab
+              workspace={workspace}
+              onWorkspaceUpdated={
+                setWorkspace
+              }
+            />
+          )}
       </section>
     </div>
   );

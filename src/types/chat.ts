@@ -19,6 +19,7 @@ export interface ChatMessage {
   senderType: SenderType;
   content: string;
   createdAt: string;
+  sources: SemanticSearchSource[];
 }
 
 export interface SemanticSearchSource {
@@ -27,8 +28,8 @@ export interface SemanticSearchSource {
   documentTitle: string;
   chunkIndex: number;
   content: string;
-  distance: number;
-  similarity: number;
+  distance: number | null;
+  similarity: number | null;
 }
 
 export interface ChatAnswer {

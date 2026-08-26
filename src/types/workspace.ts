@@ -14,3 +14,8 @@ export interface CreateWorkspaceRequest {
   name: string;
   description?: string;
 }
+
+export interface UpdateWorkspaceRequest {
+  name: string;
+  description?: string | null;
+}

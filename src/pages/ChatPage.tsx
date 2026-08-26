@@ -22,7 +22,6 @@ import type {
   AttachedDocument,
   ChatMessage,
   ChatSession,
-  SemanticSearchSource,
 } from "../types/chat";
 
 import type { Document } from "../types/document";
@@ -57,16 +56,6 @@ export function ChatPage() {
     workspaceDocuments,
     setWorkspaceDocuments,
   ] = useState<Document[]>([]);
-
-  const [
-    sourcesByMessageId,
-    setSourcesByMessageId,
-  ] = useState<
-    Record<
-      string,
-      SemanticSearchSource[]
-    >
-  >({});
 
   const [message, setMessage] =
     useState("");
@@ -185,13 +174,6 @@ export function ChatPage() {
         answer.assistantMessage,
       ]);
 
-      setSourcesByMessageId(
-        (current) => ({
-          ...current,
-          [answer.assistantMessage.id]:
-            answer.sources,
-        }),
-      );
     } catch (error) {
       setMessage(
         outgoingMessage,
@@ -377,23 +359,12 @@ export function ChatPage() {
               </div>
             )}
 
-            {messages.map(
-              (chatMessage) => (
-                <ChatMessageItem
-                  key={
-                    chatMessage.id
-                  }
-                  message={
-                    chatMessage
-                  }
-                  sources={
-                    sourcesByMessageId[
-                      chatMessage.id
-                    ] ?? []
-                  }
-                />
-              ),
-            )}
+            {messages.map((chatMessage) => (
+              <ChatMessageItem
+                key={chatMessage.id}
+                message={chatMessage}
+              />
+            ))}
 
             {isSending && (
               <div className="chat-message-row chat-message-assistant">
@@ -475,7 +446,7 @@ export function ChatPage() {
           </p>
 
           {attachedDocuments.length ===
-          0 ? (
+            0 ? (
             <div className="chat-context-empty">
               {t(
                 "chats.noAttachedDocuments",
@@ -593,7 +564,7 @@ export function ChatPage() {
                       disabled={
                         !usable ||
                         changingDocumentId ===
-                          document.id
+                        document.id
                       }
                       onClick={() =>
                         void toggleDocument(
@@ -626,11 +597,11 @@ export function ChatPage() {
                           ? document.status
                           : attached
                             ? t(
-                                "chats.attached",
-                              )
+                              "chats.attached",
+                            )
                             : t(
-                                "chats.attach",
-                              )}
+                              "chats.attach",
+                            )}
                       </span>
                     </button>
                   );
@@ -646,22 +617,23 @@ export function ChatPage() {
 
 interface ChatMessageItemProps {
   message: ChatMessage;
-  sources: SemanticSearchSource[];
+}
+
+interface ChatMessageItemProps {
+  message: ChatMessage;
 }
 
 function ChatMessageItem({
   message,
-  sources,
 }: ChatMessageItemProps) {
   const { t } = useTranslation();
 
   const [showSources, setShowSources] =
     useState(false);
 
-  if (
-    message.senderType ===
-    "SYSTEM"
-  ) {
+  const sources = message.sources ?? [];
+
+  if (message.senderType === "SYSTEM") {
     return (
       <div className="chat-system-message">
         {message.content}
@@ -691,79 +663,62 @@ function ChatMessageItem({
           {message.content}
         </div>
 
-        {!isUser &&
-          sources.length > 0 && (
-            <div className="chat-sources">
-              <button
-                type="button"
-                className="chat-sources-toggle"
-                onClick={() =>
-                  setShowSources(
-                    (current) =>
-                      !current,
-                  )
-                }
-              >
-                {showSources
-                  ? t(
-                      "chats.hideSources",
-                    )
-                  : t(
-                      "chats.showSources",
-                      {
-                        count:
-                          sources.length,
-                      },
-                    )}
-              </button>
+        {!isUser && sources.length > 0 && (
+          <div className="chat-sources">
+            <button
+              type="button"
+              className="chat-sources-toggle"
+              onClick={() =>
+                setShowSources(
+                  (current) => !current,
+                )
+              }
+            >
+              {showSources
+                ? t("chats.hideSources")
+                : t("chats.showSources", {
+                  count: sources.length,
+                })}
+            </button>
 
-              {showSources && (
-                <div className="chat-source-list">
-                  {sources.map(
-                    (source) => (
-                      <article
-                        key={
-                          source.chunkId
-                        }
-                        className="chat-source-card"
-                      >
-                        <div className="chat-source-header">
-                          <strong>
-                            {
-                              source.documentTitle
-                            }
-                          </strong>
+            {showSources && (
+              <div className="chat-source-list">
+                {sources.map((source) => (
+                  <article
+                    key={source.chunkId}
+                    className="chat-source-card"
+                  >
+                    <div className="chat-source-header">
+                      <strong>
+                        {source.documentTitle}
+                      </strong>
 
-                          <span>
-                            {Math.round(
-                              source.similarity *
-                                100,
-                            )}
-                            %
-                          </span>
-                        </div>
-
-                        <p>
-                          {source.content}
-                        </p>
-
-                        <small>
-                          {t(
-                            "chats.chunk",
-                            {
-                              index:
-                                source.chunkIndex +
-                                1,
-                            },
+                      {source.similarity !== null && (
+                        <span>
+                          {Math.round(
+                            source.similarity * 100,
                           )}
-                        </small>
-                      </article>
-                    ),
-                  )}
-                </div>
-              )}
-            </div>
-          )}
+                          %
+                        </span>
+                      )}
+                    </div>
+
+                    <p>
+                      {source.content}
+                    </p>
+
+                    <small>
+                      {t("chats.chunk", {
+                        index:
+                          source.chunkIndex + 1,
+                      })}
+                    </small>
+                  </article>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

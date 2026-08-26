@@ -101,39 +101,65 @@ export const en = {
             "Password must be at least 6 characters long.",
     },
 
-    dashboard: {
-        title: "Dashboard",
+   dashboard: {
+  title: "Dashboard",
 
-        description:
-            "Overview of your knowledge base and recent activity.",
+  description:
+    "An overview of your OurVault knowledge base.",
 
-        viewAll: "View all",
+  loading:
+    "Loading dashboard...",
 
-        stats: {
-            workspaces: "Workspaces",
-            documents: "Documents",
-            chats: "Chats",
-            aiQueries: "AI Queries",
-        },
+  loadError:
+    "Could not load dashboard.",
 
-        recentWorkspaces: {
-            title: "Recent workspaces",
+  refresh:
+    "Refresh",
 
-            documentsCount:
-                "{{count}} documents",
-        },
+  viewAll:
+    "View all",
 
-        recentDocuments: {
-            title: "Recent documents",
-        },
+  stats: {
+    workspaces:
+      "Workspaces",
 
-        documentStatus: {
-            ready: "Ready",
-            pending: "Pending",
-            processing: "Processing",
-            failed: "Failed",
-        },
-    },
+    documents:
+      "Documents",
+
+    readyDocuments:
+      "Ready documents",
+
+    chats:
+      "Chat sessions",
+  },
+
+  recentWorkspaces: {
+    title:
+      "Recent workspaces",
+
+    empty:
+      "No workspaces yet.",
+
+    documentsCount:
+      "{{count}} documents",
+  },
+
+  recentDocuments: {
+    title:
+      "Recent documents",
+
+    empty:
+      "No documents yet.",
+  },
+
+  recentChats: {
+    title:
+      "Recent chats",
+
+    empty:
+      "No chat sessions yet.",
+  },
+},
 
     documents: {
         loading: "Loading documents...",
@@ -292,6 +318,70 @@ export const en = {
 
         settingsPlaceholder:
             "Workspace settings will appear here.",
+    },
+
+    workspaceSettings: {
+        title: "Workspace settings",
+
+        description:
+            "Manage the general configuration of this workspace.",
+
+        generalTitle:
+            "General",
+
+        generalDescription:
+            "Update the workspace name and description.",
+
+        nameLabel:
+            "Workspace name",
+
+        nameHint:
+            "This name is visible to every member of the workspace.",
+
+        descriptionLabel:
+            "Description",
+
+        descriptionPlaceholder:
+            "Describe the purpose of this workspace...",
+
+        descriptionHint:
+            "Help members understand what this workspace is used for.",
+
+        save:
+            "Save changes",
+
+        saving:
+            "Saving...",
+
+        saveSuccess:
+            "Workspace settings updated successfully.",
+
+        dangerZone:
+            "Danger zone",
+
+        dangerDescription:
+            "Actions in this section can permanently affect the workspace.",
+
+        deleteWorkspace:
+            "Delete workspace",
+
+        deleteExplanation:
+            "Permanently delete this workspace and all of its associated knowledge data.",
+
+        deleteTitle:
+            "Delete workspace?",
+
+        deleteDescription:
+            'You are about to permanently delete "{{name}}".',
+
+        deleteWarning:
+            "All documents, processed chunks, chat sessions, messages and workspace memberships will be permanently removed. This action cannot be undone.",
+
+        confirmDelete:
+            "Delete workspace",
+
+        deleting:
+            "Deleting...",
     },
 
     members: {
