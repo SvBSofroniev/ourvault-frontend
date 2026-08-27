@@ -9,6 +9,14 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "../context/AuthContext";
 import { LanguageSwitcher } from "../components/LanguageSwitcher";
 
+import {
+  LayoutDashboard,
+  FolderKanban,
+  FileText,
+  MessageSquare,
+  LogOut,
+} from "lucide-react";
+
 export function AppLayout() {
   const navigate = useNavigate();
 
@@ -26,34 +34,54 @@ export function AppLayout() {
     {
       label: t("navigation.dashboard"),
       path: "/dashboard",
-      icon: "⌂",
+      icon: (
+        <LayoutDashboard
+          size={18}
+          strokeWidth={1.8}
+        />
+      ),
     },
     {
       label: t("navigation.workspaces"),
       path: "/workspaces",
-      icon: "▣",
+      icon: (
+        <FolderKanban
+          size={18}
+          strokeWidth={1.8}
+        />
+      ),
     },
     {
       label: t("navigation.documents"),
       path: "/documents",
-      icon: "□",
+      icon: (
+        <FileText
+          size={18}
+          strokeWidth={1.8}
+        />
+      ),
     },
     {
       label: t("navigation.chats"),
       path: "/chats",
-      icon: "◯",
+      icon: (
+        <MessageSquare
+          size={18}
+          strokeWidth={1.8}
+        />
+      ),
     },
   ];
 
   const userInitials = user?.username
     ? user.username
-        .split(/[\s._-]+/)
-        .filter(Boolean)
-        .slice(0, 2)
-        .map((part) =>
-          part.charAt(0).toUpperCase(),
-        )
-        .join("")
+      .split(/[\s._-]+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) =>
+        part.charAt(0).toUpperCase(),
+      )
+      .join("")
     : "?";
 
   async function handleLogout() {
@@ -137,7 +165,10 @@ export function AppLayout() {
             disabled={isLoggingOut}
           >
             <span className="sidebar-icon">
-              ↪
+              <LogOut
+                size={18}
+                strokeWidth={1.8}
+              />
             </span>
 
             {isLoggingOut

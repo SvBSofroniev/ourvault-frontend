@@ -317,6 +317,8 @@ export const bg = {
 
         settingsPlaceholder:
             "Настройките на пространството ще бъдат добавени тук.",
+
+        search: "Търсене",
     },
 
     workspaceSettings: {
@@ -382,6 +384,26 @@ export const bg = {
 
         deleting:
             "Изтриване...",
+    },
+
+    workspaceSearch: {
+        title: "Търсене в знанията",
+        description:
+            "Търсете семантично в документите в това работно пространство.",
+        placeholder:
+            "Търсене в знанията на работното пространство...",
+        search: "Търси",
+        searching: "Търсене...",
+        emptyTitle:
+            "Търсене в знанията",
+        emptyDescription:
+            "Въведете фраза или въпрос, за да намерите релевантна информация в документите.",
+        noResults:
+            "Не бяха открити релевантни резултати.",
+        results:
+            "{{count}} резултата",
+        chunk:
+            "Част {{index}}",
     },
 
     members: {
@@ -536,5 +558,9 @@ export const bg = {
 
         chunk:
             "Част {{index}}",
+
+        source: "Източник {{number}}",
+        semanticMatch: "{{percentage}}% съвпадение",
+        documentContext: "Контекст от документа",
     },
 } as const;

@@ -17,11 +17,13 @@ import { WorkspaceChatsTab } from "../components/workspace/WorkspaceChatsTab";
 import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
 import { WorkspaceSettingsTab } from "../components/workspace/WorkspaceSettingsTab";
+import { WorkspaceSearchTab } from "../components/workspace/WorkspaceSearchTab";
 
 type WorkspaceTab =
   | "documents"
   | "members"
   | "chats"
+  | "search"
   | "settings";
 
 export function WorkspaceDetailsPage() {
@@ -167,6 +169,13 @@ export function WorkspaceDetailsPage() {
           onSelect={setActiveTab}
         />
 
+        <WorkspaceTabButton
+          label={t("workspaceDetails.search")}
+          value="search"
+          activeTab={activeTab}
+          onSelect={setActiveTab}
+        />
+
         {(workspace.myRole === "OWNER" ||
           workspace.myRole === "ADMIN") && (
             <WorkspaceTabButton
@@ -194,6 +203,12 @@ export function WorkspaceDetailsPage() {
 
         {activeTab === "chats" && (
           <WorkspaceChatsTab
+            workspaceId={workspace.id}
+          />
+        )}
+
+        {activeTab === "search" && (
+          <WorkspaceSearchTab
             workspaceId={workspace.id}
           />
         )}

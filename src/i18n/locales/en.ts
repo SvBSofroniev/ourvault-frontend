@@ -101,65 +101,65 @@ export const en = {
             "Password must be at least 6 characters long.",
     },
 
-   dashboard: {
-  title: "Dashboard",
+    dashboard: {
+        title: "Dashboard",
 
-  description:
-    "An overview of your OurVault knowledge base.",
+        description:
+            "An overview of your OurVault knowledge base.",
 
-  loading:
-    "Loading dashboard...",
+        loading:
+            "Loading dashboard...",
 
-  loadError:
-    "Could not load dashboard.",
+        loadError:
+            "Could not load dashboard.",
 
-  refresh:
-    "Refresh",
+        refresh:
+            "Refresh",
 
-  viewAll:
-    "View all",
+        viewAll:
+            "View all",
 
-  stats: {
-    workspaces:
-      "Workspaces",
+        stats: {
+            workspaces:
+                "Workspaces",
 
-    documents:
-      "Documents",
+            documents:
+                "Documents",
 
-    readyDocuments:
-      "Ready documents",
+            readyDocuments:
+                "Ready documents",
 
-    chats:
-      "Chat sessions",
-  },
+            chats:
+                "Chat sessions",
+        },
 
-  recentWorkspaces: {
-    title:
-      "Recent workspaces",
+        recentWorkspaces: {
+            title:
+                "Recent workspaces",
 
-    empty:
-      "No workspaces yet.",
+            empty:
+                "No workspaces yet.",
 
-    documentsCount:
-      "{{count}} documents",
-  },
+            documentsCount:
+                "{{count}} documents",
+        },
 
-  recentDocuments: {
-    title:
-      "Recent documents",
+        recentDocuments: {
+            title:
+                "Recent documents",
 
-    empty:
-      "No documents yet.",
-  },
+            empty:
+                "No documents yet.",
+        },
 
-  recentChats: {
-    title:
-      "Recent chats",
+        recentChats: {
+            title:
+                "Recent chats",
 
-    empty:
-      "No chat sessions yet.",
-  },
-},
+            empty:
+                "No chat sessions yet.",
+        },
+    },
 
     documents: {
         loading: "Loading documents...",
@@ -318,6 +318,8 @@ export const en = {
 
         settingsPlaceholder:
             "Workspace settings will appear here.",
+
+        search: "Search",
     },
 
     workspaceSettings: {
@@ -382,6 +384,25 @@ export const en = {
 
         deleting:
             "Deleting...",
+    },
+
+    workspaceSearch: {
+        title: "Search knowledge",
+        description:
+            "Search across the documents in this workspace using semantic similarity.",
+        placeholder:
+            "Search workspace knowledge...",
+        search: "Search",
+        searching: "Searching...",
+        emptyTitle: "Search your workspace knowledge",
+        emptyDescription:
+            "Enter a phrase or question to find relevant information across your documents.",
+        noResults:
+            "No relevant results were found.",
+        results:
+            "{{count}} results",
+        chunk:
+            "Chunk {{index}}",
     },
 
     members: {
@@ -515,5 +536,9 @@ export const en = {
 
         chunk:
             "Chunk {{index}}",
+
+        source: "Source {{number}}",
+        semanticMatch: "{{percentage}}% match",
+        documentContext: "Document context",
     },
 } as const;

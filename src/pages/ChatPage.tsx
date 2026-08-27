@@ -27,6 +27,8 @@ import type {
 import type { Document } from "../types/document";
 
 import { getApiErrorMessage } from "../utils/apiError";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export function ChatPage() {
   const {
@@ -619,10 +621,6 @@ interface ChatMessageItemProps {
   message: ChatMessage;
 }
 
-interface ChatMessageItemProps {
-  message: ChatMessage;
-}
-
 function ChatMessageItem({
   message,
 }: ChatMessageItemProps) {
@@ -660,7 +658,15 @@ function ChatMessageItem({
 
       <div className="chat-message-body">
         <div className="chat-message-content">
-          {message.content}
+          {message.senderType === "ASSISTANT" ? (
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+            >
+              {message.content}
+            </ReactMarkdown>
+          ) : (
+            message.content
+          )}
         </div>
 
         {!isUser && sources.length > 0 && (
@@ -673,48 +679,97 @@ function ChatMessageItem({
                   (current) => !current,
                 )
               }
+              aria-expanded={showSources}
             >
-              {showSources
-                ? t("chats.hideSources")
-                : t("chats.showSources", {
-                  count: sources.length,
-                })}
+              <span className="chat-sources-toggle-icon">
+                ◈
+              </span>
+
+              <span>
+                {showSources
+                  ? t("chats.hideSources")
+                  : t("chats.showSources", {
+                      count: sources.length,
+                    })}
+              </span>
+
+              <span
+                className={
+                  showSources
+                    ? "chat-sources-chevron chat-sources-chevron-open"
+                    : "chat-sources-chevron"
+                }
+              >
+                ↓
+              </span>
             </button>
 
             {showSources && (
               <div className="chat-source-list">
-                {sources.map((source) => (
-                  <article
-                    key={source.chunkId}
-                    className="chat-source-card"
-                  >
-                    <div className="chat-source-header">
-                      <strong>
-                        {source.documentTitle}
-                      </strong>
-
-                      {source.similarity !== null && (
-                        <span>
-                          {Math.round(
-                            source.similarity * 100,
-                          )}
-                          %
+                {sources.map(
+                  (source, sourceIndex) => (
+                    <article
+                      key={`${source.chunkId}-${sourceIndex}`}
+                      className="chat-source-card"
+                    >
+                      <div className="chat-source-top">
+                        <span className="chat-source-number">
+                          {t("chats.source", {
+                            number:
+                              sourceIndex + 1,
+                          })}
                         </span>
-                      )}
-                    </div>
 
-                    <p>
-                      {source.content}
-                    </p>
+                        {source.similarity !== null ? (
+                          <span className="chat-source-match">
+                            {t(
+                              "chats.semanticMatch",
+                              {
+                                percentage:
+                                  Math.round(
+                                    source.similarity *
+                                      100,
+                                  ),
+                              },
+                            )}
+                          </span>
+                        ) : (
+                          <span className="chat-source-context-badge">
+                            {t(
+                              "chats.documentContext",
+                            )}
+                          </span>
+                        )}
+                      </div>
 
-                    <small>
-                      {t("chats.chunk", {
-                        index:
-                          source.chunkIndex + 1,
-                      })}
-                    </small>
-                  </article>
-                ))}
+                      <div className="chat-source-document">
+                        <div className="chat-source-document-icon">
+                          DOC
+                        </div>
+
+                        <div>
+                          <strong>
+                            {
+                              source.documentTitle
+                            }
+                          </strong>
+
+                          <span>
+                            {t("chats.chunk", {
+                              index:
+                                source.chunkIndex +
+                                1,
+                            })}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="chat-source-content">
+                        {source.content}
+                      </div>
+                    </article>
+                  ),
+                )}
               </div>
             )}
           </div>

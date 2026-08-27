@@ -17,6 +17,13 @@ import type { WorkspaceRole } from "../types/workspace";
 import type { DocumentStatus } from "../types/document";
 import { getApiErrorMessage } from "../utils/apiError";
 
+import {
+  FolderKanban,
+  FileText,
+  CircleCheck,
+  MessageSquare,
+} from "lucide-react";
+
 export function DashboardPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -74,40 +81,52 @@ export function DashboardPage() {
 
   const stats = [
     {
-      label:
-        t(
-          "dashboard.stats.workspaces",
-        ),
-      value:
-        dashboard.workspaceCount,
-      icon: "▣",
+      label: t(
+        "dashboard.stats.workspaces",
+      ),
+      value: dashboard.workspaceCount,
+      icon: (
+        <FolderKanban
+          size={22}
+          strokeWidth={1.8}
+        />
+      ),
     },
     {
-      label:
-        t(
-          "dashboard.stats.documents",
-        ),
-      value:
-        dashboard.documentCount,
-      icon: "□",
+      label: t(
+        "dashboard.stats.documents",
+      ),
+      value: dashboard.documentCount,
+      icon: (
+        <FileText
+          size={22}
+          strokeWidth={1.8}
+        />
+      ),
     },
     {
-      label:
-        t(
-          "dashboard.stats.readyDocuments",
-        ),
-      value:
-        dashboard.readyDocumentCount,
-      icon: "✓",
+      label: t(
+        "dashboard.stats.readyDocuments",
+      ),
+      value: dashboard.readyDocumentCount,
+      icon: (
+        <CircleCheck
+          size={22}
+          strokeWidth={1.8}
+        />
+      ),
     },
     {
-      label:
-        t(
-          "dashboard.stats.chats",
-        ),
-      value:
-        dashboard.chatSessionCount,
-      icon: "✦",
+      label: t(
+        "dashboard.stats.chats",
+      ),
+      value: dashboard.chatSessionCount,
+      icon: (
+        <MessageSquare
+          size={22}
+          strokeWidth={1.8}
+        />
+      ),
     },
   ];
 
@@ -376,7 +395,10 @@ export function DashboardPage() {
                   }
                 >
                   <div className="dashboard-chat-icon">
-                    ✦
+                    <MessageSquare
+                      size={20}
+                      strokeWidth={1.8}
+                    />
                   </div>
 
                   <div className="dashboard-chat-info">
