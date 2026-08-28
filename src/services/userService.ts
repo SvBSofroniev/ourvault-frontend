@@ -1,7 +1,16 @@
 import { apiClient } from "./apiClient";
 
-import type { CurrentUser } from "../types/auth";
-import type { UserSearchResult } from "../types/user";
+import type {
+  CurrentUser,
+} from "../types/auth";
+
+export interface UpdateProfileRequest {
+  username: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  dateOfBirth: string | null;
+}
 
 export const userService = {
   async getCurrentUser(): Promise<CurrentUser> {
@@ -13,17 +22,13 @@ export const userService = {
     return response.data;
   },
 
-  async searchUsers(
-    query: string,
-  ): Promise<UserSearchResult[]> {
+  async updateProfile(
+    request: UpdateProfileRequest,
+  ): Promise<CurrentUser> {
     const response =
-      await apiClient.get<UserSearchResult[]>(
-        "/users/search",
-        {
-          params: {
-            query,
-          },
-        },
+      await apiClient.patch<CurrentUser>(
+        "/users/me",
+        request,
       );
 
     return response.data;

@@ -15,6 +15,7 @@ import {
   FileText,
   MessageSquare,
   LogOut,
+  UserRound,
 } from "lucide-react";
 
 export function AppLayout() {
@@ -73,16 +74,29 @@ export function AppLayout() {
     },
   ];
 
-  const userInitials = user?.username
-    ? user.username
-      .split(/[\s._-]+/)
-      .filter(Boolean)
-      .slice(0, 2)
-      .map((part) =>
-        part.charAt(0).toUpperCase(),
-      )
-      .join("")
-    : "?";
+  const displayName =
+    user?.firstName &&
+      user?.lastName
+      ? `${user.firstName} ${user.lastName}`
+      : user?.username ?? "User";
+
+  const userInitials =
+    user?.firstName || user?.lastName
+      ? [
+        user?.firstName,
+        user?.lastName,
+      ]
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((part) =>
+          part!
+            .charAt(0)
+            .toUpperCase(),
+        )
+        .join("")
+      : user?.username
+        ?.charAt(0)
+        .toUpperCase() ?? "?";
 
   async function handleLogout() {
     if (isLoggingOut) {
@@ -142,21 +156,33 @@ export function AppLayout() {
         </nav>
 
         <div className="sidebar-bottom">
-          <div className="sidebar-user">
+          <button
+            type="button"
+            className="sidebar-user sidebar-user-button"
+            onClick={() =>
+              navigate("/profile")
+            }
+          >
             <div className="user-avatar">
               {userInitials}
             </div>
 
             <div className="user-details">
               <strong>
-                {user?.username ?? "User"}
+                {displayName}
               </strong>
 
               <span>
                 {user?.role ?? ""}
               </span>
             </div>
-          </div>
+
+            <UserRound
+              className="sidebar-profile-icon"
+              size={17}
+              strokeWidth={1.8}
+            />
+          </button>
 
           <button
             type="button"
@@ -193,13 +219,16 @@ export function AppLayout() {
                 "navigation.search",
               )}
             />
-
-            <div
-              className="topbar-avatar"
+            <button
+              type="button"
+              className="topbar-avatar topbar-avatar-button"
               title={user?.email}
+              onClick={() =>
+                navigate("/profile")
+              }
             >
               {userInitials}
-            </div>
+            </button>
           </div>
         </header>
 

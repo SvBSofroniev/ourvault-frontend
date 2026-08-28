@@ -23,7 +23,16 @@ export function RegisterPage() {
   const [username, setUsername] =
     useState("");
 
+  const [firstName, setFirstName] =
+    useState("");
+
+  const [lastName, setLastName] =
+    useState("");
+
   const [email, setEmail] =
+    useState("");
+
+  const [dateOfBirth, setDateOfBirth] =
     useState("");
 
   const [password, setPassword] =
@@ -57,7 +66,7 @@ export function RegisterPage() {
       return;
     }
 
-    if (password.length < 6) {
+    if (password.length < 8) {
       setError(
         t("auth.passwordTooShort"),
       );
@@ -70,7 +79,11 @@ export function RegisterPage() {
     try {
       await register({
         username: username.trim(),
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
         email: email.trim(),
+        dateOfBirth:
+          dateOfBirth || null,
         password,
       });
 
@@ -187,6 +200,53 @@ export function RegisterPage() {
             </div>
 
             <div className="form-group">
+  <label htmlFor="firstName">
+    {t("auth.firstName")}
+  </label>
+
+  <input
+    id="firstName"
+    type="text"
+    value={firstName}
+    onChange={(event) =>
+      setFirstName(
+        event.target.value,
+      )
+    }
+    placeholder={t(
+      "auth.firstNamePlaceholder",
+    )}
+    autoComplete="given-name"
+    maxLength={100}
+    required
+    disabled={isSubmitting}
+  />
+</div>
+
+<div className="form-group">
+  <label htmlFor="lastName">
+    {t("auth.lastName")}
+  </label>
+
+  <input
+    id="lastName"
+    type="text"
+    value={lastName}
+    onChange={(event) =>
+      setLastName(
+        event.target.value,
+      )
+    }
+    placeholder={t(
+      "auth.lastNamePlaceholder",
+    )}
+    autoComplete="family-name"
+    maxLength={100}
+    required
+    disabled={isSubmitting}
+  />
+</div>
+            <div className="form-group">
               <label htmlFor="email">
                 {t("auth.email")}
               </label>
@@ -210,6 +270,25 @@ export function RegisterPage() {
             </div>
 
             <div className="form-group">
+  <label htmlFor="dateOfBirth">
+    {t("auth.dateOfBirth")}
+  </label>
+
+  <input
+    id="dateOfBirth"
+    type="date"
+    value={dateOfBirth}
+    onChange={(event) =>
+      setDateOfBirth(
+        event.target.value,
+      )
+    }
+    autoComplete="bday"
+    disabled={isSubmitting}
+  />
+</div>
+
+            <div className="form-group">
               <label htmlFor="password">
                 {t("auth.createPassword")}
               </label>
@@ -227,7 +306,7 @@ export function RegisterPage() {
                   "auth.passwordPlaceholder",
                 )}
                 autoComplete="new-password"
-                minLength={6}
+                minLength={8}
                 required
                 disabled={isSubmitting}
               />
@@ -251,7 +330,7 @@ export function RegisterPage() {
                   "auth.confirmPasswordPlaceholder",
                 )}
                 autoComplete="new-password"
-                minLength={6}
+                minLength={8}
                 required
                 disabled={isSubmitting}
               />

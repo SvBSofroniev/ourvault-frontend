@@ -98,7 +98,53 @@ export const en = {
             "Passwords do not match.",
 
         passwordTooShort:
-            "Password must be at least 6 characters long.",
+            "Password must contain at least 8 characters.",
+
+        firstName: "First name",
+        firstNamePlaceholder: "Enter your first name",
+
+        lastName: "Last name",
+        lastNamePlaceholder: "Enter your last name",
+
+        dateOfBirth: "Date of birth",
+
+    },
+
+    profile: {
+        eyebrow: "Account",
+        title: "My profile",
+        description:
+            "Manage your personal information and account details.",
+
+        personalInformation:
+            "Personal information",
+
+        personalInformationDescription:
+            "Update the information associated with your account.",
+
+        firstName: "First name",
+        lastName: "Last name",
+        username: "Username",
+        email: "Email address",
+        dateOfBirth: "Date of birth",
+
+        usernameHint:
+            "Your username cannot currently be changed.",
+
+        save: "Save changes",
+        saving: "Saving changes...",
+
+        saved:
+            "Your profile has been updated successfully.",
+
+        firstNameRequired:
+            "First name is required.",
+
+        lastNameRequired:
+            "Last name is required.",
+
+        emailRequired:
+            "Email address is required.",
     },
 
     dashboard: {
@@ -203,6 +249,78 @@ export const en = {
 
         deleteDescription:
             'This will permanently delete "{{filename}}" and its processed knowledge data. This action cannot be undone.',
+
+        openDocument: "Open document",
+    },
+
+    documentDetails: {
+        loading: "Loading document...",
+        back: "Back to workspace",
+        information: "Document information",
+        fileName: "File name",
+        fileType: "File type",
+        fileSize: "File size",
+        uploadedBy: "Uploaded by",
+        uploadedAt: "Uploaded at",
+        chunks: "Chunks",
+        workspace: "Workspace",
+        status: "Status",
+
+        original: "Original document",
+        extractedText: "Extracted text",
+
+        download: "Download",
+        downloading: "Downloading...",
+
+        loadingContent:
+            "Loading extracted text...",
+
+        noExtractedContent:
+            "No extracted text is available.",
+
+        previewUnavailable:
+            "Preview is not available",
+
+        previewUnavailableDescription:
+            "This file type cannot currently be previewed directly in the browser. You can download the original file instead.",
+
+        aiInsights: "AI Insights",
+
+        insightsTitle: "Understand this document",
+        insightsDescription:
+            "Generate an AI-powered overview with a summary, key points, and important facts extracted from this document.",
+
+        generateInsights: "Generate AI Insights",
+        generatingInsights: "Generating insights...",
+        regenerateInsights: "Regenerate insights",
+
+        summary: "Summary",
+        keyPoints: "Key points",
+        importantFacts: "Important facts",
+
+        noKeyPoints:
+            "No key points were identified.",
+
+        noImportantFacts:
+            "No additional important facts were identified.",
+
+        askDocument: "Ask about this document",
+        startingChat: "Starting chat...",
+    },
+
+    errors: {
+        network:
+            "Cannot connect to the server. Please check your connection and try again.",
+        unauthorized:
+            "Your session has expired. Please sign in again.",
+        forbidden:
+            "You do not have permission to perform this action.",
+        notFound:
+            "The requested resource was not found.",
+        server:
+            "Something went wrong on the server. Please try again.",
+        unknown:
+            "Something went wrong. Please try again.",
     },
 
     workspaces: {

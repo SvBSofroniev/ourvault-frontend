@@ -1,5 +1,15 @@
 import { apiClient } from "./apiClient";
 import type { Document } from "../types/document";
+import type {
+    DocumentContent,
+    DocumentDetails,
+    DocumentInsights,
+} from "../types/document";
+
+import type {
+    ChatSession,
+} from "../types/chat";
+
 
 export const documentService = {
     async getWorkspaceDocuments(
@@ -47,5 +57,81 @@ export const documentService = {
         await apiClient.delete(
             `/documents/${documentId}`,
         );
+    },
+
+    async getDocumentDetails(
+        documentId: string,
+    ): Promise<DocumentDetails> {
+        const response =
+            await apiClient.get<DocumentDetails>(
+                `/documents/${documentId}/details`,
+            );
+
+        return response.data;
+    },
+
+    async getDocumentContent(
+        documentId: string,
+    ): Promise<DocumentContent> {
+        const response =
+            await apiClient.get<DocumentContent>(
+                `/documents/${documentId}/content`,
+            );
+
+        return response.data;
+    },
+
+    async getDocumentPreview(
+        documentId: string,
+    ): Promise<Blob> {
+        const response =
+            await apiClient.get(
+                `/documents/${documentId}/preview`,
+                {
+                    responseType: "blob",
+                },
+            );
+
+        return response.data;
+    },
+
+    async downloadDocument(
+        documentId: string,
+    ): Promise<Blob> {
+        const response =
+            await apiClient.get(
+                `/documents/${documentId}/download`,
+                {
+                    responseType: "blob",
+                },
+            );
+
+        return response.data;
+    },
+
+    async generateDocumentInsights(
+        documentId: string,
+        language: string,
+    ): Promise<DocumentInsights> {
+        const response =
+            await apiClient.post<DocumentInsights>(
+                `/documents/${documentId}/insights`,
+                {
+                    language,
+                },
+            );
+
+        return response.data;
+    },
+
+    async createChatForDocument(
+        documentId: string,
+    ): Promise<ChatSession> {
+        const response =
+            await apiClient.post<ChatSession>(
+                `/documents/${documentId}/chat`,
+            );
+
+        return response.data;
     },
 };

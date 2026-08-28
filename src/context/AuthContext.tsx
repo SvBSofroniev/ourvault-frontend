@@ -32,6 +32,10 @@ interface AuthContextValue {
   ) => Promise<AuthResponse>;
 
   logout: () => Promise<void>;
+
+  updateCurrentUser: (
+    user: CurrentUser,
+  ) => void;
 }
 
 const AuthContext =
@@ -142,6 +146,12 @@ export function AuthProvider({
       setUser(null);
     }
   }
+  
+  function updateCurrentUser(
+    updatedUser: CurrentUser,
+  ) {
+    setUser(updatedUser);
+  }
 
   return (
     <AuthContext.Provider
@@ -152,6 +162,7 @@ export function AuthProvider({
         login,
         register,
         logout,
+        updateCurrentUser,
       }}
     >
       {children}

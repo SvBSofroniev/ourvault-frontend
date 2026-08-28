@@ -8,6 +8,7 @@ import {
 } from "react";
 
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 import { documentService } from "../../services/documentService";
 import type {
@@ -26,6 +27,7 @@ export function WorkspaceDocumentsTab({
     workspaceId,
 }: WorkspaceDocumentsTabProps) {
     const { t, i18n } = useTranslation();
+    const navigate = useNavigate();
 
     const fileInputRef =
         useRef<HTMLInputElement | null>(null);
@@ -411,7 +413,18 @@ export function WorkspaceDocumentsTab({
                                         >
                                             <tr>
                                                 <td>
-                                                    <div className="document-name-cell">
+                                                    <button
+                                                        type="button"
+                                                        className="document-name-cell document-name-link"
+                                                        onClick={() =>
+                                                            navigate(
+                                                                `/workspaces/${workspaceId}/documents/${document.id}`,
+                                                            )
+                                                        }
+                                                        title={t(
+                                                            "documents.openDocument",
+                                                        )}
+                                                    >
                                                         <div className="document-file-icon">
                                                             {getFileLabel(
                                                                 document,
@@ -420,9 +433,7 @@ export function WorkspaceDocumentsTab({
 
                                                         <div>
                                                             <strong>
-                                                                {
-                                                                    document.title
-                                                                }
+                                                                {document.title}
                                                             </strong>
 
                                                             <span>
@@ -447,7 +458,7 @@ export function WorkspaceDocumentsTab({
                                                                 </span>
                                                             )}
                                                         </div>
-                                                    </div>
+                                                    </button>
                                                 </td>
 
                                                 <td>

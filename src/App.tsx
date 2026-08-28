@@ -16,6 +16,10 @@ import { RegisterPage } from "./pages/RegisterPage";
 import { WorkspacesPage } from "./pages/WorkspacesPage";
 import { WorkspaceDetailsPage } from "./pages/WorkspaceDetailsPage";
 import { ChatPage } from "./pages/ChatPage";
+import {
+  DocumentDetailsPage,
+} from "./pages/DocumentDetailsPage";
+import { ProfilePage } from "./pages/ProfilePage";
 
 function App() {
   return (
@@ -48,6 +52,11 @@ function App() {
           />
 
           <Route
+            path="/profile"
+            element={<ProfilePage />}
+          />
+
+          <Route
             path="/workspaces"
             element={<WorkspacesPage />}
           />
@@ -60,6 +69,11 @@ function App() {
           <Route
             path="/workspaces/:workspaceId/chats/:sessionId"
             element={<ChatPage />}
+          />
+
+          <Route
+            path="/workspaces/:workspaceId/documents/:documentId"
+            element={<DocumentDetailsPage />}
           />
 
           <Route
