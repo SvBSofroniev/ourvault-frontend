@@ -47,3 +47,28 @@ export interface DocumentInsights {
   keyPoints: string[];
   importantFacts: string[];
 }
+
+export interface GlobalDocument {
+  id: string;
+  workspaceId: string;
+  workspaceName: string;
+
+  title: string;
+  originalFilename: string;
+
+  fileType: string | null;
+  fileSize: number | null;
+
+  status:
+    | "UPLOADED"
+    | "PENDING"
+    | "PROCESSING"
+    | "READY"
+    | "FAILED";
+
+  uploadedById: string | null;
+  uploadedByUsername: string | null;
+
+  createdAt: string;
+  updatedAt: string;
+}

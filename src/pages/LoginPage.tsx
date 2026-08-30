@@ -12,7 +12,21 @@ import { useTranslation } from "react-i18next";
 
 import { LanguageSwitcher } from "../components/LanguageSwitcher";
 import { useAuth } from "../context/AuthContext";
-import { getApiErrorMessage } from "../utils/apiError";
+
+import {
+  getApiErrorKey,
+} from "../utils/apiError";
+
+const EMAIL_PATTERN =
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+type LoginField =
+  | "email"
+  | "password";
+
+type FieldErrors = Partial<
+  Record<LoginField, string>
+>;
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -26,11 +40,33 @@ export function LoginPage() {
   const [password, setPassword] =
     useState("");
 
-  const [error, setError] =
-    useState<string | null>(null);
+  const [
+    fieldErrors,
+    setFieldErrors,
+  ] = useState<FieldErrors>({});
 
-  const [isSubmitting, setIsSubmitting] =
-    useState(false);
+  const [
+    errorKey,
+    setErrorKey,
+  ] = useState<string | null>(null);
+
+  const [
+    isSubmitting,
+    setIsSubmitting,
+  ] = useState(false);
+
+  function clearFieldError(
+    field: LoginField,
+  ) {
+    setFieldErrors(
+      (current) => ({
+        ...current,
+        [field]: undefined,
+      }),
+    );
+
+    setErrorKey(null);
+  }
 
   async function handleSubmit(
     event: FormEvent<HTMLFormElement>,
@@ -41,21 +77,62 @@ export function LoginPage() {
       return;
     }
 
-    setError(null);
+    setErrorKey(null);
+    setFieldErrors({});
+
+    const normalizedEmail =
+      email.trim();
+
+    const clientErrors: FieldErrors =
+      {};
+
+    if (!normalizedEmail) {
+      clientErrors.email =
+        "auth.emailRequired";
+    } else if (
+      !EMAIL_PATTERN.test(
+        normalizedEmail,
+      )
+    ) {
+      clientErrors.email =
+        "auth.invalidEmail";
+    }
+
+    if (!password) {
+      clientErrors.password =
+        "auth.passwordRequired";
+    }
+
+    if (
+      Object.keys(clientErrors)
+        .length > 0
+    ) {
+      setFieldErrors(
+        clientErrors,
+      );
+
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
       await login({
-        email: email.trim(),
+        email:
+          normalizedEmail,
+
         password,
       });
 
-      navigate("/dashboard", {
-        replace: true,
-      });
+      navigate(
+        "/dashboard",
+        {
+          replace: true,
+        },
+      );
     } catch (error) {
-      setError(
-        getApiErrorMessage(error),
+      setErrorKey(
+        getApiErrorKey(error),
       );
     } finally {
       setIsSubmitting(false);
@@ -77,7 +154,9 @@ export function LoginPage() {
             </strong>
 
             <span>
-              {t("common.knowledgeBase")}
+              {t(
+                "common.knowledgeBase",
+              )}
             </span>
           </div>
         </div>
@@ -88,13 +167,21 @@ export function LoginPage() {
           </span>
 
           <h1>
-            {t("auth.heroTitleLine1")}
+            {t(
+              "auth.heroTitleLine1",
+            )}
+
             <br />
-            {t("auth.heroTitleLine2")}
+
+            {t(
+              "auth.heroTitleLine2",
+            )}
           </h1>
 
           <p>
-            {t("auth.heroDescription")}
+            {t(
+              "auth.heroDescription",
+            )}
           </p>
         </div>
 
@@ -119,24 +206,28 @@ export function LoginPage() {
           </h2>
 
           <p className="auth-form-description">
-            {t("auth.signInDescription")}
+            {t(
+              "auth.signInDescription",
+            )}
           </p>
 
-          {error && (
+          {errorKey && (
             <div
               className="auth-error"
               role="alert"
             >
               <span>!</span>
 
-              {error}
+              {t(errorKey)}
             </div>
           )}
 
           <form
             className="auth-form"
             onSubmit={handleSubmit}
+            noValidate
           >
+            {/* EMAIL */}
             <div className="form-group">
               <label htmlFor="email">
                 {t("auth.email")}
@@ -146,20 +237,39 @@ export function LoginPage() {
                 id="email"
                 type="email"
                 value={email}
-                onChange={(event) =>
+                onChange={(event) => {
                   setEmail(
                     event.target.value,
-                  )
-                }
+                  );
+
+                  clearFieldError(
+                    "email",
+                  );
+                }}
                 placeholder={t(
                   "auth.emailPlaceholder",
                 )}
                 autoComplete="email"
-                required
-                disabled={isSubmitting}
+                disabled={
+                  isSubmitting
+                }
+                className={
+                  fieldErrors.email
+                    ? "input-error"
+                    : undefined
+                }
               />
+
+              {fieldErrors.email && (
+                <span className="form-field-error">
+                  {t(
+                    fieldErrors.email,
+                  )}
+                </span>
+              )}
             </div>
 
+            {/* PASSWORD */}
             <div className="form-group">
               <label htmlFor="password">
                 {t("auth.password")}
@@ -169,24 +279,44 @@ export function LoginPage() {
                 id="password"
                 type="password"
                 value={password}
-                onChange={(event) =>
+                onChange={(event) => {
                   setPassword(
                     event.target.value,
-                  )
-                }
+                  );
+
+                  clearFieldError(
+                    "password",
+                  );
+                }}
                 placeholder={t(
                   "auth.passwordPlaceholder",
                 )}
                 autoComplete="current-password"
-                required
-                disabled={isSubmitting}
+                disabled={
+                  isSubmitting
+                }
+                className={
+                  fieldErrors.password
+                    ? "input-error"
+                    : undefined
+                }
               />
+
+              {fieldErrors.password && (
+                <span className="form-field-error">
+                  {t(
+                    fieldErrors.password,
+                  )}
+                </span>
+              )}
             </div>
 
             <button
               type="submit"
               className="auth-submit-button"
-              disabled={isSubmitting}
+              disabled={
+                isSubmitting
+              }
             >
               {isSubmitting
                 ? t("auth.signingIn")
@@ -196,11 +326,15 @@ export function LoginPage() {
 
           <div className="auth-form-footer">
             <span>
-              {t("auth.newToOurVault")}
+              {t(
+                "auth.newToOurVault",
+              )}
             </span>
 
             <Link to="/register">
-              {t("auth.createAccount")}
+              {t(
+                "auth.createAccount",
+              )}
             </Link>
           </div>
         </div>

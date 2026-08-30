@@ -17,6 +17,7 @@ import {
   LogOut,
   UserRound,
 } from "lucide-react";
+import { GlobalSearch } from "../components/GlobalSearch";
 
 export function AppLayout() {
   const navigate = useNavigate();
@@ -213,12 +214,8 @@ export function AppLayout() {
           <div className="topbar-actions">
             <LanguageSwitcher />
 
-            <input
-              className="topbar-search"
-              placeholder={t(
-                "navigation.search",
-              )}
-            />
+            <GlobalSearch />
+            
             <button
               type="button"
               className="topbar-avatar topbar-avatar-button"

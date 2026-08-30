@@ -122,4 +122,13 @@ export const chatService = {
       `/chat-sessions/${sessionId}`,
     );
   },
+
+  async getAllSessions(): Promise<ChatSession[]> {
+  const response =
+    await apiClient.get<ChatSession[]>(
+      "/chat-sessions",
+    );
+
+  return response.data;
+},
 };

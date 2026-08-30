@@ -25,7 +25,6 @@ export const bg = {
         loggingOut: "Излизане...",
         search: "Търсене...",
     },
-
     auth: {
         welcomeBack: "ДОБРЕ ДОШЛИ",
 
@@ -80,6 +79,21 @@ export const bg = {
         usernamePlaceholder:
             "Изберете потребителско име",
 
+        firstName:
+            "Име",
+
+        firstNamePlaceholder:
+            "Въведете вашето име",
+
+        lastName:
+            "Фамилия",
+
+        lastNamePlaceholder:
+            "Въведете вашата фамилия",
+
+        dateOfBirth:
+            "Дата на раждане",
+
         createPassword:
             "Създайте парола",
 
@@ -95,19 +109,56 @@ export const bg = {
         alreadyHaveAccount:
             "Вече имате акаунт?",
 
-        passwordsDoNotMatch:
-            "Паролите не съвпадат.",
+        invalidCredentials:
+            "Невалиден имейл или парола.",
+
+        usernameRequired:
+            "Потребителското име е задължително.",
+
+        usernameLength:
+            "Потребителското име трябва да бъде между 3 и 50 символа.",
+
+        firstNameRequired:
+            "Името е задължително.",
+
+        lastNameRequired:
+            "Фамилията е задължителна.",
+
+        emailRequired:
+            "Имейл адресът е задължителен.",
+
+        invalidEmail:
+            "Моля, въведете валиден имейл адрес.",
+
+        invalidDateOfBirth:
+            "Датата на раждане трябва да бъде в миналото.",
+
+        passwordRequired:
+            "Паролата е задължителна.",
+
+        passwordLength:
+            "Паролата трябва да бъде между 8 и 100 символа.",
 
         passwordTooShort:
             "Паролата трябва да съдържа поне 8 символа.",
 
-        firstName: "Име",
-        firstNamePlaceholder: "Въведете вашето име",
+        confirmPasswordRequired:
+            "Моля, потвърдете паролата.",
 
-        lastName: "Фамилия",
-        lastNamePlaceholder: "Въведете вашата фамилия",
+        passwordsDoNotMatch:
+            "Паролите не съвпадат.",
 
-        dateOfBirth: "Дата на раждане",
+        emailAlreadyExists:
+            "Този имейл адрес вече е регистриран.",
+
+        usernameAlreadyExists:
+            "Това потребителско име вече е заето.",
+
+        showPassword:
+            "Покажи паролата",
+
+        hidePassword:
+            "Скрий паролата",
     },
 
     profile: {
@@ -145,6 +196,57 @@ export const bg = {
 
         emailRequired:
             "Имейл адресът е задължителен.",
+
+        security: "Сигурност",
+        securityDescription:
+            "Променете паролата, която използвате за достъп до акаунта.",
+
+        currentPassword: "Текуща парола",
+        newPassword: "Нова парола",
+        confirmNewPassword:
+            "Потвърдете новата парола",
+
+        changePassword: "Промени паролата",
+        changingPassword:
+            "Промяна на паролата...",
+
+        passwordChanged:
+            "Паролата е променена успешно.",
+
+        currentPasswordRequired:
+            "Текущата парола е задължителна.",
+
+        newPasswordTooShort:
+            "Новата парола трябва да съдържа поне 8 символа.",
+
+        passwordsDoNotMatch:
+            "Новите пароли не съвпадат.",
+
+        passwordMustBeDifferent:
+            "Новата парола трябва да бъде различна от текущата.",
+
+        showPassword: "Покажи паролата",
+        hidePassword: "Скрий паролата",
+
+        newPasswordRequired:
+            "Новата парола е задължителна.",
+
+        confirmPasswordRequired:
+            "Моля, потвърдете новата парола.",
+        firstNameTooLong:
+            "Името не може да надвишава 100 символа.",
+
+        lastNameTooLong:
+            "Фамилията не може да надвишава 100 символа.",
+
+        invalidEmail:
+            "Моля, въведете валиден имейл адрес.",
+
+        invalidDateOfBirth:
+            "Датата на раждане трябва да бъде в миналото.",
+
+        newPasswordLength:
+            "Новата парола трябва да бъде между 8 и 100 символа.",
     },
 
     dashboard: {
@@ -253,6 +355,58 @@ export const bg = {
             'Това ще изтрие завинаги "{{filename}}" и обработените данни от документа. Действието не може да бъде отменено.',
 
         openDocument: "Отвори документа",
+
+        global: {
+            eyebrow:
+                "БИБЛИОТЕКА СЪС ЗНАНИЯ",
+
+            title:
+                "Документи",
+
+            description:
+                "Преглеждайте всички документи, до които имате достъп във вашите работни пространства.",
+
+            searchPlaceholder:
+                "Търсене на документи...",
+
+            allWorkspaces:
+                "Всички работни пространства",
+
+            allStatuses:
+                "Всички статуси",
+
+            emptyTitle:
+                "Все още няма документи",
+
+            emptyDescription:
+                "Документите от вашите работни пространства ще се показват тук.",
+
+            noResultsTitle:
+                "Няма намерени документи",
+
+            noResultsDescription:
+                "Опитайте да промените търсенето или филтрите.",
+
+            columns: {
+                document:
+                    "Документ",
+
+                workspace:
+                    "Работно пространство",
+
+                status:
+                    "Статус",
+
+                size:
+                    "Размер",
+
+                uploadedBy:
+                    "Качен от",
+
+                uploaded:
+                    "Качен на",
+            },
+        },
     },
 
     documentDetails: {
@@ -312,17 +466,114 @@ export const bg = {
 
     errors: {
         network:
-            "Няма връзка със сървъра. Проверете връзката си и опитайте отново.",
+            "Неуспешна връзка със сървъра. Моля, опитайте отново.",
+
         unauthorized:
             "Сесията ви е изтекла. Моля, влезте отново.",
+
         forbidden:
-            "Нямате права за извършване на това действие.",
+            "Нямате права да извършите това действие.",
+
         notFound:
             "Заявеният ресурс не беше намерен.",
+
+        conflict:
+            "Операцията е в конфликт със съществуващи данни.",
+
+        invalidRequest:
+            "Заявката не може да бъде изпълнена.",
+
+        invalidParameter:
+            "Една от предоставените стойности е невалидна.",
+
+        malformedRequest:
+            "Заявката е непълна или невалидно форматирана.",
+
+        unsupportedMediaType:
+            "Този тип съдържание не се поддържа.",
+
+        validationFailed:
+            "Част от въведената информация е невалидна.",
+
         server:
-            "Възникна грешка в сървъра. Моля, опитайте отново.",
+            "Възникна грешка в сървъра. Моля, опитайте отново по-късно.",
+
         unknown:
-            "Възникна грешка. Моля, опитайте отново.",
+            "Възникна неочаквана грешка.",
+
+        emailAlreadyExists:
+            "Този имейл адрес вече е регистриран.",
+
+        usernameAlreadyExists:
+            "Това потребителско име вече е заето.",
+
+        invalidCredentials:
+            "Невалиден имейл или парола.",
+
+        currentPasswordIncorrect:
+            "Текущата парола е неправилна.",
+
+        passwordsDoNotMatch:
+            "Паролите не съвпадат.",
+
+        passwordMustBeDifferent:
+            "Новата парола трябва да бъде различна от текущата.",
+
+        accountDisabled:
+            "Този акаунт е деактивиран.",
+
+        accountLocked:
+            "Този акаунт е заключен.",
+    },
+
+    validation: {
+        usernameRequired:
+            "Потребителското име е задължително.",
+
+        usernameLength:
+            "Потребителското име трябва да бъде между 3 и 50 символа.",
+
+        firstNameRequired:
+            "Името е задължително.",
+
+        firstNameLength:
+            "Името не може да надвишава 100 символа.",
+
+        lastNameRequired:
+            "Фамилията е задължителна.",
+
+        lastNameLength:
+            "Фамилията не може да надвишава 100 символа.",
+
+        emailRequired:
+            "Имейл адресът е задължителен.",
+
+        emailInvalid:
+            "Моля, въведете валиден имейл адрес.",
+
+        emailLength:
+            "Имейл адресът е прекалено дълъг.",
+
+        dateOfBirthPast:
+            "Датата на раждане трябва да бъде в миналото.",
+
+        passwordRequired:
+            "Паролата е задължителна.",
+
+        passwordLength:
+            "Паролата трябва да бъде между 8 и 100 символа.",
+
+        currentPasswordRequired:
+            "Текущата парола е задължителна.",
+
+        newPasswordRequired:
+            "Новата парола е задължителна.",
+
+        newPasswordLength:
+            "Новата парола трябва да бъде между 8 и 100 символа.",
+
+        passwordConfirmationRequired:
+            "Моля, потвърдете новата парола.",
     },
 
     workspaces: {
@@ -679,5 +930,71 @@ export const bg = {
         source: "Източник {{number}}",
         semanticMatch: "{{percentage}}% съвпадение",
         documentContext: "Контекст от документа",
+
+        global: {
+            eyebrow:
+                "AI РАЗГОВОРИ",
+
+            title:
+                "Чатове",
+
+            description:
+                "Преглеждайте вашите AI разговори във всички работни пространства.",
+
+            searchPlaceholder:
+                "Търсене на чатове...",
+
+            allWorkspaces:
+                "Всички работни пространства",
+
+            loading:
+                "Зареждане на чатовете...",
+
+            emptyTitle:
+                "Все още няма чатове",
+
+            emptyDescription:
+                "Вашите AI разговори от работните пространства ще се показват тук.",
+
+            noResultsTitle:
+                "Няма намерени чатове",
+
+            noResultsDescription:
+                "Опитайте да промените търсенето или филтъра за работно пространство.",
+
+            openConversation:
+                "Отвори разговора",
+
+            columns: {
+                chat:
+                    "Чат",
+
+                workspace:
+                    "Работно пространство",
+
+                created:
+                    "Създаден",
+
+                updated:
+                    "Последно обновен",
+            },
+        },
+    },
+
+    globalSearch: {
+        loading:
+            "Търсене...",
+
+        noResults:
+            "Не са намерени съвпадащи работни пространства, документи или чатове.",
+
+        workspaces:
+            "Работни пространства",
+
+        documents:
+            "Документи",
+
+        chats:
+            "Чатове",
     },
 } as const;

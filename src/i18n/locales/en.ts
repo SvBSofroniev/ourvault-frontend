@@ -69,7 +69,8 @@ export const en = {
 
         getStarted: "GET STARTED",
 
-        createAccountTitle: "Create your account",
+        createAccountTitle:
+            "Create your account",
 
         createAccountDescription:
             "Create an OurVault account and start building your knowledge workspace.",
@@ -78,6 +79,19 @@ export const en = {
 
         usernamePlaceholder:
             "Choose a username",
+
+        firstName: "First name",
+
+        firstNamePlaceholder:
+            "Enter your first name",
+
+        lastName: "Last name",
+
+        lastNamePlaceholder:
+            "Enter your last name",
+
+        dateOfBirth:
+            "Date of birth",
 
         createPassword:
             "Create a password",
@@ -94,20 +108,56 @@ export const en = {
         alreadyHaveAccount:
             "Already have an account?",
 
-        passwordsDoNotMatch:
-            "Passwords do not match.",
+        invalidCredentials:
+            "Invalid email or password.",
+
+        usernameRequired:
+            "Username is required.",
+
+        usernameLength:
+            "Username must be between 3 and 50 characters.",
+
+        firstNameRequired:
+            "First name is required.",
+
+        lastNameRequired:
+            "Last name is required.",
+
+        emailRequired:
+            "Email address is required.",
+
+        invalidEmail:
+            "Please enter a valid email address.",
+
+        invalidDateOfBirth:
+            "Date of birth must be in the past.",
+
+        passwordRequired:
+            "Password is required.",
+
+        passwordLength:
+            "Password must be between 8 and 100 characters.",
 
         passwordTooShort:
             "Password must contain at least 8 characters.",
 
-        firstName: "First name",
-        firstNamePlaceholder: "Enter your first name",
+        confirmPasswordRequired:
+            "Please confirm your password.",
 
-        lastName: "Last name",
-        lastNamePlaceholder: "Enter your last name",
+        passwordsDoNotMatch:
+            "The passwords do not match.",
 
-        dateOfBirth: "Date of birth",
+        emailAlreadyExists:
+            "An account with this email already exists.",
 
+        usernameAlreadyExists:
+            "This username is already taken.",
+
+        showPassword:
+            "Show password",
+
+        hidePassword:
+            "Hide password",
     },
 
     profile: {
@@ -145,6 +195,58 @@ export const en = {
 
         emailRequired:
             "Email address is required.",
+
+        security: "Security",
+        securityDescription:
+            "Update the password used to access your account.",
+
+        currentPassword: "Current password",
+        newPassword: "New password",
+        confirmNewPassword:
+            "Confirm new password",
+
+        changePassword: "Change password",
+        changingPassword:
+            "Changing password...",
+
+        passwordChanged:
+            "Your password has been changed successfully.",
+
+        currentPasswordRequired:
+            "Current password is required.",
+
+        newPasswordTooShort:
+            "The new password must contain at least 8 characters.",
+
+        passwordsDoNotMatch:
+            "The new passwords do not match.",
+
+        passwordMustBeDifferent:
+            "The new password must be different from your current password.",
+
+        showPassword: "Show password",
+        hidePassword: "Hide password",
+
+        newPasswordRequired:
+            "New password is required.",
+
+        confirmPasswordRequired:
+            "Please confirm your new password.",
+
+        firstNameTooLong:
+            "First name cannot exceed 100 characters.",
+
+        lastNameTooLong:
+            "Last name cannot exceed 100 characters.",
+
+        invalidEmail:
+            "Please enter a valid email address.",
+
+        invalidDateOfBirth:
+            "Date of birth must be in the past.",
+
+        newPasswordLength:
+            "The new password must be between 8 and 100 characters.",
     },
 
     dashboard: {
@@ -245,12 +347,65 @@ export const en = {
             failed: "Failed",
         },
 
-        deleteTitle: "Delete document?",
+        deleteTitle:
+            "Delete document?",
 
         deleteDescription:
             'This will permanently delete "{{filename}}" and its processed knowledge data. This action cannot be undone.',
 
         openDocument: "Open document",
+
+        global: {
+            eyebrow:
+                "KNOWLEDGE LIBRARY",
+
+            title:
+                "Documents",
+
+            description:
+                "Browse documents available to you across all of your workspaces.",
+
+            searchPlaceholder:
+                "Search documents...",
+
+            allWorkspaces:
+                "All workspaces",
+
+            allStatuses:
+                "All statuses",
+
+            emptyTitle:
+                "No documents yet",
+
+            emptyDescription:
+                "Documents from your workspaces will appear here.",
+
+            noResultsTitle:
+                "No documents found",
+
+            noResultsDescription:
+                "Try changing your search or filters.",
+
+            columns: {
+                document:
+                    "Document",
+
+                workspace:
+                    "Workspace",
+
+                status:
+                    "Status",
+
+                size:
+                    "Size",
+
+                uploadedBy:
+                    "Uploaded by",
+
+                uploaded:
+                    "Uploaded",
+            },
+        },
     },
 
     documentDetails: {
@@ -310,17 +465,114 @@ export const en = {
 
     errors: {
         network:
-            "Cannot connect to the server. Please check your connection and try again.",
+            "Unable to connect to the server. Please try again.",
+
         unauthorized:
             "Your session has expired. Please sign in again.",
+
         forbidden:
             "You do not have permission to perform this action.",
+
         notFound:
-            "The requested resource was not found.",
+            "The requested resource could not be found.",
+
+        conflict:
+            "The requested operation conflicts with existing data.",
+
+        invalidRequest:
+            "The request could not be completed.",
+
+        invalidParameter:
+            "One of the supplied values is invalid.",
+
+        malformedRequest:
+            "The request is missing required information or is malformed.",
+
+        unsupportedMediaType:
+            "This content type is not supported.",
+
+        validationFailed:
+            "Some of the entered information is invalid.",
+
         server:
-            "Something went wrong on the server. Please try again.",
+            "A server error occurred. Please try again later.",
+
         unknown:
-            "Something went wrong. Please try again.",
+            "An unexpected error occurred.",
+
+        emailAlreadyExists:
+            "An account with this email already exists.",
+
+        usernameAlreadyExists:
+            "This username is already taken.",
+
+        invalidCredentials:
+            "Invalid email or password.",
+
+        currentPasswordIncorrect:
+            "The current password is incorrect.",
+
+        passwordsDoNotMatch:
+            "The passwords do not match.",
+
+        passwordMustBeDifferent:
+            "The new password must be different from your current password.",
+
+        accountDisabled:
+            "This account is disabled.",
+
+        accountLocked:
+            "This account is locked.",
+    },
+
+    validation: {
+        usernameRequired:
+            "Username is required.",
+
+        usernameLength:
+            "Username must be between 3 and 50 characters.",
+
+        firstNameRequired:
+            "First name is required.",
+
+        firstNameLength:
+            "First name cannot exceed 100 characters.",
+
+        lastNameRequired:
+            "Last name is required.",
+
+        lastNameLength:
+            "Last name cannot exceed 100 characters.",
+
+        emailRequired:
+            "Email address is required.",
+
+        emailInvalid:
+            "Please enter a valid email address.",
+
+        emailLength:
+            "Email address is too long.",
+
+        dateOfBirthPast:
+            "Date of birth must be in the past.",
+
+        passwordRequired:
+            "Password is required.",
+
+        passwordLength:
+            "Password must be between 8 and 100 characters.",
+
+        currentPasswordRequired:
+            "Current password is required.",
+
+        newPasswordRequired:
+            "New password is required.",
+
+        newPasswordLength:
+            "New password must be between 8 and 100 characters.",
+
+        passwordConfirmationRequired:
+            "Please confirm the new password.",
     },
 
     workspaces: {
@@ -658,5 +910,71 @@ export const en = {
         source: "Source {{number}}",
         semanticMatch: "{{percentage}}% match",
         documentContext: "Document context",
+
+        global: {
+            eyebrow:
+                "AI CONVERSATIONS",
+
+            title:
+                "Chats",
+
+            description:
+                "Browse your AI conversations across all of your workspaces.",
+
+            searchPlaceholder:
+                "Search chats...",
+
+            allWorkspaces:
+                "All workspaces",
+
+            loading:
+                "Loading chats...",
+
+            emptyTitle:
+                "No chats yet",
+
+            emptyDescription:
+                "Your AI conversations from your workspaces will appear here.",
+
+            noResultsTitle:
+                "No chats found",
+
+            noResultsDescription:
+                "Try changing your search or workspace filter.",
+
+            openConversation:
+                "Open conversation",
+
+            columns: {
+                chat:
+                    "Chat",
+
+                workspace:
+                    "Workspace",
+
+                created:
+                    "Created",
+
+                updated:
+                    "Last updated",
+            },
+        },
     },
+
+    globalSearch: {
+    loading:
+        "Searching...",
+
+    noResults:
+        "No matching workspaces, documents, or chats were found.",
+
+    workspaces:
+        "Workspaces",
+
+    documents:
+        "Documents",
+
+    chats:
+        "Chats",
+},
 } as const;

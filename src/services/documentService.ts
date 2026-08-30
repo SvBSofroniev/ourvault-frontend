@@ -1,5 +1,5 @@
 import { apiClient } from "./apiClient";
-import type { Document } from "../types/document";
+import type { Document, GlobalDocument } from "../types/document";
 import type {
     DocumentContent,
     DocumentDetails,
@@ -131,6 +131,17 @@ export const documentService = {
             await apiClient.post<ChatSession>(
                 `/documents/${documentId}/chat`,
             );
+
+        return response.data;
+    },
+
+    async getAllAccessible(): Promise<
+        GlobalDocument[]
+    > {
+        const response =
+            await apiClient.get<
+                GlobalDocument[]
+            >("/documents");
 
         return response.data;
     },
