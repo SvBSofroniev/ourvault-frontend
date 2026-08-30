@@ -14,7 +14,9 @@ import {
 
 import { chatService } from "../../services/chatService";
 import type { ChatSession } from "../../types/chat";
-import { getApiErrorMessage } from "../../utils/apiError";
+import {
+  getApiErrorKey,
+} from "../../utils/apiError";
 
 interface WorkspaceChatsTabProps {
   workspaceId: string;
@@ -32,7 +34,7 @@ export function WorkspaceChatsTab({
   const [isLoading, setIsLoading] =
     useState(true);
 
-  const [error, setError] =
+  const [errorKey, setErrorKey] =
     useState<string | null>(null);
 
   const [isCreateOpen, setIsCreateOpen] =
@@ -67,7 +69,7 @@ export function WorkspaceChatsTab({
     setIsLoading(true);
 
     try {
-      setError(null);
+      setErrorKey(null);
 
       const data =
         await chatService.getWorkspaceSessions(
@@ -76,8 +78,8 @@ export function WorkspaceChatsTab({
 
       setSessions(data);
     } catch (error) {
-      setError(
-        getApiErrorMessage(error),
+      setErrorKey(
+        getApiErrorKey(error),
       );
     } finally {
       setIsLoading(false);
@@ -90,7 +92,7 @@ export function WorkspaceChatsTab({
     event.preventDefault();
 
     setIsCreating(true);
-    setError(null);
+    setErrorKey(null);
 
     try {
       const created =
@@ -109,8 +111,8 @@ export function WorkspaceChatsTab({
         `/workspaces/${workspaceId}/chats/${created.id}`,
       );
     } catch (error) {
-      setError(
-        getApiErrorMessage(error),
+      setErrorKey(
+        getApiErrorKey(error),
       );
     } finally {
       setIsCreating(false);
@@ -140,7 +142,7 @@ export function WorkspaceChatsTab({
     }
 
     setIsRenaming(true);
-    setError(null);
+    setErrorKey(null);
 
     try {
       const updated =
@@ -162,8 +164,8 @@ export function WorkspaceChatsTab({
       setSessionToRename(null);
       setRenameTitle("");
     } catch (error) {
-      setError(
-        getApiErrorMessage(error),
+      setErrorKey(
+        getApiErrorKey(error),
       );
     } finally {
       setIsRenaming(false);
@@ -179,7 +181,7 @@ export function WorkspaceChatsTab({
       sessionToDelete.id;
 
     setIsDeleting(true);
-    setError(null);
+    setErrorKey(null);
 
     try {
       await chatService.deleteSession(
@@ -195,8 +197,8 @@ export function WorkspaceChatsTab({
 
       setSessionToDelete(null);
     } catch (error) {
-      setError(
-        getApiErrorMessage(error),
+      setErrorKey(
+        getApiErrorKey(error),
       );
     } finally {
       setIsDeleting(false);
@@ -231,13 +233,13 @@ export function WorkspaceChatsTab({
         </button>
       </div>
 
-      {error && (
+      {errorKey && (
         <div
           className="page-error"
           role="alert"
         >
           <span>!</span>
-          {error}
+          {t(errorKey)}
         </div>
       )}
 
@@ -430,11 +432,11 @@ export function WorkspaceChatsTab({
                 >
                   {isCreating
                     ? t(
-                        "chats.creating",
-                      )
+                      "chats.creating",
+                    )
                     : t(
-                        "chats.create",
-                      )}
+                      "chats.create",
+                    )}
                 </button>
               </div>
             </form>
@@ -520,11 +522,11 @@ export function WorkspaceChatsTab({
                 >
                   {isRenaming
                     ? t(
-                        "chats.saving",
-                      )
+                      "chats.saving",
+                    )
                     : t(
-                        "common.save",
-                      )}
+                      "common.save",
+                    )}
                 </button>
               </div>
             </form>
@@ -601,11 +603,11 @@ export function WorkspaceChatsTab({
               >
                 {isDeleting
                   ? t(
-                      "chats.deleting",
-                    )
+                    "chats.deleting",
+                  )
                   : t(
-                      "common.delete",
-                    )}
+                    "common.delete",
+                  )}
               </button>
             </div>
           </div>

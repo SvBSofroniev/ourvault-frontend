@@ -523,6 +523,111 @@ export const en = {
 
         accountLocked:
             "This account is locked.",
+
+        userSearchQueryTooShort:
+            "Enter at least 2 characters to search for users.",
+
+        workspaceNotFound:
+            "Workspace not found or you no longer have access to it.",
+
+        workspaceMemberNotFound:
+            "Workspace member not found.",
+
+        workspaceMemberAlreadyExists:
+            "This user is already a member of the workspace.",
+
+        workspaceAdminRequired:
+            "Only workspace administrators or the owner can perform this action.",
+
+        workspaceOwnerRequired:
+            "Only the workspace owner can perform this action.",
+
+        workspaceOwnerRoleImmutable:
+            "The workspace owner's role cannot be changed or removed.",
+
+        workspaceOwnerAssignmentForbidden:
+            "The owner role cannot be assigned through this operation.",
+
+        workspaceRoleUnchanged:
+            "This member already has the selected role.",
+
+        adminCannotRemoveAdmin:
+            "Only the workspace owner can remove an administrator.",
+
+        workspaceNameRequired:
+            "Workspace name cannot be empty.",
+
+        documentNotFound:
+            "Document not found or you no longer have access to it.",
+
+        documentNotReady:
+            "The document is not ready yet.",
+
+        documentAlreadyProcessing:
+            "The document is already being processed.",
+
+        documentAlreadyProcessed:
+            "The document has already been processed.",
+
+        documentContentEmpty:
+            "The document contains no usable processed text.",
+
+        documentInsightsTooLarge:
+            "This document is too large to generate AI insights.",
+
+        documentFileEmpty:
+            "The uploaded file cannot be empty.",
+
+        documentFilenameMissing:
+            "The uploaded file name is missing.",
+
+        documentFilenameInvalid:
+            "The uploaded file name is invalid.",
+
+        documentExtensionRequired:
+            "The document must have a supported file extension.",
+
+        documentExtensionInvalid:
+            "The document file extension is invalid.",
+
+        unsupportedDocumentType:
+            "This document type is not supported.",
+
+        documentAlreadyAttached:
+            "This document is already attached to the chat.",
+
+        documentNotAttached:
+            "This document is not attached to the chat.",
+
+        chatSessionNotFound:
+            "Chat not found or you no longer have access to it.",
+
+        chatMessageRequired:
+            "Message cannot be empty.",
+
+        chatMessageTooLong:
+            "The message is too long.",
+
+        chatTitleRequired:
+            "Chat title cannot be empty.",
+
+        chatTitleTooLong:
+            "The chat title is too long.",
+
+        searchQueryRequired:
+            "Search query cannot be empty.",
+
+        searchQueryTooLong:
+            "The search query is too long.",
+
+        documentSelectionRequired:
+            "Select at least one document.",
+
+        questionRequired:
+            "Question cannot be empty.",
+
+        questionTooLong:
+            "The question is too long.",
     },
 
     validation: {
@@ -962,19 +1067,19 @@ export const en = {
     },
 
     globalSearch: {
-    loading:
-        "Searching...",
+        loading:
+            "Searching...",
 
-    noResults:
-        "No matching workspaces, documents, or chats were found.",
+        noResults:
+            "No matching workspaces, documents, or chats were found.",
 
-    workspaces:
-        "Workspaces",
+        workspaces:
+            "Workspaces",
 
-    documents:
-        "Documents",
+        documents:
+            "Documents",
 
-    chats:
-        "Chats",
-},
+        chats:
+            "Chats",
+    },
 } as const;

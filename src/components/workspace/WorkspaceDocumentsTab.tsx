@@ -15,7 +15,9 @@ import type {
     Document,
     DocumentStatus,
 } from "../../types/document";
-import { getApiErrorMessage } from "../../utils/apiError";
+import {
+    getApiErrorKey,
+} from "../../utils/apiError";
 
 interface WorkspaceDocumentsTabProps {
     workspaceId: string;
@@ -51,7 +53,7 @@ export function WorkspaceDocumentsTab({
         setDocumentToDelete,
     ] = useState<Document | null>(null);
 
-    const [error, setError] =
+    const [errorKey, setErrorKey] =
         useState<string | null>(null);
 
     const [
@@ -66,7 +68,7 @@ export function WorkspaceDocumentsTab({
             }
 
             try {
-                setError(null);
+                setErrorKey(null);
 
                 const data =
                     await documentService.getWorkspaceDocuments(
@@ -75,8 +77,8 @@ export function WorkspaceDocumentsTab({
 
                 setDocuments(data);
             } catch (error) {
-                setError(
-                    getApiErrorMessage(error),
+                setErrorKey(
+                    getApiErrorKey(error),
                 );
             } finally {
                 if (showLoading) {
@@ -142,7 +144,7 @@ export function WorkspaceDocumentsTab({
         }
 
         setIsUploading(true);
-        setError(null);
+        setErrorKey(null);
 
         try {
             const uploadedDocument =
@@ -169,8 +171,8 @@ export function WorkspaceDocumentsTab({
              */
             await loadDocuments(false);
         } catch (error) {
-            setError(
-                getApiErrorMessage(error),
+            setErrorKey(
+                getApiErrorKey(error),
             );
         } finally {
             setIsUploading(false);
@@ -205,8 +207,7 @@ export function WorkspaceDocumentsTab({
             documentId,
         );
 
-        setError(null);
-
+        setErrorKey(null);
         try {
             await documentService.deleteDocument(
                 documentId,
@@ -230,8 +231,8 @@ export function WorkspaceDocumentsTab({
 
             setDocumentToDelete(null);
         } catch (error) {
-            setError(
-                getApiErrorMessage(error),
+            setErrorKey(
+                getApiErrorKey(error),
             );
         } finally {
             setDeletingDocumentId(null);
@@ -300,13 +301,13 @@ export function WorkspaceDocumentsTab({
                 </div>
             </div>
 
-            {error && (
+            {errorKey && (
                 <div
                     className="page-error"
                     role="alert"
                 >
                     <span>!</span>
-                    {error}
+                    {t(errorKey)}
                 </div>
             )}
 

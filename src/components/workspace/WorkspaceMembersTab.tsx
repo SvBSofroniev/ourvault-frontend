@@ -21,7 +21,9 @@ import type {
   UserSearchResult,
 } from "../../types/user";
 
-import { getApiErrorMessage } from "../../utils/apiError";
+import {
+  getApiErrorKey,
+} from "../../utils/apiError";
 
 interface WorkspaceMembersTabProps {
   workspaceId: string;
@@ -40,7 +42,7 @@ export function WorkspaceMembersTab({
   const [isLoading, setIsLoading] =
     useState(true);
 
-  const [error, setError] =
+  const [errorKey, setErrorKey] =
     useState<string | null>(null);
 
   const [isAddModalOpen, setIsAddModalOpen] =
@@ -90,7 +92,7 @@ export function WorkspaceMembersTab({
     setIsLoading(true);
 
     try {
-      setError(null);
+      setErrorKey(null);
 
       const data =
         await workspaceMemberService.getMembers(
@@ -99,8 +101,8 @@ export function WorkspaceMembersTab({
 
       setMembers(data);
     } catch (error) {
-      setError(
-        getApiErrorMessage(error),
+      setErrorKey(
+        getApiErrorKey(error),
       );
     } finally {
       setIsLoading(false);
@@ -134,17 +136,15 @@ export function WorkspaceMembersTab({
       searchQuery.trim();
 
     if (normalizedQuery.length < 2) {
-      setError(
-        t(
-          "members.searchMinimum",
-        ),
+      setErrorKey(
+        "members.searchMinimum",
       );
 
       return;
     }
 
     setIsSearching(true);
-    setError(null);
+    setErrorKey(null);
     setSelectedUser(null);
 
     try {
@@ -155,8 +155,8 @@ export function WorkspaceMembersTab({
 
       setSearchResults(results);
     } catch (error) {
-      setError(
-        getApiErrorMessage(error),
+      setErrorKey(
+        getApiErrorKey(error),
       );
     } finally {
       setIsSearching(false);
@@ -169,7 +169,7 @@ export function WorkspaceMembersTab({
     }
 
     setIsAdding(true);
-    setError(null);
+    setErrorKey(null);
 
     try {
       await workspaceMemberService.addMember(
@@ -186,8 +186,8 @@ export function WorkspaceMembersTab({
       setSearchResults([]);
       setSelectedUser(null);
     } catch (error) {
-      setError(
-        getApiErrorMessage(error),
+      setErrorKey(
+        getApiErrorKey(error),
       );
     } finally {
       setIsAdding(false);
@@ -209,7 +209,7 @@ export function WorkspaceMembersTab({
       member.memberId,
     );
 
-    setError(null);
+    setErrorKey(null);
 
     try {
       await workspaceMemberService.updateMemberRole(
@@ -223,17 +223,17 @@ export function WorkspaceMembersTab({
       setMembers((current) =>
         current.map((item) =>
           item.memberId ===
-          member.memberId
+            member.memberId
             ? {
-                ...item,
-                role,
-              }
+              ...item,
+              role,
+            }
             : item,
         ),
       );
     } catch (error) {
-      setError(
-        getApiErrorMessage(error),
+      setErrorKey(
+        getApiErrorKey(error),
       );
     } finally {
       setUpdatingMemberId(null);
@@ -266,7 +266,7 @@ export function WorkspaceMembersTab({
       memberId,
     );
 
-    setError(null);
+    setErrorKey(null);
 
     try {
       await workspaceMemberService.removeMember(
@@ -284,8 +284,8 @@ export function WorkspaceMembersTab({
 
       setMemberToRemove(null);
     } catch (error) {
-      setError(
-        getApiErrorMessage(error),
+      setErrorKey(
+        getApiErrorKey(error),
       );
     } finally {
       setRemovingMemberId(null);
@@ -331,13 +331,13 @@ export function WorkspaceMembersTab({
         )}
       </div>
 
-      {error && (
+      {errorKey && (
         <div
           className="page-error"
           role="alert"
         >
           <span>!</span>
-          {error}
+          {t(errorKey)}
         </div>
       )}
 
@@ -415,7 +415,7 @@ export function WorkspaceMembersTab({
 
                       <td>
                         {canManageMembers &&
-                        !isOwner ? (
+                          !isOwner ? (
                           <select
                             className="member-role-select"
                             value={
@@ -593,11 +593,11 @@ export function WorkspaceMembersTab({
                   >
                     {isSearching
                       ? t(
-                          "members.searching",
-                        )
+                        "members.searching",
+                      )
                       : t(
-                          "members.search",
-                        )}
+                        "members.search",
+                      )}
                   </button>
                 </div>
               </div>
@@ -605,68 +605,68 @@ export function WorkspaceMembersTab({
 
             {searchResults.length >
               0 && (
-              <div className="member-search-results">
-                {searchResults.map(
-                  (user) => {
-                    const alreadyMember =
-                      isAlreadyMember(
-                        user.id,
-                      );
+                <div className="member-search-results">
+                  {searchResults.map(
+                    (user) => {
+                      const alreadyMember =
+                        isAlreadyMember(
+                          user.id,
+                        );
 
-                    const selected =
-                      selectedUser?.id ===
-                      user.id;
+                      const selected =
+                        selectedUser?.id ===
+                        user.id;
 
-                    return (
-                      <button
-                        key={user.id}
-                        type="button"
-                        className={
-                          selected
-                            ? "member-search-result member-search-result-selected"
-                            : "member-search-result"
-                        }
-                        disabled={
-                          alreadyMember ||
-                          isAdding
-                        }
-                        onClick={() =>
-                          setSelectedUser(
-                            user,
-                          )
-                        }
-                      >
-                        <div className="member-avatar">
-                          {getInitials(
-                            user.username,
-                          )}
-                        </div>
-
-                        <div className="member-info">
-                          <strong>
-                            {
-                              user.username
-                            }
-                          </strong>
-
-                          <span>
-                            {user.email}
-                          </span>
-                        </div>
-
-                        {alreadyMember && (
-                          <span className="member-existing-label">
-                            {t(
-                              "members.alreadyMember",
+                      return (
+                        <button
+                          key={user.id}
+                          type="button"
+                          className={
+                            selected
+                              ? "member-search-result member-search-result-selected"
+                              : "member-search-result"
+                          }
+                          disabled={
+                            alreadyMember ||
+                            isAdding
+                          }
+                          onClick={() =>
+                            setSelectedUser(
+                              user,
+                            )
+                          }
+                        >
+                          <div className="member-avatar">
+                            {getInitials(
+                              user.username,
                             )}
-                          </span>
-                        )}
-                      </button>
-                    );
-                  },
-                )}
-              </div>
-            )}
+                          </div>
+
+                          <div className="member-info">
+                            <strong>
+                              {
+                                user.username
+                              }
+                            </strong>
+
+                            <span>
+                              {user.email}
+                            </span>
+                          </div>
+
+                          {alreadyMember && (
+                            <span className="member-existing-label">
+                              {t(
+                                "members.alreadyMember",
+                              )}
+                            </span>
+                          )}
+                        </button>
+                      );
+                    },
+                  )}
+                </div>
+              )}
 
             <div className="modal-actions">
               <button
@@ -693,11 +693,11 @@ export function WorkspaceMembersTab({
               >
                 {isAdding
                   ? t(
-                      "members.adding",
-                    )
+                    "members.adding",
+                  )
                   : t(
-                      "members.addMember",
-                    )}
+                    "members.addMember",
+                  )}
               </button>
             </div>
           </div>
@@ -772,11 +772,11 @@ export function WorkspaceMembersTab({
               >
                 {removingMemberId
                   ? t(
-                      "members.removing",
-                    )
+                    "members.removing",
+                  )
                   : t(
-                      "members.remove",
-                    )}
+                    "members.remove",
+                  )}
               </button>
             </div>
           </div>

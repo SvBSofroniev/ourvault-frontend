@@ -33,7 +33,7 @@ import type {
 } from "../types/document";
 
 import {
-    getApiErrorMessage,
+    getApiErrorKey,
 } from "../utils/apiError";
 
 type DocumentDetailsTab =
@@ -97,8 +97,8 @@ export function DocumentDetailsPage() {
     ] = useState(false);
 
     const [
-        error,
-        setError,
+        errorKey,
+        setErrorKey,
     ] = useState<string | null>(
         null,
     );
@@ -122,8 +122,8 @@ export function DocumentDetailsPage() {
 
     useEffect(() => {
         if (!documentId) {
-            setError(
-                "Document ID is missing",
+            setErrorKey(
+                "errors.documentNotFound",
             );
 
             setIsLoading(false);
@@ -148,8 +148,7 @@ export function DocumentDetailsPage() {
         id: string,
     ) {
         setIsLoading(true);
-        setError(null);
-
+        setErrorKey(null);
         try {
             const documentData =
                 await documentService
@@ -177,8 +176,8 @@ export function DocumentDetailsPage() {
                 );
             }
         } catch (error) {
-            setError(
-                getApiErrorMessage(error),
+            setErrorKey(
+                getApiErrorKey(error),
             );
         } finally {
             setIsLoading(false);
@@ -195,8 +194,7 @@ export function DocumentDetailsPage() {
         }
 
         setIsContentLoading(true);
-        setError(null);
-
+        setErrorKey(null);
         try {
             const data =
                 await documentService
@@ -208,8 +206,8 @@ export function DocumentDetailsPage() {
                 data,
             );
         } catch (error) {
-            setError(
-                getApiErrorMessage(error),
+            setErrorKey(
+                getApiErrorKey(error),
             );
         } finally {
             setIsContentLoading(false);
@@ -236,8 +234,7 @@ export function DocumentDetailsPage() {
         }
 
         setIsDownloading(true);
-        setError(null);
-
+        setErrorKey(null);
         try {
             const blob =
                 await documentService
@@ -273,8 +270,8 @@ export function DocumentDetailsPage() {
                 objectUrl,
             );
         } catch (error) {
-            setError(
-                getApiErrorMessage(error),
+            setErrorKey(
+                getApiErrorKey(error),
             );
         } finally {
             setIsDownloading(false);
@@ -290,8 +287,7 @@ export function DocumentDetailsPage() {
         }
 
         setIsGeneratingInsights(true);
-        setError(null);
-
+        setErrorKey(null);
         try {
             const language =
                 i18n.resolvedLanguage === "bg"
@@ -307,8 +303,8 @@ export function DocumentDetailsPage() {
 
             setInsights(data);
         } catch (error) {
-            setError(
-                getApiErrorMessage(error),
+            setErrorKey(
+                getApiErrorKey(error),
             );
         } finally {
             setIsGeneratingInsights(false);
@@ -325,8 +321,7 @@ export function DocumentDetailsPage() {
         }
 
         setIsStartingChat(true);
-        setError(null);
-
+        setErrorKey(null);
         try {
             const chat =
                 await documentService
@@ -338,8 +333,8 @@ export function DocumentDetailsPage() {
                 `/workspaces/${chat.workspaceId}/chats/${chat.id}`,
             );
         } catch (error) {
-            setError(
-                getApiErrorMessage(error),
+            setErrorKey(
+                getApiErrorKey(error),
             );
         } finally {
             setIsStartingChat(false);
@@ -357,14 +352,17 @@ export function DocumentDetailsPage() {
     }
 
     if (
-        error &&
+        errorKey &&
         !document
     ) {
         return (
             <div>
-                <div className="page-error">
+                <div
+                    className="page-error"
+                    role="alert"
+                >
                     <span>!</span>
-                    {error}
+                    {t(errorKey)}
                 </div>
 
                 <button
@@ -491,13 +489,13 @@ export function DocumentDetailsPage() {
                 </div>
             </div>
 
-            {error && (
+            {errorKey && (
                 <div
                     className="page-error"
                     role="alert"
                 >
                     <span>!</span>
-                    {error}
+                    {t(errorKey)}
                 </div>
             )}
 

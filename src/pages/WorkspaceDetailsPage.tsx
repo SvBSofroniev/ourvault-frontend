@@ -10,7 +10,9 @@ import {
 
 import { workspaceService } from "../services/workspaceService";
 import type { Workspace } from "../types/workspace";
-import { getApiErrorMessage } from "../utils/apiError";
+import {
+  getApiErrorKey,
+} from "../utils/apiError";
 import { WorkspaceDocumentsTab } from "../components/workspace/WorkspaceDocumentsTab";
 import { WorkspaceMembersTab } from "../components/workspace/WorkspaceMembersTab";
 import { WorkspaceChatsTab } from "../components/workspace/WorkspaceChatsTab";
@@ -40,32 +42,39 @@ export function WorkspaceDetailsPage() {
   const [isLoading, setIsLoading] =
     useState(true);
 
-  const [error, setError] =
+  const [errorKey, setErrorKey] =
     useState<string | null>(null);
 
   useEffect(() => {
     if (!workspaceId) {
-      setError("Workspace ID is missing");
+      setErrorKey(
+        "errors.workspaceNotFound",
+      );
+
       setIsLoading(false);
+
       return;
     }
 
-    void loadWorkspace(workspaceId);
+    void loadWorkspace(
+      workspaceId,
+    );
   }, [workspaceId]);
 
   async function loadWorkspace(
     id: string,
   ) {
     try {
-      setError(null);
+      setErrorKey(null);
 
       const data =
-        await workspaceService.getWorkspace(id);
+        await workspaceService
+          .getWorkspace(id);
 
       setWorkspace(data);
     } catch (error) {
-      setError(
-        getApiErrorMessage(error),
+      setErrorKey(
+        getApiErrorKey(error),
       );
     } finally {
       setIsLoading(false);
@@ -80,12 +89,20 @@ export function WorkspaceDetailsPage() {
     );
   }
 
-  if (error || !workspace) {
+  if (errorKey || !workspace) {
     return (
       <div>
-        <div className="page-error">
+        <div
+          className="page-error"
+          role="alert"
+        >
           <span>!</span>
-          {error ?? "Workspace not found"}
+
+          {errorKey
+            ? t(errorKey)
+            : t(
+              "errors.workspaceNotFound",
+            )}
         </div>
 
         <button
@@ -95,7 +112,10 @@ export function WorkspaceDetailsPage() {
             navigate("/workspaces")
           }
         >
-          ← Back to workspaces
+          ←{" "}
+          {t(
+            "workspaceDetails.backToWorkspaces",
+          )}
         </button>
       </div>
     );

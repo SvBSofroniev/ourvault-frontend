@@ -26,7 +26,10 @@ import type {
 
 import type { Document } from "../types/document";
 
-import { getApiErrorMessage } from "../utils/apiError";
+import {
+  getApiErrorKey,
+} from "../utils/apiError";
+
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -68,7 +71,7 @@ export function ChatPage() {
   const [isSending, setIsSending] =
     useState(false);
 
-  const [error, setError] =
+  const [errorKey, setErrorKey] =
     useState<string | null>(null);
 
   const [
@@ -103,7 +106,7 @@ export function ChatPage() {
     setIsLoading(true);
 
     try {
-      setError(null);
+      setErrorKey(null);
 
       const [
         sessionData,
@@ -132,8 +135,8 @@ export function ChatPage() {
         documents,
       );
     } catch (error) {
-      setError(
-        getApiErrorMessage(error),
+      setErrorKey(
+        getApiErrorKey(error),
       );
     } finally {
       setIsLoading(false);
@@ -158,7 +161,7 @@ export function ChatPage() {
 
     setMessage("");
     setIsSending(true);
-    setError(null);
+    setErrorKey(null);
 
     try {
       const answer =
@@ -181,8 +184,8 @@ export function ChatPage() {
         outgoingMessage,
       );
 
-      setError(
-        getApiErrorMessage(error),
+      setErrorKey(
+        getApiErrorKey(error),
       );
     } finally {
       setIsSending(false);
@@ -223,7 +226,7 @@ export function ChatPage() {
       document.id,
     );
 
-    setError(null);
+    setErrorKey(null);
 
     try {
       if (
@@ -257,8 +260,8 @@ export function ChatPage() {
         );
       }
     } catch (error) {
-      setError(
-        getApiErrorMessage(error),
+      setErrorKey(
+        getApiErrorKey(error),
       );
     } finally {
       setChangingDocumentId(
@@ -279,8 +282,10 @@ export function ChatPage() {
     return (
       <div className="page-error">
         <span>!</span>
-        {error ??
-          t("chats.notFound")}
+
+        {errorKey
+          ? t(errorKey)
+          : t("chats.notFound")}
       </div>
     );
   }
@@ -328,13 +333,13 @@ export function ChatPage() {
         </button>
       </header>
 
-      {error && (
+      {errorKey && (
         <div
           className="page-error"
           role="alert"
         >
           <span>!</span>
-          {error}
+          {t(errorKey)}
         </div>
       )}
 
@@ -689,8 +694,8 @@ function ChatMessageItem({
                 {showSources
                   ? t("chats.hideSources")
                   : t("chats.showSources", {
-                      count: sources.length,
-                    })}
+                    count: sources.length,
+                  })}
               </span>
 
               <span
@@ -728,7 +733,7 @@ function ChatMessageItem({
                                 percentage:
                                   Math.round(
                                     source.similarity *
-                                      100,
+                                    100,
                                   ),
                               },
                             )}

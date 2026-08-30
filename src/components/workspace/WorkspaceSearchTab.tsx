@@ -14,7 +14,10 @@ import {
 
 import { searchService } from "../../services/searchService";
 import type { SemanticSearchResult } from "../../types/search";
-import { getApiErrorMessage } from "../../utils/apiError";
+
+import {
+  getApiErrorKey,
+} from "../../utils/apiError";
 
 interface WorkspaceSearchTabProps {
   workspaceId: string;
@@ -37,7 +40,7 @@ export function WorkspaceSearchTab({
   const [isSearching, setIsSearching] =
     useState(false);
 
-  const [error, setError] =
+  const [errorKey, setErrorKey] =
     useState<string | null>(null);
 
   async function handleSearch(
@@ -56,7 +59,7 @@ export function WorkspaceSearchTab({
     }
 
     setIsSearching(true);
-    setError(null);
+    setErrorKey(null);
 
     try {
       const data =
@@ -69,8 +72,8 @@ export function WorkspaceSearchTab({
       setResults(data);
       setHasSearched(true);
     } catch (error) {
-      setError(
-        getApiErrorMessage(error),
+      setErrorKey(
+        getApiErrorKey(error),
       );
     } finally {
       setIsSearching(false);
@@ -135,13 +138,13 @@ export function WorkspaceSearchTab({
         </button>
       </form>
 
-      {error && (
+      {errorKey && (
         <div
           className="page-error"
           role="alert"
         >
           <span>!</span>
-          {error}
+          {t(errorKey)}
         </div>
       )}
 
@@ -231,7 +234,7 @@ export function WorkspaceSearchTab({
                     <span className="workspace-search-match">
                       {Math.round(
                         result.similarity *
-                          100,
+                        100,
                       )}
                       %
                     </span>

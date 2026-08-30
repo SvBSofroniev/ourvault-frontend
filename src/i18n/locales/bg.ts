@@ -524,6 +524,111 @@ export const bg = {
 
         accountLocked:
             "Този акаунт е заключен.",
+
+        userSearchQueryTooShort:
+            "Въведете поне 2 символа, за да търсите потребители.",
+
+        workspaceNotFound:
+            "Работното пространство не е намерено или вече нямате достъп до него.",
+
+        workspaceMemberNotFound:
+            "Членът на работното пространство не е намерен.",
+
+        workspaceMemberAlreadyExists:
+            "Този потребител вече е член на работното пространство.",
+
+        workspaceAdminRequired:
+            "Само администраторите или собственикът могат да извършат това действие.",
+
+        workspaceOwnerRequired:
+            "Само собственикът на работното пространство може да извърши това действие.",
+
+        workspaceOwnerRoleImmutable:
+            "Ролята на собственика не може да бъде променяна или премахвана.",
+
+        workspaceOwnerAssignmentForbidden:
+            "Ролята на собственик не може да бъде зададена чрез това действие.",
+
+        workspaceRoleUnchanged:
+            "Този член вече има избраната роля.",
+
+        adminCannotRemoveAdmin:
+            "Само собственикът може да премахне администратор.",
+
+        workspaceNameRequired:
+            "Името на работното пространство не може да бъде празно.",
+
+        documentNotFound:
+            "Документът не е намерен или вече нямате достъп до него.",
+
+        documentNotReady:
+            "Документът все още не е готов.",
+
+        documentAlreadyProcessing:
+            "Документът вече се обработва.",
+
+        documentAlreadyProcessed:
+            "Документът вече е обработен.",
+
+        documentContentEmpty:
+            "Документът не съдържа използваем обработен текст.",
+
+        documentInsightsTooLarge:
+            "Документът е твърде голям за генериране на AI анализ.",
+
+        documentFileEmpty:
+            "Каченият файл не може да бъде празен.",
+
+        documentFilenameMissing:
+            "Липсва име на качения файл.",
+
+        documentFilenameInvalid:
+            "Името на качения файл е невалидно.",
+
+        documentExtensionRequired:
+            "Документът трябва да има поддържано файлово разширение.",
+
+        documentExtensionInvalid:
+            "Файловото разширение на документа е невалидно.",
+
+        unsupportedDocumentType:
+            "Този тип документ не се поддържа.",
+
+        documentAlreadyAttached:
+            "Този документ вече е прикачен към чата.",
+
+        documentNotAttached:
+            "Този документ не е прикачен към чата.",
+
+        chatSessionNotFound:
+            "Чатът не е намерен или вече нямате достъп до него.",
+
+        chatMessageRequired:
+            "Съобщението не може да бъде празно.",
+
+        chatMessageTooLong:
+            "Съобщението е твърде дълго.",
+
+        chatTitleRequired:
+            "Заглавието на чата не може да бъде празно.",
+
+        chatTitleTooLong:
+            "Заглавието на чата е твърде дълго.",
+
+        searchQueryRequired:
+            "Заявката за търсене не може да бъде празна.",
+
+        searchQueryTooLong:
+            "Заявката за търсене е твърде дълга.",
+
+        documentSelectionRequired:
+            "Изберете поне един документ.",
+
+        questionRequired:
+            "Въпросът не може да бъде празен.",
+
+        questionTooLong:
+            "Въпросът е твърде дълъг.",
     },
 
     validation: {

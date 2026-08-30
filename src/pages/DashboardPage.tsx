@@ -15,8 +15,9 @@ import { dashboardService } from "../services/dashboardService";
 import type { Dashboard } from "../types/dashboard";
 import type { WorkspaceRole } from "../types/workspace";
 import type { DocumentStatus } from "../types/document";
-import { getApiErrorMessage } from "../utils/apiError";
-
+import {
+  getApiErrorKey,
+} from "../utils/apiError";
 import {
   FolderKanban,
   FileText,
@@ -34,7 +35,7 @@ export function DashboardPage() {
   const [isLoading, setIsLoading] =
     useState(true);
 
-  const [error, setError] =
+  const [errorKey, setErrorKey] =
     useState<string | null>(null);
 
   useEffect(() => {
@@ -43,7 +44,7 @@ export function DashboardPage() {
 
   async function loadDashboard() {
     setIsLoading(true);
-    setError(null);
+    setErrorKey(null);
 
     try {
       const data =
@@ -52,8 +53,8 @@ export function DashboardPage() {
 
       setDashboard(data);
     } catch (error) {
-      setError(
-        getApiErrorMessage(error),
+      setErrorKey(
+        getApiErrorKey(error),
       );
     } finally {
       setIsLoading(false);
@@ -73,8 +74,9 @@ export function DashboardPage() {
       <div className="page-error">
         <span>!</span>
 
-        {error ??
-          t("dashboard.loadError")}
+        {errorKey
+          ? t(errorKey)
+          : t("dashboard.loadError")}
       </div>
     );
   }
@@ -156,13 +158,13 @@ export function DashboardPage() {
         </button>
       </div>
 
-      {error && (
+      {errorKey && (
         <div
           className="page-error"
           role="alert"
         >
           <span>!</span>
-          {error}
+          {t(errorKey)}
         </div>
       )}
 

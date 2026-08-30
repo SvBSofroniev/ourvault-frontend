@@ -9,7 +9,9 @@ import { useTranslation } from "react-i18next";
 
 import { workspaceService } from "../../services/workspaceService";
 import type { Workspace } from "../../types/workspace";
-import { getApiErrorMessage } from "../../utils/apiError";
+import {
+  getApiErrorKey,
+} from "../../utils/apiError";
 
 interface WorkspaceSettingsTabProps {
   workspace: Workspace;
@@ -40,10 +42,10 @@ export function WorkspaceSettingsTab({
   const [isDeleteOpen, setIsDeleteOpen] =
     useState(false);
 
-  const [error, setError] =
+  const [errorKey, setErrorKey] =
     useState<string | null>(null);
 
-  const [successMessage, setSuccessMessage] =
+  const [successKey, setSuccessKey] =
     useState<string | null>(null);
 
   useEffect(() => {
@@ -64,7 +66,7 @@ export function WorkspaceSettingsTab({
   const hasChanges =
     normalizedName !== workspace.name ||
     normalizedDescription !==
-      (workspace.description ?? "");
+    (workspace.description ?? "");
 
   const canDelete =
     workspace.myRole === "OWNER";
@@ -79,8 +81,8 @@ export function WorkspaceSettingsTab({
     }
 
     setIsSaving(true);
-    setError(null);
-    setSuccessMessage(null);
+    setErrorKey(null);
+    setSuccessKey(null);
 
     try {
       const updatedWorkspace =
@@ -104,17 +106,15 @@ export function WorkspaceSettingsTab({
 
       setDescription(
         updatedWorkspace.description ??
-          "",
+        "",
       );
 
-      setSuccessMessage(
-        t(
-          "workspaceSettings.saveSuccess",
-        ),
+      setSuccessKey(
+        "workspaceSettings.saveSuccess",
       );
     } catch (error) {
-      setError(
-        getApiErrorMessage(error),
+      setErrorKey(
+        getApiErrorKey(error),
       );
     } finally {
       setIsSaving(false);
@@ -122,8 +122,8 @@ export function WorkspaceSettingsTab({
   }
 
   function openDeleteDialog() {
-    setError(null);
-    setSuccessMessage(null);
+    setErrorKey(null);
+    setSuccessKey(null);
     setIsDeleteOpen(true);
   }
 
@@ -144,7 +144,7 @@ export function WorkspaceSettingsTab({
     }
 
     setIsDeleting(true);
-    setError(null);
+    setErrorKey(null);
 
     try {
       await workspaceService.deleteWorkspace(
@@ -158,8 +158,8 @@ export function WorkspaceSettingsTab({
         },
       );
     } catch (error) {
-      setError(
-        getApiErrorMessage(error),
+      setErrorKey(
+        getApiErrorKey(error),
       );
 
       setIsDeleteOpen(false);
@@ -186,23 +186,23 @@ export function WorkspaceSettingsTab({
         </div>
       </div>
 
-      {error && (
+      {errorKey && (
         <div
           className="page-error"
           role="alert"
         >
           <span>!</span>
-          {error}
+          {t(errorKey)}
         </div>
       )}
 
-      {successMessage && (
+      {successKey && (
         <div
           className="workspace-settings-success"
           role="status"
         >
           <span>✓</span>
-          {successMessage}
+          {t(successKey)}
         </div>
       )}
 
@@ -243,7 +243,7 @@ export function WorkspaceSettingsTab({
                   event.target.value,
                 );
 
-                setSuccessMessage(null);
+                setSuccessKey(null);
               }}
               maxLength={100}
               disabled={isSaving}
@@ -271,7 +271,7 @@ export function WorkspaceSettingsTab({
                   event.target.value,
                 );
 
-                setSuccessMessage(null);
+                setSuccessKey(null);
               }}
               rows={5}
               disabled={isSaving}
@@ -299,11 +299,11 @@ export function WorkspaceSettingsTab({
             >
               {isSaving
                 ? t(
-                    "workspaceSettings.saving",
-                  )
+                  "workspaceSettings.saving",
+                )
                 : t(
-                    "workspaceSettings.save",
-                  )}
+                  "workspaceSettings.save",
+                )}
             </button>
           </div>
         </form>
@@ -425,11 +425,11 @@ export function WorkspaceSettingsTab({
               >
                 {isDeleting
                   ? t(
-                      "workspaceSettings.deleting",
-                    )
+                    "workspaceSettings.deleting",
+                  )
                   : t(
-                      "workspaceSettings.confirmDelete",
-                    )}
+                    "workspaceSettings.confirmDelete",
+                  )}
               </button>
             </div>
           </div>

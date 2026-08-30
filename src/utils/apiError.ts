@@ -1,5 +1,4 @@
 import axios from "axios";
-import i18n from "../i18n/i18n";
 
 export interface ApiErrorResponse {
   timestamp?: string;
@@ -19,6 +18,12 @@ const ERROR_CODE_KEYS: Record<
   string,
   string
 > = {
+  /*
+   * =========================================================
+   * AUTH
+   * =========================================================
+   */
+
   EMAIL_ALREADY_EXISTS:
     "errors.emailAlreadyExists",
 
@@ -27,6 +32,30 @@ const ERROR_CODE_KEYS: Record<
 
   INVALID_CREDENTIALS:
     "errors.invalidCredentials",
+
+  ACCOUNT_DISABLED:
+    "errors.accountDisabled",
+
+  ACCOUNT_LOCKED:
+    "errors.accountLocked",
+
+  INVALID_REFRESH_TOKEN:
+    "errors.unauthorized",
+
+  REFRESH_TOKEN_EXPIRED:
+    "errors.unauthorized",
+
+  REFRESH_TOKEN_REVOKED:
+    "errors.unauthorized",
+
+  /*
+   * =========================================================
+   * USER
+   * =========================================================
+   */
+
+  USER_NOT_FOUND:
+    "errors.notFound",
 
   CURRENT_PASSWORD_INCORRECT:
     "errors.currentPasswordIncorrect",
@@ -37,11 +66,176 @@ const ERROR_CODE_KEYS: Record<
   PASSWORD_MUST_BE_DIFFERENT:
     "errors.passwordMustBeDifferent",
 
-  ACCOUNT_DISABLED:
-    "errors.accountDisabled",
+  USER_SEARCH_QUERY_TOO_SHORT:
+    "errors.userSearchQueryTooShort",
 
-  ACCOUNT_LOCKED:
-    "errors.accountLocked",
+  /*
+   * =========================================================
+   * WORKSPACE
+   * =========================================================
+   */
+
+  WORKSPACE_NOT_FOUND:
+    "errors.workspaceNotFound",
+
+  WORKSPACE_MEMBER_NOT_FOUND:
+    "errors.workspaceMemberNotFound",
+
+  WORKSPACE_MEMBER_ALREADY_EXISTS:
+    "errors.workspaceMemberAlreadyExists",
+
+  WORKSPACE_ADMIN_REQUIRED:
+    "errors.workspaceAdminRequired",
+
+  WORKSPACE_OWNER_REQUIRED:
+    "errors.workspaceOwnerRequired",
+
+  WORKSPACE_OWNER_ROLE_IMMUTABLE:
+    "errors.workspaceOwnerRoleImmutable",
+
+  WORKSPACE_OWNER_ASSIGNMENT_FORBIDDEN:
+    "errors.workspaceOwnerAssignmentForbidden",
+
+  WORKSPACE_ROLE_UNCHANGED:
+    "errors.workspaceRoleUnchanged",
+
+  ADMIN_CANNOT_REMOVE_ADMIN:
+    "errors.adminCannotRemoveAdmin",
+
+  WORKSPACE_NAME_REQUIRED:
+    "errors.workspaceNameRequired",
+
+  /*
+   * =========================================================
+   * DOCUMENT
+   * =========================================================
+   */
+
+  DOCUMENT_NOT_FOUND:
+    "errors.documentNotFound",
+
+  DOCUMENT_NOT_READY:
+    "errors.documentNotReady",
+
+  DOCUMENT_ALREADY_PROCESSING:
+    "errors.documentAlreadyProcessing",
+
+  DOCUMENT_ALREADY_PROCESSED:
+    "errors.documentAlreadyProcessed",
+
+  DOCUMENT_CONTENT_EMPTY:
+    "errors.documentContentEmpty",
+
+  DOCUMENT_INSIGHTS_TOO_LARGE:
+    "errors.documentInsightsTooLarge",
+
+  DOCUMENT_FILE_EMPTY:
+    "errors.documentFileEmpty",
+
+  DOCUMENT_FILENAME_MISSING:
+    "errors.documentFilenameMissing",
+
+  DOCUMENT_FILENAME_INVALID:
+    "errors.documentFilenameInvalid",
+
+  DOCUMENT_EXTENSION_REQUIRED:
+    "errors.documentExtensionRequired",
+
+  DOCUMENT_EXTENSION_INVALID:
+    "errors.documentExtensionInvalid",
+
+  UNSUPPORTED_DOCUMENT_TYPE:
+    "errors.unsupportedDocumentType",
+
+  DOCUMENT_ALREADY_ATTACHED:
+    "errors.documentAlreadyAttached",
+
+  DOCUMENT_NOT_ATTACHED:
+    "errors.documentNotAttached",
+
+  DOCUMENT_REQUIRED:
+    "errors.invalidRequest",
+
+  /*
+   * =========================================================
+   * CHAT
+   * =========================================================
+   */
+
+  CHAT_SESSION_NOT_FOUND:
+    "errors.chatSessionNotFound",
+
+  CHAT_MESSAGE_REQUEST_REQUIRED:
+    "errors.chatMessageRequired",
+
+  CHAT_MESSAGE_REQUIRED:
+    "errors.chatMessageRequired",
+
+  CHAT_MESSAGE_TOO_LONG:
+    "errors.chatMessageTooLong",
+
+  CHAT_SESSION_UPDATE_REQUIRED:
+    "errors.invalidRequest",
+
+  CHAT_TITLE_REQUIRED:
+    "errors.chatTitleRequired",
+
+  CHAT_TITLE_TOO_LONG:
+    "errors.chatTitleTooLong",
+
+  /*
+   * =========================================================
+   * SEARCH / RAG
+   * =========================================================
+   */
+
+  SEARCH_QUERY_REQUIRED:
+    "errors.searchQueryRequired",
+
+  SEARCH_QUERY_TOO_LONG:
+    "errors.searchQueryTooLong",
+
+  SEARCH_LIMIT_INVALID:
+    "errors.invalidRequest",
+
+  CONTEXT_LIMIT_INVALID:
+    "errors.invalidRequest",
+
+  DOCUMENT_SELECTION_REQUIRED:
+    "errors.documentSelectionRequired",
+
+  QUESTION_REQUIRED:
+    "errors.questionRequired",
+
+  QUESTION_TOO_LONG:
+    "errors.questionTooLong",
+
+  /*
+   * =========================================================
+   * EMBEDDING / STORAGE
+   * =========================================================
+   */
+
+  EMBEDDING_INPUT_REQUIRED:
+    "errors.invalidRequest",
+
+  EMBEDDING_INPUT_TOO_LONG:
+    "errors.invalidRequest",
+
+  STORED_FILE_PATH_REQUIRED:
+    "errors.invalidRequest",
+
+  STORED_FILE_PATH_INVALID:
+    "errors.invalidRequest",
+
+  INVALID_FILE_STORAGE_PATH:
+    "errors.invalidRequest",
+
+  /*
+   * =========================================================
+   * GENERIC BACKEND CODES
+   * =========================================================
+   */
 
   RESOURCE_NOT_FOUND:
     "errors.notFound",
@@ -200,14 +394,6 @@ export function getApiErrorKey(
 
       return "errors.unknown";
   }
-}
-
-export function getApiErrorMessage(
-  error: unknown,
-): string {
-  return i18n.t(
-    getApiErrorKey(error),
-  );
 }
 
 export function getValidationErrors(

@@ -13,7 +13,9 @@ import type {
   CreateWorkspaceRequest,
   Workspace,
 } from "../types/workspace";
-import { getApiErrorMessage } from "../utils/apiError";
+import {
+  getApiErrorKey,
+} from "../utils/apiError";
 
 export function WorkspacesPage() {
   const navigate = useNavigate();
@@ -25,7 +27,7 @@ export function WorkspacesPage() {
   const [isLoading, setIsLoading] =
     useState(true);
 
-  const [error, setError] =
+  const [errorKey, setErrorKey] =
     useState<string | null>(null);
 
   const [isCreateOpen, setIsCreateOpen] =
@@ -46,15 +48,16 @@ export function WorkspacesPage() {
 
   async function loadWorkspaces() {
     try {
-      setError(null);
+      setErrorKey(null);
 
       const data =
-        await workspaceService.getMyWorkspaces();
+        await workspaceService
+          .getMyWorkspaces();
 
       setWorkspaces(data);
     } catch (error) {
-      setError(
-        getApiErrorMessage(error),
+      setErrorKey(
+        getApiErrorKey(error),
       );
     } finally {
       setIsLoading(false);
@@ -67,15 +70,15 @@ export function WorkspacesPage() {
     event.preventDefault();
 
     if (!name.trim()) {
-      setError(
-        t("workspaces.emptyNameError"),
+      setErrorKey(
+        "workspaces.emptyNameError",
       );
 
       return;
     }
 
     setIsCreating(true);
-    setError(null);
+    setErrorKey(null);
 
     const request: CreateWorkspaceRequest = {
       name: name.trim(),
@@ -98,8 +101,8 @@ export function WorkspacesPage() {
       setDescription("");
       setIsCreateOpen(false);
     } catch (error) {
-      setError(
-        getApiErrorMessage(error),
+      setErrorKey(
+        getApiErrorKey(error),
       );
     } finally {
       setIsCreating(false);
@@ -140,14 +143,14 @@ export function WorkspacesPage() {
         </button>
       </div>
 
-      {error && (
+      {errorKey && (
         <div
           className="page-error"
           role="alert"
         >
           <span>!</span>
 
-          {error}
+          {t(errorKey)}
         </div>
       )}
 
@@ -367,11 +370,11 @@ export function WorkspacesPage() {
                 >
                   {isCreating
                     ? t(
-                        "workspaces.creating",
-                      )
+                      "workspaces.creating",
+                    )
                     : t(
-                        "workspaces.createWorkspace",
-                      )}
+                      "workspaces.createWorkspace",
+                    )}
                 </button>
               </div>
             </form>
