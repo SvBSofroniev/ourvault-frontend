@@ -7,6 +7,10 @@ import {
     type ChangeEvent,
 } from "react";
 
+import {
+    FileText,
+} from "lucide-react";
+
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
@@ -19,17 +23,28 @@ import {
     getApiErrorKey,
 } from "../../utils/apiError";
 
+import type {
+    WorkspaceRole,
+} from "../../types/workspace";
+
 interface WorkspaceDocumentsTabProps {
     workspaceId: string;
+    myRole: WorkspaceRole;
 }
 
 const POLLING_INTERVAL_MS = 2500;
 
+
 export function WorkspaceDocumentsTab({
     workspaceId,
+    myRole,
 }: WorkspaceDocumentsTabProps) {
     const { t, i18n } = useTranslation();
     const navigate = useNavigate();
+
+    const canDeleteDocuments =
+        myRole === "OWNER" ||
+        myRole === "ADMIN";
 
     const fileInputRef =
         useRef<HTMLInputElement | null>(null);
@@ -184,6 +199,10 @@ export function WorkspaceDocumentsTab({
     function requestDelete(
         document: Document,
     ) {
+        if (!canDeleteDocuments) {
+            return;
+        }
+
         setDocumentToDelete(document);
     }
 
@@ -196,10 +215,12 @@ export function WorkspaceDocumentsTab({
     }
 
     async function confirmDelete() {
-        if (!documentToDelete) {
+        if (
+            !documentToDelete ||
+            !canDeleteDocuments
+        ) {
             return;
         }
-
         const documentId =
             documentToDelete.id;
 
@@ -320,7 +341,10 @@ export function WorkspaceDocumentsTab({
             ) : documents.length === 0 ? (
                 <div className="document-empty-state">
                     <div className="document-empty-icon">
-                        □
+                        <FileText
+                            size={28}
+                            strokeWidth={1.6}
+                        />
                     </div>
 
                     <h4>
@@ -518,28 +542,30 @@ export function WorkspaceDocumentsTab({
                                                             </button>
                                                         )}
 
-                                                        <button
-                                                            type="button"
-                                                            className="document-delete-button"
-                                                            disabled={
-                                                                deletingDocumentId ===
-                                                                document.id
-                                                            }
-                                                            onClick={() =>
-                                                                requestDelete(
-                                                                    document,
-                                                                )
-                                                            }
-                                                        >
-                                                            {deletingDocumentId ===
-                                                                document.id
-                                                                ? t(
-                                                                    "documents.deleting",
-                                                                )
-                                                                : t(
-                                                                    "common.delete",
-                                                                )}
-                                                        </button>
+                                                        {canDeleteDocuments && (
+                                                            <button
+                                                                type="button"
+                                                                className="document-delete-button"
+                                                                disabled={
+                                                                    deletingDocumentId ===
+                                                                    document.id
+                                                                }
+                                                                onClick={() =>
+                                                                    requestDelete(
+                                                                        document,
+                                                                    )
+                                                                }
+                                                            >
+                                                                {deletingDocumentId ===
+                                                                    document.id
+                                                                    ? t(
+                                                                        "documents.deleting",
+                                                                    )
+                                                                    : t(
+                                                                        "common.delete",
+                                                                    )}
+                                                            </button>
+                                                        )}
                                                     </div>
                                                 </td>
                                             </tr>
@@ -575,84 +601,85 @@ export function WorkspaceDocumentsTab({
             )}
 
             {/* DELETE CONFIRMATION DIALOG */}
-            {documentToDelete && (
-                <div
-                    className="modal-backdrop"
-                    onMouseDown={
-                        closeDeleteDialog
-                    }
-                >
+            {canDeleteDocuments &&
+                documentToDelete && (
                     <div
-                        className="modal document-delete-modal"
-                        role="dialog"
-                        aria-modal="true"
-                        aria-labelledby="delete-document-title"
-                        onMouseDown={(event) =>
-                            event.stopPropagation()
+                        className="modal-backdrop"
+                        onMouseDown={
+                            closeDeleteDialog
                         }
                     >
-                        <div className="document-delete-dialog-header">
-                            <div className="document-delete-dialog-icon">
-                                !
+                        <div
+                            className="modal document-delete-modal"
+                            role="dialog"
+                            aria-modal="true"
+                            aria-labelledby="delete-document-title"
+                            onMouseDown={(event) =>
+                                event.stopPropagation()
+                            }
+                        >
+                            <div className="document-delete-dialog-header">
+                                <div className="document-delete-dialog-icon">
+                                    !
+                                </div>
+
+                                <div>
+                                    <h3 id="delete-document-title">
+                                        {t(
+                                            "documents.deleteTitle",
+                                        )}
+                                    </h3>
+
+                                    <p>
+                                        {t(
+                                            "documents.deleteDescription",
+                                            {
+                                                filename:
+                                                    documentToDelete.originalFilename,
+                                            },
+                                        )}
+                                    </p>
+                                </div>
                             </div>
 
-                            <div>
-                                <h3 id="delete-document-title">
-                                    {t(
-                                        "documents.deleteTitle",
-                                    )}
-                                </h3>
+                            <div className="modal-actions">
+                                <button
+                                    type="button"
+                                    className="secondary-button"
+                                    onClick={
+                                        closeDeleteDialog
+                                    }
+                                    disabled={
+                                        deletingDocumentId !==
+                                        null
+                                    }
+                                >
+                                    {t("common.cancel")}
+                                </button>
 
-                                <p>
-                                    {t(
-                                        "documents.deleteDescription",
-                                        {
-                                            filename:
-                                                documentToDelete.originalFilename,
-                                        },
-                                    )}
-                                </p>
+                                <button
+                                    type="button"
+                                    className="danger-button"
+                                    onClick={() =>
+                                        void confirmDelete()
+                                    }
+                                    disabled={
+                                        deletingDocumentId !==
+                                        null
+                                    }
+                                >
+                                    {deletingDocumentId
+                                        ? t(
+                                            "documents.deleting",
+                                        )
+                                        : t(
+                                            "common.delete",
+                                        )}
+                                </button>
                             </div>
-                        </div>
-
-                        <div className="modal-actions">
-                            <button
-                                type="button"
-                                className="secondary-button"
-                                onClick={
-                                    closeDeleteDialog
-                                }
-                                disabled={
-                                    deletingDocumentId !==
-                                    null
-                                }
-                            >
-                                {t("common.cancel")}
-                            </button>
-
-                            <button
-                                type="button"
-                                className="danger-button"
-                                onClick={() =>
-                                    void confirmDelete()
-                                }
-                                disabled={
-                                    deletingDocumentId !==
-                                    null
-                                }
-                            >
-                                {deletingDocumentId
-                                    ? t(
-                                        "documents.deleting",
-                                    )
-                                    : t(
-                                        "common.delete",
-                                    )}
-                            </button>
                         </div>
                     </div>
-                </div>
-            )}
+                )}
         </div>
     );
 }

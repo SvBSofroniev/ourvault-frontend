@@ -80,7 +80,14 @@ export function WorkspaceMembersTab({
     setRemovingMemberId,
   ] = useState<string | null>(null);
 
-  const canManageMembers =
+  const canAddMembers =
+    myRole === "OWNER" ||
+    myRole === "ADMIN";
+
+  const canChangeRoles =
+    myRole === "OWNER";
+
+  const canSeeActionsColumn =
     myRole === "OWNER" ||
     myRole === "ADMIN";
 
@@ -199,6 +206,7 @@ export function WorkspaceMembersTab({
     role: WorkspaceRole,
   ) {
     if (
+      !canChangeRoles ||
       role === member.role ||
       member.role === "OWNER"
     ) {
@@ -223,11 +231,11 @@ export function WorkspaceMembersTab({
       setMembers((current) =>
         current.map((item) =>
           item.memberId ===
-            member.memberId
+          member.memberId
             ? {
-              ...item,
-              role,
-            }
+                ...item,
+                role,
+              }
             : item,
         ),
       );
@@ -240,9 +248,30 @@ export function WorkspaceMembersTab({
     }
   }
 
+  function canRemoveMember(
+    member: WorkspaceMember,
+  ): boolean {
+    if (member.role === "OWNER") {
+      return false;
+    }
+
+    if (myRole === "OWNER") {
+      return true;
+    }
+
+    return (
+      myRole === "ADMIN" &&
+      member.role === "MEMBER"
+    );
+  }
+
   function requestRemoveMember(
     member: WorkspaceMember,
   ) {
+    if (!canRemoveMember(member)) {
+      return;
+    }
+
     setMemberToRemove(member);
   }
 
@@ -255,7 +284,12 @@ export function WorkspaceMembersTab({
   }
 
   async function confirmRemoveMember() {
-    if (!memberToRemove) {
+    if (
+      !memberToRemove ||
+      !canRemoveMember(
+        memberToRemove,
+      )
+    ) {
       return;
     }
 
@@ -318,7 +352,7 @@ export function WorkspaceMembersTab({
           </p>
         </div>
 
-        {canManageMembers && (
+        {canAddMembers && (
           <button
             type="button"
             className="primary-button"
@@ -366,7 +400,7 @@ export function WorkspaceMembersTab({
                   {t("members.joined")}
                 </th>
 
-                {canManageMembers && (
+                {canSeeActionsColumn && (
                   <th>
                     {t(
                       "members.actions",
@@ -382,6 +416,11 @@ export function WorkspaceMembersTab({
                   const isOwner =
                     member.role ===
                     "OWNER";
+
+                  const removable =
+                    canRemoveMember(
+                      member,
+                    );
 
                   return (
                     <tr
@@ -414,8 +453,8 @@ export function WorkspaceMembersTab({
                       </td>
 
                       <td>
-                        {canManageMembers &&
-                          !isOwner ? (
+                        {canChangeRoles &&
+                        !isOwner ? (
                           <select
                             className="member-role-select"
                             value={
@@ -469,7 +508,7 @@ export function WorkspaceMembersTab({
                         )}
                       </td>
 
-                      {canManageMembers && (
+                      {canSeeActionsColumn && (
                         <td>
                           {isOwner ? (
                             <span className="member-owner-note">
@@ -477,7 +516,7 @@ export function WorkspaceMembersTab({
                                 "members.ownerProtected",
                               )}
                             </span>
-                          ) : (
+                          ) : removable ? (
                             <button
                               type="button"
                               className="member-remove-button"
@@ -495,6 +534,10 @@ export function WorkspaceMembersTab({
                                 "members.remove",
                               )}
                             </button>
+                          ) : (
+                            <span className="member-owner-note">
+                              —
+                            </span>
                           )}
                         </td>
                       )}
@@ -593,11 +636,11 @@ export function WorkspaceMembersTab({
                   >
                     {isSearching
                       ? t(
-                        "members.searching",
-                      )
+                          "members.searching",
+                        )
                       : t(
-                        "members.search",
-                      )}
+                          "members.search",
+                        )}
                   </button>
                 </div>
               </div>
@@ -605,68 +648,68 @@ export function WorkspaceMembersTab({
 
             {searchResults.length >
               0 && (
-                <div className="member-search-results">
-                  {searchResults.map(
-                    (user) => {
-                      const alreadyMember =
-                        isAlreadyMember(
-                          user.id,
-                        );
-
-                      const selected =
-                        selectedUser?.id ===
-                        user.id;
-
-                      return (
-                        <button
-                          key={user.id}
-                          type="button"
-                          className={
-                            selected
-                              ? "member-search-result member-search-result-selected"
-                              : "member-search-result"
-                          }
-                          disabled={
-                            alreadyMember ||
-                            isAdding
-                          }
-                          onClick={() =>
-                            setSelectedUser(
-                              user,
-                            )
-                          }
-                        >
-                          <div className="member-avatar">
-                            {getInitials(
-                              user.username,
-                            )}
-                          </div>
-
-                          <div className="member-info">
-                            <strong>
-                              {
-                                user.username
-                              }
-                            </strong>
-
-                            <span>
-                              {user.email}
-                            </span>
-                          </div>
-
-                          {alreadyMember && (
-                            <span className="member-existing-label">
-                              {t(
-                                "members.alreadyMember",
-                              )}
-                            </span>
-                          )}
-                        </button>
+              <div className="member-search-results">
+                {searchResults.map(
+                  (user) => {
+                    const alreadyMember =
+                      isAlreadyMember(
+                        user.id,
                       );
-                    },
-                  )}
-                </div>
-              )}
+
+                    const selected =
+                      selectedUser?.id ===
+                      user.id;
+
+                    return (
+                      <button
+                        key={user.id}
+                        type="button"
+                        className={
+                          selected
+                            ? "member-search-result member-search-result-selected"
+                            : "member-search-result"
+                        }
+                        disabled={
+                          alreadyMember ||
+                          isAdding
+                        }
+                        onClick={() =>
+                          setSelectedUser(
+                            user,
+                          )
+                        }
+                      >
+                        <div className="member-avatar">
+                          {getInitials(
+                            user.username,
+                          )}
+                        </div>
+
+                        <div className="member-info">
+                          <strong>
+                            {
+                              user.username
+                            }
+                          </strong>
+
+                          <span>
+                            {user.email}
+                          </span>
+                        </div>
+
+                        {alreadyMember && (
+                          <span className="member-existing-label">
+                            {t(
+                              "members.alreadyMember",
+                            )}
+                          </span>
+                        )}
+                      </button>
+                    );
+                  },
+                )}
+              </div>
+            )}
 
             <div className="modal-actions">
               <button
@@ -693,11 +736,11 @@ export function WorkspaceMembersTab({
               >
                 {isAdding
                   ? t(
-                    "members.adding",
-                  )
+                      "members.adding",
+                    )
                   : t(
-                    "members.addMember",
-                  )}
+                      "members.addMember",
+                    )}
               </button>
             </div>
           </div>
@@ -772,11 +815,11 @@ export function WorkspaceMembersTab({
               >
                 {removingMemberId
                   ? t(
-                    "members.removing",
-                  )
+                      "members.removing",
+                    )
                   : t(
-                    "members.remove",
-                  )}
+                      "members.remove",
+                    )}
               </button>
             </div>
           </div>

@@ -24,7 +24,7 @@ export const en = {
         chats: "Chats",
         logout: "Log out",
         loggingOut: "Logging out...",
-        search: "Search...",
+        search: "Search workspaces, documents & chats...",
     },
 
     auth: {

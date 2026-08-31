@@ -211,6 +211,7 @@ export function WorkspaceDetailsPage() {
         {activeTab === "documents" && (
           <WorkspaceDocumentsTab
             workspaceId={workspace.id}
+            myRole={workspace.myRole}
           />
         )}
 

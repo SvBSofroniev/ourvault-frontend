@@ -23,7 +23,7 @@ export const bg = {
         chats: "Чатове",
         logout: "Изход",
         loggingOut: "Излизане...",
-        search: "Търсене...",
+        search: "Търси пространства, документи и чатове...",
     },
     auth: {
         welcomeBack: "ДОБРЕ ДОШЛИ",
