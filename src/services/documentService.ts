@@ -124,6 +124,28 @@ export const documentService = {
         return response.data;
     },
 
+    async emailDocumentInsights(
+        documentId: string,
+        insights: DocumentInsights,
+        language: string,
+    ): Promise<void> {
+        await apiClient.post(
+            `/documents/${documentId}/insights/email`,
+            {
+                summary:
+                    insights.summary,
+
+                keyPoints:
+                    insights.keyPoints,
+
+                importantFacts:
+                    insights.importantFacts,
+
+                language,
+            },
+        );
+    },
+
     async createChatForDocument(
         documentId: string,
     ): Promise<ChatSession> {

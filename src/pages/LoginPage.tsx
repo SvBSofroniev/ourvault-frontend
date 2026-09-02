@@ -310,6 +310,16 @@ export function LoginPage() {
                 </span>
               )}
             </div>
+            <div className="auth-password-actions">
+              <Link
+                to="/forgot-password"
+                className="auth-forgot-password"
+              >
+                {t(
+                  "forgotPassword.link",
+                )}
+              </Link>
+            </div>
 
             <button
               type="submit"

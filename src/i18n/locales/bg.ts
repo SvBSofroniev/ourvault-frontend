@@ -20,7 +20,6 @@ export const bg = {
         dashboard: "Табло",
         workspaces: "Работни пространства",
         documents: "Документи",
-        chats: "Чатове",
         logout: "Изход",
         loggingOut: "Излизане...",
         search: "Търси пространства, документи и чатове...",
@@ -159,6 +158,85 @@ export const bg = {
 
         hidePassword:
             "Скрий паролата",
+    },
+
+    forgotPassword: {
+        title:
+            "Забравена парола?",
+
+        description:
+            "Въведете имейл адреса си и ще ви изпратим връзка за възстановяване на паролата.",
+
+        email:
+            "Имейл",
+
+        emailPlaceholder:
+            "Въведете имейл адрес",
+
+        emailRequired:
+            "Имейлът е задължителен.",
+
+        submit:
+            "Изпрати връзка",
+
+        sending:
+            "Изпращане...",
+
+        success:
+            "Ако съществува акаунт с този имейл, е изпратена връзка за възстановяване на паролата.",
+
+        backToLogin:
+            "Обратно към вход",
+
+        link:
+            "Забравена парола?",
+    },
+
+    resetPassword: {
+        title:
+            "Нова парола",
+
+        description:
+            "Изберете нова парола за своя OurVault акаунт.",
+
+        newPassword:
+            "Нова парола",
+
+        newPasswordPlaceholder:
+            "Въведете новата си парола",
+
+        confirmPassword:
+            "Потвърдете новата парола",
+
+        confirmPasswordPlaceholder:
+            "Въведете новата парола отново",
+
+        passwordRequired:
+            "Новата парола е задължителна.",
+
+        confirmPasswordRequired:
+            "Потвърдете новата си парола.",
+
+        passwordTooShort:
+            "Паролата трябва да съдържа поне 8 символа.",
+
+        passwordMismatch:
+            "Паролите не съвпадат.",
+
+        invalidLink:
+            "Връзката за възстановяване на паролата е невалидна.",
+
+        submit:
+            "Промени паролата",
+
+        resetting:
+            "Промяна...",
+
+        success:
+            "Паролата беше променена успешно. Вече можете да влезете с новата си парола.",
+
+        backToLogin:
+            "Обратно към вход",
     },
 
     profile: {
@@ -462,6 +540,14 @@ export const bg = {
 
         askDocument: "Попитай за този документ",
         startingChat: "Създаване на чат...",
+        emailInsights:
+            "Изпрати по имейл",
+
+        emailingInsights:
+            "Изпращане...",
+
+        insightsEmailed:
+            "Изпратено по имейл",
     },
 
     errors: {
@@ -629,6 +715,38 @@ export const bg = {
 
         questionTooLong:
             "Въпросът е твърде дълъг.",
+
+        passwordResetTokenInvalid:
+            "Връзката за възстановяване на паролата е невалидна или вече е използвана.",
+
+        passwordResetTokenExpired:
+            "Връзката за възстановяване на паролата е изтекла. Заявете нова.",
+
+        emailDeliveryFailed:
+            "Имейлът не може да бъде изпратен. Опитайте отново по-късно.",
+
+        chatMessageNotFound:
+            "Съобщението в чата не беше намерено.",
+
+        chatMessageEmailRequiresAssistant:
+            "Само отговори от AI могат да бъдат изпращани по имейл.",
+
+        workspaceMessageRequired:
+            "Съобщението не може да бъде празно.",
+
+        workspaceMessageTooLong:
+            "Съобщението не може да надвишава 2000 символа.",
+    },
+
+    chatEmail: {
+        send:
+            "Изпрати по имейл",
+
+        sending:
+            "Изпращане...",
+
+        sent:
+            "Изпратено по имейл",
     },
 
     validation: {
@@ -792,6 +910,47 @@ export const bg = {
             "Настройките на пространството ще бъдат добавени тук.",
 
         search: "Търсене",
+
+        teamChat:
+            "Екипен чат",
+
+        aiChat:
+            "AI чат",
+    },
+
+    workspaceChat: {
+        title:
+            "Екипен чат",
+
+        description:
+            "Споделяйте съобщения с останалите членове на това работно пространство.",
+
+        active:
+            "Активен",
+
+        loading:
+            "Зареждане на съобщенията...",
+
+        emptyTitle:
+            "Започнете разговор",
+
+        emptyDescription:
+            "Съобщенията тук са видими за всички членове на работното пространство.",
+
+        placeholder:
+            "Напишете съобщение до екипа...",
+
+        send:
+            "Изпрати",
+
+        sending:
+            "Изпращане...",
+
+        sendHint:
+            "Enter за изпращане · Shift + Enter за нов ред",
+
+        messageTooLong:
+            "Съобщението е твърде дълго.",
     },
 
     workspaceSettings: {
@@ -1035,55 +1194,6 @@ export const bg = {
         source: "Източник {{number}}",
         semanticMatch: "{{percentage}}% съвпадение",
         documentContext: "Контекст от документа",
-
-        global: {
-            eyebrow:
-                "AI РАЗГОВОРИ",
-
-            title:
-                "Чатове",
-
-            description:
-                "Преглеждайте вашите AI разговори във всички работни пространства.",
-
-            searchPlaceholder:
-                "Търсене на чатове...",
-
-            allWorkspaces:
-                "Всички работни пространства",
-
-            loading:
-                "Зареждане на чатовете...",
-
-            emptyTitle:
-                "Все още няма чатове",
-
-            emptyDescription:
-                "Вашите AI разговори от работните пространства ще се показват тук.",
-
-            noResultsTitle:
-                "Няма намерени чатове",
-
-            noResultsDescription:
-                "Опитайте да промените търсенето или филтъра за работно пространство.",
-
-            openConversation:
-                "Отвори разговора",
-
-            columns: {
-                chat:
-                    "Чат",
-
-                workspace:
-                    "Работно пространство",
-
-                created:
-                    "Създаден",
-
-                updated:
-                    "Последно обновен",
-            },
-        },
     },
 
     globalSearch: {

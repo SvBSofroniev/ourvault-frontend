@@ -7,7 +7,6 @@ import {
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { AppLayout } from "./layouts/AppLayout";
 
-import { ChatsPage } from "./pages/ChatsPage";
 import { DashboardPage } from "./pages/DashboardPage";
 import { DocumentsPage } from "./pages/DocumentsPage";
 import { LoginPage } from "./pages/LoginPage";
@@ -21,6 +20,14 @@ import {
 } from "./pages/DocumentDetailsPage";
 import { ProfilePage } from "./pages/ProfilePage";
 
+import {
+  ForgotPasswordPage,
+} from "./pages/auth/ForgotPasswordPage";
+
+import {
+  ResetPasswordPage,
+} from "./pages/auth/ResetPasswordPage";
+
 function App() {
   return (
     <Routes>
@@ -32,6 +39,20 @@ function App() {
       <Route
         path="/register"
         element={<RegisterPage />}
+      />
+
+      <Route
+        path="/forgot-password"
+        element={
+          <ForgotPasswordPage />
+        }
+      />
+
+      <Route
+        path="/reset-password"
+        element={
+          <ResetPasswordPage />
+        }
       />
 
       <Route element={<ProtectedRoute />}>
@@ -80,13 +101,7 @@ function App() {
             path="/documents"
             element={<DocumentsPage />}
           />
-
-          <Route
-            path="/chats"
-            element={<ChatsPage />}
-          />
         </Route>
-
       </Route>
 
       <Route

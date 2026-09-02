@@ -20,6 +20,9 @@ import {
     Sparkles,
     CircleCheck,
     MessageSquareText,
+    Mail,
+    Check,
+    LoaderCircle,
 } from "lucide-react";
 
 import {
@@ -114,6 +117,23 @@ export function DocumentDetailsPage() {
         isGeneratingInsights,
         setIsGeneratingInsights,
     ] = useState(false);
+
+    const [
+        isEmailingInsights,
+        setIsEmailingInsights,
+    ] = useState(false);
+
+    const [
+        insightsEmailSent,
+        setInsightsEmailSent,
+    ] = useState(false);
+
+    const [
+        insightsEmailErrorKey,
+        setInsightsEmailErrorKey,
+    ] = useState<string | null>(
+        null,
+    );
 
     const [
         isStartingChat,
@@ -302,12 +322,68 @@ export function DocumentDetailsPage() {
                     );
 
             setInsights(data);
+
+            setInsightsEmailSent(
+                false,
+            );
+
+            setInsightsEmailErrorKey(
+                null,
+            );
         } catch (error) {
             setErrorKey(
                 getApiErrorKey(error),
             );
         } finally {
             setIsGeneratingInsights(false);
+        }
+    }
+
+    async function handleEmailInsights() {
+        if (
+            !documentId ||
+            !insights ||
+            isEmailingInsights ||
+            insightsEmailSent
+        ) {
+            return;
+        }
+
+        setIsEmailingInsights(
+            true,
+        );
+
+        setInsightsEmailErrorKey(
+            null,
+        );
+
+        try {
+            const language =
+                i18n.resolvedLanguage ===
+                    "bg"
+                    ? "bg"
+                    : "en";
+
+            await documentService
+                .emailDocumentInsights(
+                    documentId,
+                    insights,
+                    language,
+                );
+
+            setInsightsEmailSent(
+                true,
+            );
+        } catch (error) {
+            setInsightsEmailErrorKey(
+                getApiErrorKey(
+                    error,
+                ),
+            );
+        } finally {
+            setIsEmailingInsights(
+                false,
+            );
         }
     }
 
@@ -870,30 +946,92 @@ export function DocumentDetailsPage() {
                                     )}
                                 </section>
 
-                                <div className="document-insights-regenerate">
-                                    <button
-                                        type="button"
-                                        className="secondary-button"
-                                        onClick={() =>
-                                            void handleGenerateInsights()
-                                        }
-                                        disabled={
-                                            isGeneratingInsights
-                                        }
-                                    >
-                                        <Sparkles
-                                            size={16}
-                                            strokeWidth={1.8}
-                                        />
-
-                                        {isGeneratingInsights
-                                            ? t(
-                                                "documentDetails.generatingInsights",
-                                            )
-                                            : t(
-                                                "documentDetails.regenerateInsights",
+                                <div className="document-insights-actions">
+                                    {insightsEmailErrorKey && (
+                                        <span
+                                            className="document-insights-email-error"
+                                            role="alert"
+                                        >
+                                            {t(
+                                                insightsEmailErrorKey,
                                             )}
-                                    </button>
+                                        </span>
+                                    )}
+
+                                    <div className="document-insights-action-buttons">
+                                        <button
+                                            type="button"
+                                            className="secondary-button"
+                                            onClick={() =>
+                                                void handleGenerateInsights()
+                                            }
+                                            disabled={
+                                                isGeneratingInsights ||
+                                                isEmailingInsights
+                                            }
+                                        >
+                                            <Sparkles
+                                                size={16}
+                                                strokeWidth={1.8}
+                                            />
+
+                                            {isGeneratingInsights
+                                                ? t(
+                                                    "documentDetails.generatingInsights",
+                                                )
+                                                : t(
+                                                    "documentDetails.regenerateInsights",
+                                                )}
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            className={
+                                                insightsEmailSent
+                                                    ? "secondary-button document-insights-email-button document-insights-email-sent"
+                                                    : "primary-button document-insights-email-button"
+                                            }
+                                            onClick={() =>
+                                                void handleEmailInsights()
+                                            }
+                                            disabled={
+                                                isEmailingInsights ||
+                                                insightsEmailSent
+                                            }
+                                        >
+                                            {isEmailingInsights ? (
+                                                <LoaderCircle
+                                                    size={16}
+                                                    strokeWidth={1.8}
+                                                    className="document-insights-email-spinner"
+                                                />
+                                            ) : insightsEmailSent ? (
+                                                <Check
+                                                    size={16}
+                                                    strokeWidth={1.8}
+                                                />
+                                            ) : (
+                                                <Mail
+                                                    size={16}
+                                                    strokeWidth={1.8}
+                                                />
+                                            )}
+
+                                            <span>
+                                                {isEmailingInsights
+                                                    ? t(
+                                                        "documentDetails.emailingInsights",
+                                                    )
+                                                    : insightsEmailSent
+                                                        ? t(
+                                                            "documentDetails.insightsEmailed",
+                                                        )
+                                                        : t(
+                                                            "documentDetails.emailInsights",
+                                                        )}
+                                            </span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         )}

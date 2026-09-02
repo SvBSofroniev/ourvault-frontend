@@ -178,7 +178,6 @@ export function ChatPage() {
         answer.userMessage,
         answer.assistantMessage,
       ]);
-
     } catch (error) {
       setMessage(
         outgoingMessage,
@@ -339,6 +338,7 @@ export function ChatPage() {
           role="alert"
         >
           <span>!</span>
+
           {t(errorKey)}
         </div>
       )}
@@ -396,9 +396,7 @@ export function ChatPage() {
 
           <form
             className="chat-composer"
-            onSubmit={
-              handleSend
-            }
+            onSubmit={handleSend}
           >
             <textarea
               value={message}
@@ -453,7 +451,7 @@ export function ChatPage() {
           </p>
 
           {attachedDocuments.length ===
-            0 ? (
+          0 ? (
             <div className="chat-context-empty">
               {t(
                 "chats.noAttachedDocuments",
@@ -497,7 +495,9 @@ export function ChatPage() {
               )
             }
           >
-            {t("chats.manageDocuments")}
+            {t(
+              "chats.manageDocuments",
+            )}
           </button>
         </aside>
       </div>
@@ -571,7 +571,7 @@ export function ChatPage() {
                       disabled={
                         !usable ||
                         changingDocumentId ===
-                        document.id
+                          document.id
                       }
                       onClick={() =>
                         void toggleDocument(
@@ -604,11 +604,11 @@ export function ChatPage() {
                           ? document.status
                           : attached
                             ? t(
-                              "chats.attached",
-                            )
+                                "chats.attached",
+                              )
                             : t(
-                              "chats.attach",
-                            )}
+                                "chats.attach",
+                              )}
                       </span>
                     </button>
                   );
@@ -634,9 +634,12 @@ function ChatMessageItem({
   const [showSources, setShowSources] =
     useState(false);
 
-  const sources = message.sources ?? [];
+  const sources =
+    message.sources ?? [];
 
-  if (message.senderType === "SYSTEM") {
+  if (
+    message.senderType === "SYSTEM"
+  ) {
     return (
       <div className="chat-system-message">
         {message.content}
@@ -663,9 +666,12 @@ function ChatMessageItem({
 
       <div className="chat-message-body">
         <div className="chat-message-content">
-          {message.senderType === "ASSISTANT" ? (
+          {message.senderType ===
+          "ASSISTANT" ? (
             <ReactMarkdown
-              remarkPlugins={[remarkGfm]}
+              remarkPlugins={[
+                remarkGfm,
+              ]}
             >
               {message.content}
             </ReactMarkdown>
@@ -674,111 +680,134 @@ function ChatMessageItem({
           )}
         </div>
 
-        {!isUser && sources.length > 0 && (
-          <div className="chat-sources">
-            <button
-              type="button"
-              className="chat-sources-toggle"
-              onClick={() =>
-                setShowSources(
-                  (current) => !current,
-                )
-              }
-              aria-expanded={showSources}
-            >
-              <span className="chat-sources-toggle-icon">
-                ◈
-              </span>
-
-              <span>
-                {showSources
-                  ? t("chats.hideSources")
-                  : t("chats.showSources", {
-                    count: sources.length,
-                  })}
-              </span>
-
-              <span
-                className={
+        {!isUser &&
+          sources.length > 0 && (
+            <div className="chat-sources">
+              <button
+                type="button"
+                className="chat-sources-toggle"
+                onClick={() =>
+                  setShowSources(
+                    (current) =>
+                      !current,
+                  )
+                }
+                aria-expanded={
                   showSources
-                    ? "chat-sources-chevron chat-sources-chevron-open"
-                    : "chat-sources-chevron"
                 }
               >
-                ↓
-              </span>
-            </button>
+                <span className="chat-sources-toggle-icon">
+                  ◈
+                </span>
 
-            {showSources && (
-              <div className="chat-source-list">
-                {sources.map(
-                  (source, sourceIndex) => (
-                    <article
-                      key={`${source.chunkId}-${sourceIndex}`}
-                      className="chat-source-card"
-                    >
-                      <div className="chat-source-top">
-                        <span className="chat-source-number">
-                          {t("chats.source", {
-                            number:
-                              sourceIndex + 1,
-                          })}
-                        </span>
+                <span>
+                  {showSources
+                    ? t(
+                        "chats.hideSources",
+                      )
+                    : t(
+                        "chats.showSources",
+                        {
+                          count:
+                            sources.length,
+                        },
+                      )}
+                </span>
 
-                        {source.similarity !== null ? (
-                          <span className="chat-source-match">
+                <span
+                  className={
+                    showSources
+                      ? "chat-sources-chevron chat-sources-chevron-open"
+                      : "chat-sources-chevron"
+                  }
+                >
+                  ↓
+                </span>
+              </button>
+
+              {showSources && (
+                <div className="chat-source-list">
+                  {sources.map(
+                    (
+                      source,
+                      sourceIndex,
+                    ) => (
+                      <article
+                        key={`${source.chunkId}-${sourceIndex}`}
+                        className="chat-source-card"
+                      >
+                        <div className="chat-source-top">
+                          <span className="chat-source-number">
                             {t(
-                              "chats.semanticMatch",
+                              "chats.source",
                               {
-                                percentage:
-                                  Math.round(
-                                    source.similarity *
-                                    100,
-                                  ),
+                                number:
+                                  sourceIndex +
+                                  1,
                               },
                             )}
                           </span>
-                        ) : (
-                          <span className="chat-source-context-badge">
-                            {t(
-                              "chats.documentContext",
-                            )}
-                          </span>
-                        )}
-                      </div>
 
-                      <div className="chat-source-document">
-                        <div className="chat-source-document-icon">
-                          DOC
+                          {source.similarity !==
+                          null ? (
+                            <span className="chat-source-match">
+                              {t(
+                                "chats.semanticMatch",
+                                {
+                                  percentage:
+                                    Math.round(
+                                      source.similarity *
+                                        100,
+                                    ),
+                                },
+                              )}
+                            </span>
+                          ) : (
+                            <span className="chat-source-context-badge">
+                              {t(
+                                "chats.documentContext",
+                              )}
+                            </span>
+                          )}
                         </div>
 
-                        <div>
-                          <strong>
-                            {
-                              source.documentTitle
-                            }
-                          </strong>
+                        <div className="chat-source-document">
+                          <div className="chat-source-document-icon">
+                            DOC
+                          </div>
 
-                          <span>
-                            {t("chats.chunk", {
-                              index:
-                                source.chunkIndex +
-                                1,
-                            })}
-                          </span>
+                          <div>
+                            <strong>
+                              {
+                                source.documentTitle
+                              }
+                            </strong>
+
+                            <span>
+                              {t(
+                                "chats.chunk",
+                                {
+                                  index:
+                                    source.chunkIndex +
+                                    1,
+                                },
+                              )}
+                            </span>
+                          </div>
                         </div>
-                      </div>
 
-                      <div className="chat-source-content">
-                        {source.content}
-                      </div>
-                    </article>
-                  ),
-                )}
-              </div>
-            )}
-          </div>
-        )}
+                        <div className="chat-source-content">
+                          {
+                            source.content
+                          }
+                        </div>
+                      </article>
+                    ),
+                  )}
+                </div>
+              )}
+            </div>
+          )}
       </div>
     </div>
   );

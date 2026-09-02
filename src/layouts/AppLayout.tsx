@@ -13,7 +13,6 @@ import {
   LayoutDashboard,
   FolderKanban,
   FileText,
-  MessageSquare,
   LogOut,
   UserRound,
 } from "lucide-react";
@@ -58,16 +57,6 @@ export function AppLayout() {
       path: "/documents",
       icon: (
         <FileText
-          size={18}
-          strokeWidth={1.8}
-        />
-      ),
-    },
-    {
-      label: t("navigation.chats"),
-      path: "/chats",
-      icon: (
-        <MessageSquare
           size={18}
           strokeWidth={1.8}
         />
@@ -215,7 +204,7 @@ export function AppLayout() {
             <LanguageSwitcher />
 
             <GlobalSearch />
-            
+
             <button
               type="button"
               className="topbar-avatar topbar-avatar-button"

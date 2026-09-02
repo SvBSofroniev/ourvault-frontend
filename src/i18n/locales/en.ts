@@ -21,7 +21,6 @@ export const en = {
         dashboard: "Dashboard",
         workspaces: "Workspaces",
         documents: "Documents",
-        chats: "Chats",
         logout: "Log out",
         loggingOut: "Logging out...",
         search: "Search workspaces, documents & chats...",
@@ -159,6 +158,86 @@ export const en = {
         hidePassword:
             "Hide password",
     },
+
+    forgotPassword: {
+        title:
+            "Forgot password?",
+
+        description:
+            "Enter your email address and we'll send you a link to reset your password.",
+
+        email:
+            "Email",
+
+        emailPlaceholder:
+            "Enter your email address",
+
+        emailRequired:
+            "Email is required.",
+
+        submit:
+            "Send reset link",
+
+        sending:
+            "Sending...",
+
+        success:
+            "If an account exists for this email, a password reset link has been sent.",
+
+        backToLogin:
+            "Back to login",
+
+        link:
+            "Forgot password?",
+    },
+
+    resetPassword: {
+        title:
+            "Reset password",
+
+        description:
+            "Choose a new password for your OurVault account.",
+
+        newPassword:
+            "New password",
+
+        newPasswordPlaceholder:
+            "Enter your new password",
+
+        confirmPassword:
+            "Confirm new password",
+
+        confirmPasswordPlaceholder:
+            "Enter your new password again",
+
+        passwordRequired:
+            "New password is required.",
+
+        confirmPasswordRequired:
+            "Please confirm your new password.",
+
+        passwordTooShort:
+            "Password must be at least 8 characters long.",
+
+        passwordMismatch:
+            "The passwords do not match.",
+
+        invalidLink:
+            "This password reset link is invalid.",
+
+        submit:
+            "Reset password",
+
+        resetting:
+            "Resetting...",
+
+        success:
+            "Your password has been reset successfully. You can now log in with your new password.",
+
+        backToLogin:
+            "Back to login",
+    },
+
 
     profile: {
         eyebrow: "Account",
@@ -461,6 +540,15 @@ export const en = {
 
         askDocument: "Ask about this document",
         startingChat: "Starting chat...",
+
+        emailInsights:
+            "Send to email",
+
+        emailingInsights:
+            "Sending...",
+
+        insightsEmailed:
+            "Sent to your email",
     },
 
     errors: {
@@ -628,6 +716,38 @@ export const en = {
 
         questionTooLong:
             "The question is too long.",
+
+        passwordResetTokenInvalid:
+            "The password reset link is invalid or has already been used.",
+
+        passwordResetTokenExpired:
+            "The password reset link has expired. Request a new one.",
+
+        emailDeliveryFailed:
+            "The email could not be sent. Please try again later.",
+
+        chatMessageNotFound:
+            "The chat message could not be found.",
+
+        chatMessageEmailRequiresAssistant:
+            "Only AI responses can be sent by email.",
+
+        workspaceMessageRequired:
+            "The message cannot be empty.",
+
+        workspaceMessageTooLong:
+            "The message cannot exceed 2000 characters.",
+    },
+
+    chatEmail: {
+        send:
+            "Send to email",
+
+        sending:
+            "Sending...",
+
+        sent:
+            "Sent to your email",
     },
 
     validation: {
@@ -795,6 +915,47 @@ export const en = {
             "Workspace settings will appear here.",
 
         search: "Search",
+
+        teamChat:
+            "Team Chat",
+
+        aiChat:
+            "AI Chat",
+    },
+
+    workspaceChat: {
+        title:
+            "Team Chat",
+
+        description:
+            "Share messages with the other members of this workspace.",
+
+        active:
+            "Active",
+
+        loading:
+            "Loading messages...",
+
+        emptyTitle:
+            "Start the conversation",
+
+        emptyDescription:
+            "Messages shared here are visible to all members of this workspace.",
+
+        placeholder:
+            "Write a message to your workspace...",
+
+        send:
+            "Send",
+
+        sending:
+            "Sending...",
+
+        sendHint:
+            "Enter to send · Shift + Enter for a new line",
+
+        messageTooLong:
+            "The message is too long.",
     },
 
     workspaceSettings: {
@@ -1015,55 +1176,6 @@ export const en = {
         source: "Source {{number}}",
         semanticMatch: "{{percentage}}% match",
         documentContext: "Document context",
-
-        global: {
-            eyebrow:
-                "AI CONVERSATIONS",
-
-            title:
-                "Chats",
-
-            description:
-                "Browse your AI conversations across all of your workspaces.",
-
-            searchPlaceholder:
-                "Search chats...",
-
-            allWorkspaces:
-                "All workspaces",
-
-            loading:
-                "Loading chats...",
-
-            emptyTitle:
-                "No chats yet",
-
-            emptyDescription:
-                "Your AI conversations from your workspaces will appear here.",
-
-            noResultsTitle:
-                "No chats found",
-
-            noResultsDescription:
-                "Try changing your search or workspace filter.",
-
-            openConversation:
-                "Open conversation",
-
-            columns: {
-                chat:
-                    "Chat",
-
-                workspace:
-                    "Workspace",
-
-                created:
-                    "Created",
-
-                updated:
-                    "Last updated",
-            },
-        },
     },
 
     globalSearch: {

@@ -124,11 +124,11 @@ export const chatService = {
   },
 
   async getAllSessions(): Promise<ChatSession[]> {
-  const response =
-    await apiClient.get<ChatSession[]>(
-      "/chat-sessions",
-    );
+    const response =
+      await apiClient.get<ChatSession[]>(
+        "/chat-sessions",
+      );
 
-  return response.data;
-},
+    return response.data;
+  },
 };

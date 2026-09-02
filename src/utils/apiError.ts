@@ -48,6 +48,21 @@ const ERROR_CODE_KEYS: Record<
   REFRESH_TOKEN_REVOKED:
     "errors.unauthorized",
 
+  PASSWORD_RESET_TOKEN_INVALID:
+    "errors.passwordResetTokenInvalid",
+
+  PASSWORD_RESET_TOKEN_EXPIRED:
+    "errors.passwordResetTokenExpired",
+
+  EMAIL_DELIVERY_FAILED:
+    "errors.emailDeliveryFailed",
+
+  CHAT_MESSAGE_NOT_FOUND:
+    "errors.chatMessageNotFound",
+
+  CHAT_MESSAGE_EMAIL_REQUIRES_ASSISTANT:
+    "errors.chatMessageEmailRequiresAssistant",
+
   /*
    * =========================================================
    * USER
@@ -182,6 +197,12 @@ const ERROR_CODE_KEYS: Record<
 
   CHAT_TITLE_TOO_LONG:
     "errors.chatTitleTooLong",
+
+  WORKSPACE_MESSAGE_REQUIRED:
+    "errors.workspaceMessageRequired",
+
+  WORKSPACE_MESSAGE_TOO_LONG:
+    "errors.workspaceMessageTooLong",
 
   /*
    * =========================================================

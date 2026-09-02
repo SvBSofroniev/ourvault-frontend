@@ -127,9 +127,11 @@ export function GlobalSearch() {
         setSelectedIndex,
     ] = useState(-1);
 
-    async function loadSearchData() {
+    async function loadSearchData(
+        forceRefresh = false,
+    ) {
         if (
-            hasLoaded ||
+            (!forceRefresh && hasLoaded) ||
             isLoading
         ) {
             return;

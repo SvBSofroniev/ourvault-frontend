@@ -20,10 +20,14 @@ import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
 import { WorkspaceSettingsTab } from "../components/workspace/WorkspaceSettingsTab";
 import { WorkspaceSearchTab } from "../components/workspace/WorkspaceSearchTab";
+import {
+  WorkspaceTeamChatTab,
+} from "../components/workspace/WorkspaceTeamChatTab";
 
 type WorkspaceTab =
   | "documents"
   | "members"
+  | "teamChat"
   | "chats"
   | "search"
   | "settings";
@@ -183,7 +187,18 @@ export function WorkspaceDetailsPage() {
         />
 
         <WorkspaceTabButton
-          label={t("workspaceDetails.chats")}
+          label={t(
+            "workspaceDetails.teamChat",
+          )}
+          value="teamChat"
+          activeTab={activeTab}
+          onSelect={setActiveTab}
+        />
+
+        <WorkspaceTabButton
+          label={t(
+            "workspaceDetails.aiChat",
+          )}
           value="chats"
           activeTab={activeTab}
           onSelect={setActiveTab}
@@ -219,6 +234,14 @@ export function WorkspaceDetailsPage() {
           <WorkspaceMembersTab
             workspaceId={workspace.id}
             myRole={workspace.myRole}
+          />
+        )}
+
+        {activeTab === "teamChat" && (
+          <WorkspaceTeamChatTab
+            workspaceId={
+              workspace.id
+            }
           />
         )}
 
